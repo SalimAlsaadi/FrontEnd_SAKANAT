@@ -1,0 +1,15 @@
+<section class="callback-wrap" *ngIf="loading">
+  <div class="card">
+    <div class="spinner" aria-label="Loading"></div>
+    <h2>Signing you in…</h2>
+    <p>Please wait while we finalize your login.</p>
+  </div>
+</section>
+
+<section class="callback-wrap" *ngIf="!loading && error">
+  <div class="card error">
+    <h2>Login error</h2>
+    <p class="msg">{{ error }}</p>
+    <a routerLink="/" class="link">Back to home</a>
+  </div>
+</section>

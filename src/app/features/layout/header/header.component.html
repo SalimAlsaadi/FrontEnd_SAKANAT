@@ -1,0 +1,17 @@
+<header class="navbar">
+  <a routerLink="/" class="brand">My App</a>
+
+  <nav class="links">
+    <a routerLink="/protected" routerLinkActive="active">Protected</a>
+  </nav>
+
+  <div class="auth">
+    <ng-container *ngIf="isAuthenticated(); else loggedOut">
+      <span class="who">Hi, {{ displayName() }}</span>
+      <button type="button" (click)="logout()">Logout</button>
+    </ng-container>
+    <ng-template #loggedOut>
+      <button type="button" (click)="login()">Login</button>
+    </ng-template>
+  </div>
+</header>

@@ -1,0 +1,52 @@
+.wrap {
+  padding: 24px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: 12px;
+}
+
+.box {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.token {
+  display: block;
+  max-width: 100%;
+  overflow: auto;
+  word-break: break-all;
+  background: #0b1020;
+  color: #e6edf3;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.api {
+  margin-top: 20px;
+
+  button {
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+
+    &:disabled { opacity: .7; cursor: default; }
+  }
+
+  .error { color: #b3261e; margin-top: 8px; }
+}
