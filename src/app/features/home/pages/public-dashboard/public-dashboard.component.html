@@ -1,0 +1,57 @@
+<div class="dashboard-page">
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="hero-badge">Welcome to AQARK</span>
+      <h1>Find your next home with confidence</h1>
+      <p>
+        Browse buildings, apartments, villas, and rooms across Oman.
+        Discover the right property and start your rental journey with AQARK.
+      </p>
+
+
+      <div class="hero-actions">
+  <button type="button" class="btn btn-primary" (click)="navigateTo('/properties')">
+    Browse Properties
+  </button>
+
+</div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Our Services</h2>
+      <p>Explore the main services available on AQARK.</p>
+    </div>
+
+    <div class="service-grid">
+      <article
+        class="service-card"
+        *ngFor="let service of serviceCards; trackBy: trackById"
+      >
+        <div class="service-icon">
+  <span class="material-icons">{{ service.icon }}</span>
+</div>
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.description }}</p>
+        <button type="button" class="card-link" (click)="navigateTo(service.route)">
+          Open Service
+        </button>
+      </article>
+    </div>
+  </section>
+
+  
+  <section class="cta-section">
+    <div class="cta-box">
+      <h2>Are you a landlord?</h2>
+      <p>
+        Add and manage your buildings, units, and rental listings through AQARK.
+      </p>
+      <button type="button" class="btn btn-primary" (click)="navigateTo('/landlord')">
+        For Landlords
+      </button>
+    </div>
+  </section>
+</div>

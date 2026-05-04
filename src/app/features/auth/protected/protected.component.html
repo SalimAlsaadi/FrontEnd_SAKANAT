@@ -1,38 +1,13 @@
-<section class="wrap">
-  <div class="card" *ngIf="isAuth; else needLogin">
-    <h2>Protected Area</h2>
+<h2>Protected Page</h2>
 
-    <div class="grid">
-      <div class="box">
-        <h3>Your Claims (ID Token)</h3>
-        <pre>{{ claims | json }}</pre>
-      </div>
+<button (click)="callApi()">Call Protected API</button>
 
-      <div class="box">
-        <h3>Tokens</h3>
-        <p><strong>Access token:</strong></p>
-        <code class="token">{{ accessToken || '—' }}</code>
+<div *ngIf="result()">
+  <h3>API Response:</h3>
+  <pre>{{ result() | json }}</pre>
+</div>
 
-        <p style="margin-top:12px;"><strong>ID token:</strong></p>
-        <code class="token">{{ idToken || '—' }}</code>
-      </div>
-    </div>
-
-    <div class="api">
-      <h3>Call secure API</h3>
-      <button (click)="callApi()" [disabled]="apiLoading">
-        {{ apiLoading ? 'Calling…' : 'GET /api/secure' }}
-      </button>
-
-      <pre *ngIf="apiResult">{{ apiResult | json }}</pre>
-      <p *ngIf="apiError" class="error">{{ apiError }}</p>
-    </div>
-  </div>
-
-  <ng-template #needLogin>
-    <div class="card">
-      <h2>You’re not authenticated</h2>
-      <p>Click the <strong>Login</strong> button in the header to sign in.</p>
-    </div>
-  </ng-template>
-</section>
+<div *ngIf="error()">
+  <h3>Error:</h3>
+  <p>{{ error() }}</p>
+</div>

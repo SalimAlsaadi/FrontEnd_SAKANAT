@@ -1,0 +1,36 @@
+<div class="landlord-page">
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="hero-badge">Landlord Dashboard</span>
+      <h1>Manage your rental business from one place</h1>
+      <p>
+        Add properties, manage rooms, follow tenant applications, and view reports.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Landlord Services</h2>
+      <p>Choose one service to continue.</p>
+    </div>
+
+    <div class="card-grid">
+      <article
+        class="dashboard-card"
+        *ngFor="let card of cards; trackBy: trackById"
+      >
+        <div class="card-icon">
+          <span class="material-icons">{{ card.icon }}</span>
+        </div>
+
+        <h3>{{ card.title }}</h3>
+        <p>{{ card.description }}</p>
+
+        <button type="button" class="card-link" (click)="navigateTo(card.route)">
+          Open
+        </button>
+      </article>
+    </div>
+  </section>
+</div>

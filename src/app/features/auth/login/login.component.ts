@@ -1,45 +1,15 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule]
+  template: `<p>Redirecting to sign in...</p>`
 })
-export class LoginComponent {
-  loginForm: FormGroup;
-  errorMessage: string = '';
+export class LoginComponent implements OnInit {
+  constructor(private auth: AuthService) {}
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-    private router: Router
-  ) {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
-
-  onSubmit() {
-    if (this.loginForm.invalid) return;
-
-    const payload = this.loginForm.value;
-
-    this.http.post(`${environment.apiBaseUrl}/auth/login`, payload).subscribe({
-      next: (res: any) => {
-        localStorage.setItem('access_token', res.token); // update if token structure is different
-        this.router.navigate(['/']); // or navigate to dashboard
-      },
-      error: (err) => {
-        this.errorMessage = 'Invalid username or password';
-      }
-    });
+  ngOnInit(): void {
+    this.auth.login();
   }
 }

@@ -1,12 +1,28 @@
-import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
-import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { AutoLoginPartialRoutesGuard } from 'angular-auth-oidc-client';
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, of } from 'rxjs';
+import { environment } from 'environments/environment';
 
-export const browserCanActivate: CanActivateFn = (route, state) => {
-  const platformId = inject(PLATFORM_ID);
-  return isPlatformBrowser(platformId)
-    ? inject(AutoLoginPartialRoutesGuard).canActivate(route, state) // run real guard in browser
-    : true;                                                         // skip guard during SSR
-};
+@Injectable({ providedIn: 'root' })
+export class BrowserAuthGuard implements CanActivate {
+
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
+
+  canActivate() {
+    return this.http.get(`${environment.apiBaseUrl}/api/me`, {
+      withCredentials: true
+    }).pipe(
+
+      map(() => true),
+
+      catchError(() => {
+        this.router.navigate(['/auth/login']);
+        return of(false);
+      })
+    );
+  }
+}

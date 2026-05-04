@@ -1,46 +1,106 @@
-// src/app/features/layout/header/header.component.ts
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { PLATFORM_ID } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
-type Claims = { name?: string; preferred_username?: string; email?: string; [k: string]: unknown };
+interface NavItem {
+  label: string;
+  route: string;
+  show: boolean;
+}
 
 @Component({
-  selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  selector: 'app-header',
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  private platformId = inject(PLATFORM_ID);
-  private isBrowser = isPlatformBrowser(this.platformId);
-  private oidc = this.isBrowser ? inject(OidcSecurityService) : null;
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly platformId = inject(PLATFORM_ID);
 
-  isAuthenticated = toSignal(
-    this.isBrowser
-      ? this.oidc!.isAuthenticated$.pipe(map(r => r.isAuthenticated))
-      : of(false),
-    { initialValue: false }
-  );
+  private readonly isBrowser = isPlatformBrowser(this.platformId);
 
-  userClaims = toSignal(
-    this.isBrowser
-      ? this.oidc!.userData$.pipe(map((v: any) => (v?.userData ?? v ?? null) as Claims | null))
-      : of(null),
-    { initialValue: null as Claims | null }
-  );
+  readonly user = this.auth.user;
+  readonly isLoggedIn = this.auth.isLoggedIn;
+  readonly loading = this.auth.loading;
 
-  displayName = computed(() => {
-    const c = this.userClaims();
-    return c?.name ?? c?.preferred_username ?? c?.email ?? 'User';
-  });
+  readonly mobileMenuOpen = signal(false);
 
-  login()  { if (this.isBrowser) this.oidc!.authorize(); }
-  logout() { if (this.isBrowser) this.oidc!.logoff(); }
+  readonly navItems = computed<NavItem[]>(() => [
+    {
+      label: 'Home',
+      route: '/',
+      show: true
+    },
+    {
+      label: 'Properties',
+      route: '/properties',
+      show: true
+    },
+    {
+      label: 'Rent Now',
+      route: '/rent-now',
+      show: true
+    },
+    {
+      label: 'Landlord Dashboard',
+      route: '/landlord',
+      show: this.auth.isLandlord()
+    },
+    {
+      label: 'Admin Dashboard',
+      route: '/admin',
+      show: this.auth.isAdmin()
+    },
+    {
+      label: 'Support',
+      route: '/support',
+      show: true
+    }
+  ].filter(item => item.show));
+
+  constructor() {
+    if (this.isBrowser) {
+      this.auth.loadUser();
+    }
+  }
+
+  login(): void {
+    this.closeMobileMenu();
+    this.auth.login();
+  }
+
+  logout(): void {
+    this.closeMobileMenu();
+    this.auth.logout();
+  }
+
+  goHome(): void {
+    this.router.navigateByUrl('/');
+    this.closeMobileMenu();
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen.update(value => !value);
+  }
+
+  closeMobileMenu(): void {
+    this.mobileMenuOpen.set(false);
+  }
+
+  getUserDisplayName(): string {
+    return this.auth.getUserDisplayName();
+  }
+
+  getUserInitial(): string {
+    return this.auth.getUserInitial();
+  }
+
+  trackByRoute(_: number, item: NavItem): string {
+    return item.route;
+  }
 }

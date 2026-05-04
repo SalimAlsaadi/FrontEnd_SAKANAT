@@ -8,8 +8,8 @@
 
 <section class="callback-wrap" *ngIf="!loading && error">
   <div class="card error">
-    <h2>Login error</h2>
+    <h2>Login failed</h2>
     <p class="msg">{{ error }}</p>
-    <a routerLink="/" class="link">Back to home</a>
+    <a class="link" routerLink="/">Back to home</a>
   </div>
 </section>

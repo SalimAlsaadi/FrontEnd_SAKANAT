@@ -1,17 +1,107 @@
-<header class="navbar">
-  <a routerLink="/" class="brand">My App</a>
+<header class="site-header">
+  <div class="header-shell">
+    <button class="brand" type="button" (click)="goHome()">
+      <span class="brand-logo">A</span>
 
-  <nav class="links">
-    <a routerLink="/protected" routerLinkActive="active">Protected</a>
-  </nav>
+      <span class="brand-copy">
+        <span class="brand-title">AQARK</span>
+        <span class="brand-subtitle">Smart Real Estate Platform</span>
+      </span>
+    </button>
 
-  <div class="auth">
-    <ng-container *ngIf="isAuthenticated(); else loggedOut">
-      <span class="who">Hi, {{ displayName() }}</span>
-      <button type="button" (click)="logout()">Logout</button>
-    </ng-container>
-    <ng-template #loggedOut>
-      <button type="button" (click)="login()">Login</button>
-    </ng-template>
+    <nav class="desktop-nav">
+      <a
+        *ngFor="let item of navItems(); trackBy: trackByRoute"
+        [routerLink]="item.route"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+      >
+        {{ item.label }}
+      </a>
+    </nav>
+
+    <div class="desktop-actions">
+      <ng-container *ngIf="!loading(); else loadingState">
+        <ng-container *ngIf="!isLoggedIn(); else loggedInBlock">
+          <button class="btn btn-ghost" type="button" (click)="login()">
+            Login
+          </button>
+
+          <a class="btn btn-primary" routerLink="/auth/register">
+            Register
+          </a>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #loggedInBlock>
+        <div class="user-area">
+          <div class="user-chip">
+            <span class="user-avatar">{{ getUserInitial() }}</span>
+            <span class="user-name">{{ getUserDisplayName() }}</span>
+          </div>
+
+          <button class="btn btn-primary" type="button" (click)="logout()">
+            Logout
+          </button>
+        </div>
+      </ng-template>
+
+      <ng-template #loadingState>
+        <div class="loading-chip">Loading...</div>
+      </ng-template>
+    </div>
+
+    <button class="mobile-toggle" type="button" (click)="toggleMobileMenu()">
+      ☰
+    </button>
+  </div>
+
+  <div class="mobile-menu" *ngIf="mobileMenuOpen()">
+    <nav class="mobile-nav">
+      <a
+        *ngFor="let item of navItems(); trackBy: trackByRoute"
+        [routerLink]="item.route"
+        (click)="closeMobileMenu()"
+      >
+        {{ item.label }}
+      </a>
+    </nav>
+
+    <div class="mobile-actions">
+      <ng-container *ngIf="!loading(); else mobileLoadingState">
+        <ng-container *ngIf="!isLoggedIn(); else mobileLoggedIn">
+          <button class="btn btn-ghost" type="button" (click)="login()">
+            Login
+          </button>
+
+          <a
+            class="btn btn-primary"
+            routerLink="/auth/register"
+            (click)="closeMobileMenu()"
+          >
+            Register
+          </a>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #mobileLoggedIn>
+        <div class="mobile-user-card">
+          <span class="user-avatar large">{{ getUserInitial() }}</span>
+
+          <div class="mobile-user-text">
+            <strong>{{ getUserDisplayName() }}</strong>
+            <span>{{ user()?.userType || 'Authenticated user' }}</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" type="button" (click)="logout()">
+          Logout
+        </button>
+      </ng-template>
+
+      <ng-template #mobileLoadingState>
+        <div class="loading-chip">Loading...</div>
+      </ng-template>
+    </div>
   </div>
 </header>

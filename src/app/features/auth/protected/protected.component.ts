@@ -1,8 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { Component, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -11,35 +10,29 @@ import { environment } from 'environments/environment';
   templateUrl: './protected.component.html',
   styleUrls: ['./protected.component.scss']
 })
-export class ProtectedComponent implements OnInit {
-  private oidc = inject(OidcSecurityService);
-  private http = inject(HttpClient);
+export class ProtectedComponent {
 
-  isAuth = false;
-  claims: any;
-  accessToken?: string | null;
-  idToken?: string | null;
+  loading = signal(false);
+  result = signal<any>(null);
+  error = signal<string | null>(null);
 
-  apiLoading = false;
-  apiResult: any;
-  apiError?: string;
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {
-    this.oidc.isAuthenticated$.subscribe(({ isAuthenticated }) => {
-      this.isAuth = isAuthenticated;
-    });
+  callApi() {
+    this.loading.set(true);
+    this.error.set(null);
 
-    this.oidc.userData$.subscribe(u => this.claims = u?.userData);
-    this.oidc.getAccessToken().subscribe(t => this.accessToken = t);
-    this.oidc.getIdToken().subscribe(t => this.idToken = t);
-  }
-
-  callApi(): void {
-    this.apiError = undefined;
-    this.apiLoading = true;
-    this.http.get(`${environment.apiBaseUrl}/api/secure`).subscribe({
-      next: res => { this.apiResult = res; this.apiLoading = false; },
-      error: err => { this.apiError = err?.message || 'API error'; this.apiLoading = false; }
+    this.http.get(`${environment.apiBaseUrl}/api/me`, {
+      withCredentials: true
+    }).subscribe({
+      next: res => {
+        this.result.set(res);
+        this.loading.set(false);
+      },
+      error: err => {
+        this.error.set(err.message || 'API error');
+        this.loading.set(false);
+      }
     });
   }
 }

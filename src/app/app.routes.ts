@@ -1,21 +1,37 @@
 import { Routes } from '@angular/router';
-import { browserCanActivate } from './guards/browser-auth.guard';
+import { BrowserAuthGuard } from './guards/browser-auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'protected', pathMatch: 'full' },
 
   {
-    path: 'callback', // must be UNGUARDED
-    loadComponent: () =>
-      import('./features/auth/callback/callback.component').then(m => m.CallbackComponent),
+    path: '',
+    loadChildren: () =>
+      import('./features/home/home.routes').then((m) => m.HOME_ROUTES)
+  },
+
+  {
+    path: 'auth/login',
+    loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
+  },
+
+  {
+    path: 'landlord',
+    canActivate: [BrowserAuthGuard],
+    loadComponent: () =>  import('./features/landlord/pages/landlord-dashboard/landlord-dashboard.component') .then(m => m.LandlordDashboardComponent)
+  },
+
+  {
+    path: 'callback',
+    loadComponent: () => import('./features/auth/callback/callback.component').then(m => m.CallbackComponent)
   },
 
   {
     path: 'protected',
-    canActivate: [browserCanActivate], // ✅ use the wrapper
-    loadComponent: () =>
-      import('./features/auth/protected/protected.component').then(m => m.ProtectedComponent),
+    canActivate: [BrowserAuthGuard],
+    loadComponent: () => import('./features/auth/protected/protected.component').then(m => m.ProtectedComponent)
   },
 
-  { path: '**', redirectTo: '' },
+
+
+  { path: '**', redirectTo: '' }
 ];

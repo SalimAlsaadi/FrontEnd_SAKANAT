@@ -1,0 +1,111 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.login {
+  min-height: inherit;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgba(99,102,241,.10), transparent 60%),
+    radial-gradient(1200px 600px at -10% 100%, rgba(236,72,153,.10), transparent 60%);
+}
+
+.card {
+  width: min(520px, 92vw);
+  padding: 2rem clamp(1.25rem, 3vw, 2rem);
+  border-radius: 16px;
+  background: white;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.06),
+    0 10px 30px rgba(0,0,0,.08);
+  display: grid;
+  gap: 1.25rem;
+
+  @media (prefers-color-scheme: dark) {
+    background: #101114;
+    color: #e7e7ea;
+    box-shadow:
+      0 1px 2px rgba(0,0,0,.4),
+      0 10px 30px rgba(0,0,0,.5);
+  }
+}
+
+.header {
+  display: grid;
+  gap: .5rem;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -.01em;
+  }
+
+  p {
+    margin: 0;
+    color: #6b7280;
+
+    @media (prefers-color-scheme: dark) {
+      color: #9aa1ad;
+    }
+  }
+}
+
+.btn {
+  appearance: none;
+  border: 0;
+  border-radius: 12px;
+  padding: .85rem 1rem;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  justify-content: center;
+  transition: transform .06s ease, box-shadow .2s ease, background .2s ease;
+
+  &__icon {
+    display: inline-flex;
+
+    svg {
+      fill: currentColor;
+      display: block;
+    }
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.btn-primary {
+  color: white;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+
+  box-shadow:
+    0 6px 16px rgba(79,70,229,.25),
+    0 2px 6px rgba(0,0,0,.1);
+
+  &:hover {
+    box-shadow:
+      0 10px 24px rgba(79,70,229,.35),
+      0 4px 10px rgba(0,0,0,.12);
+    filter: brightness(1.03);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(99,102,241,.55);
+    outline-offset: 3px;
+  }
+}
+
+.footer {
+  color: #6b7280;
+
+  @media (prefers-color-scheme: dark) {
+    color: #9aa1ad;
+  }
+}
