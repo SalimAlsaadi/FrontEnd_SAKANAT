@@ -1,0 +1,102 @@
+<app-unit-details>
+
+  <section
+    class="details-page"
+    *ngIf="flat"
+  >
+
+    <div class="details-hero">
+
+      <img
+        [src]="flat.pictureUrls[0]"
+      />
+
+      <div class="overlay"></div>
+
+      <div class="hero-content">
+
+        <span class="badge">
+          Flat
+        </span>
+
+        <h1>
+          {{ flat.location }}
+        </h1>
+
+        <div class="price">
+
+          OMR {{ flat.price }}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="details-grid">
+
+      <div class="info-card">
+
+        <span>
+          Rooms
+        </span>
+
+        <strong>
+          {{ flat.numberOfRooms }}
+        </strong>
+
+      </div>
+
+      <div class="info-card">
+
+        <span>
+          Bathrooms
+        </span>
+
+        <strong>
+          {{ flat.numberOfBathrooms }}
+        </strong>
+
+      </div>
+
+      <div class="info-card">
+
+        <span>
+          Living Room
+        </span>
+
+        <strong>
+
+          {{
+            flat.hasLivingRoom
+              ? 'Available'
+              : 'No'
+          }}
+
+        </strong>
+
+      </div>
+
+      <div class="info-card">
+
+        <span>
+          AC
+        </span>
+
+        <strong>
+
+          {{
+            flat.hasAC
+              ? 'Yes'
+              : 'No'
+          }}
+
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</app-unit-details>

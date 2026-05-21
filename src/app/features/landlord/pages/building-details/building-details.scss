@@ -1,0 +1,761 @@
+/* building-details.scss */
+
+.building-page {
+
+  min-height: 100vh;
+
+  background: #f4f7fb;
+
+  padding: 28px;
+}
+
+/* =====================================
+   HERO
+===================================== */
+
+.hero-section {
+
+  position: relative;
+
+  height: 420px;
+
+  border-radius: 34px;
+
+  overflow: hidden;
+
+  margin-bottom: 28px;
+}
+
+.hero-image {
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.hero-overlay {
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(15,23,42,0.9),
+      rgba(15,23,42,0.2)
+    );
+}
+
+.hero-content {
+
+  position: absolute;
+
+  left: 42px;
+  right: 42px;
+  bottom: 42px;
+
+  z-index: 10;
+
+  color: #ffffff;
+}
+
+.hero-badge {
+
+  display: inline-block;
+
+  margin-bottom: 16px;
+
+  padding: 8px 16px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.15);
+
+  font-weight: 700;
+}
+
+.hero-content h1 {
+
+  margin: 0 0 14px;
+
+  font-size: 54px;
+}
+
+.hero-location {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 20px;
+}
+
+/* =====================================
+   STATS
+===================================== */
+
+.stats-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(6, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin-bottom: 28px;
+}
+
+.stat-card {
+
+  background: #ffffff;
+
+  border-radius: 24px;
+
+  padding: 20px;
+
+  box-shadow:
+    0 10px 24px rgba(15,23,42,0.04);
+}
+
+.stat-card strong {
+
+  display: block;
+
+  font-size: 32px;
+
+  margin-bottom: 10px;
+}
+
+.stat-card span {
+
+  color: #64748b;
+
+  font-weight: 700;
+}
+
+/* =====================================
+   MANAGEMENT
+===================================== */
+
+.management-section {
+
+  background: #ffffff;
+
+  border-radius: 30px;
+
+  padding: 30px;
+
+  margin-bottom: 28px;
+}
+
+.management-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 24px;
+}
+
+.management-header h2 {
+
+  margin: 0 0 8px;
+
+  font-size: 34px;
+}
+
+.tabs-wrapper {
+
+  display: flex;
+
+  gap: 16px;
+}
+
+.tab-btn {
+
+  border: none;
+
+  padding: 14px 22px;
+
+  border-radius: 14px;
+
+  background: #eef2ff;
+
+  color: #1e293b;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.tab-btn.active {
+
+  background: #2563eb;
+
+  color: #ffffff;
+}
+
+.add-btn {
+
+  border: none;
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+  padding: 14px 24px;
+
+  border-radius: 14px;
+
+  font-weight: 700;
+}
+
+/* =====================================
+   TABLE
+===================================== */
+
+.table-section {
+
+  background: #ffffff;
+
+  border-radius: 30px;
+
+  padding: 24px;
+}
+
+.management-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.management-table th {
+
+  text-align: left;
+
+  padding: 18px;
+
+  color: #64748b;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.management-table td {
+
+  padding: 18px;
+
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.status {
+
+  padding: 10px 16px;
+
+  border-radius: 999px;
+
+  font-weight: 700;
+}
+
+.status.available {
+
+  background: #dcfce7;
+
+  color: #166534;
+}
+
+.view-btn {
+
+  border: none;
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+  padding: 10px 18px;
+
+  border-radius: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* =====================================
+   FULLSCREEN
+===================================== */
+
+.unit-fullscreen {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 28px;
+}
+
+/* =====================================
+   TOPBAR
+===================================== */
+
+.fullscreen-topbar {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.back-btn,
+.edit-btn,
+.contract-btn,
+.maintenance-btn {
+
+  border: none;
+
+  padding: 14px 20px;
+
+  border-radius: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.back-btn {
+
+  background: #ffffff;
+}
+
+.edit-btn {
+
+  background: #2563eb;
+
+  color: #ffffff;
+}
+
+.contract-btn {
+
+  background: #0f172a;
+
+  color: #ffffff;
+}
+
+.maintenance-btn {
+
+  background: #f97316;
+
+  color: #ffffff;
+}
+
+.topbar-actions {
+
+  display: flex;
+
+  gap: 14px;
+}
+
+/* =====================================
+   UNIT HERO
+===================================== */
+
+.unit-hero {
+
+  position: relative;
+
+  height: 560px;
+
+  border-radius: 34px;
+
+  overflow: hidden;
+}
+
+.unit-hero img {
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.unit-overlay {
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(15,23,42,0.9),
+      rgba(15,23,42,0.15)
+    );
+}
+
+.unit-hero-content {
+
+  position: absolute;
+
+  left: 42px;
+  bottom: 42px;
+
+  color: #ffffff;
+
+  z-index: 10;
+}
+
+.unit-type {
+
+  display: inline-block;
+
+  margin-bottom: 18px;
+
+  padding: 8px 16px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.15);
+
+  font-weight: 700;
+}
+
+.unit-hero-content h1 {
+
+  margin: 0 0 16px;
+
+  font-size: 64px;
+}
+
+.hero-price {
+
+  font-size: 50px;
+
+  font-weight: 800;
+}
+
+.hero-price span {
+
+  font-size: 18px;
+}
+
+/* =====================================
+   SLIDER
+===================================== */
+
+.slider-btn {
+
+  position: absolute;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 60px;
+  height: 60px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.18);
+
+  color: #ffffff;
+
+  font-size: 40px;
+
+  cursor: pointer;
+
+  z-index: 20;
+}
+
+.slider-btn.left {
+
+  left: 24px;
+}
+
+.slider-btn.right {
+
+  right: 24px;
+}
+
+/* =====================================
+   DASHBOARD
+===================================== */
+
+.details-dashboard {
+
+  display: grid;
+
+  grid-template-columns:
+    2fr 1fr;
+
+  gap: 28px;
+}
+
+/* =====================================
+   LEFT
+===================================== */
+
+.details-left {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 28px;
+}
+
+/* =====================================
+   CARD
+===================================== */
+
+.details-card,
+.sidebar-card {
+
+  background: #ffffff;
+
+  border-radius: 30px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 12px 30px rgba(15,23,42,0.05);
+}
+
+.section-header {
+
+  margin-bottom: 24px;
+}
+
+.section-header h2 {
+
+  margin: 0;
+
+  font-size: 30px;
+}
+
+/* =====================================
+   INFO GRID
+===================================== */
+
+.info-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 20px;
+}
+
+.info-item {
+
+  background: #f8fafc;
+
+  border-radius: 22px;
+
+  padding: 22px;
+}
+
+.info-item span {
+
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #64748b;
+}
+
+.info-item strong {
+
+  font-size: 24px;
+}
+
+.green {
+
+  color: #16a34a;
+}
+
+/* =====================================
+   FACILITIES
+===================================== */
+
+.facility-list {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 16px;
+}
+
+.facility-chip {
+
+  padding: 14px 20px;
+
+  border-radius: 999px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  font-weight: 700;
+}
+
+/* =====================================
+   DESCRIPTION
+===================================== */
+
+.description {
+
+  line-height: 1.9;
+
+  color: #475569;
+}
+
+/* =====================================
+   SIDEBAR
+===================================== */
+
+.details-sidebar {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 28px;
+}
+
+.sidebar-card h3 {
+
+  margin-top: 0;
+
+  margin-bottom: 22px;
+
+  font-size: 24px;
+}
+
+/* =====================================
+   TENANT
+===================================== */
+
+.tenant-box {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+}
+
+.tenant-avatar {
+
+  width: 60px;
+  height: 60px;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 24px;
+
+  font-weight: 700;
+}
+
+/* =====================================
+   TIMELINE
+===================================== */
+
+.timeline {
+
+  margin: 0;
+
+  padding-left: 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+
+  color: #475569;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 1400px) {
+
+  .stats-grid {
+
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
+  .details-dashboard {
+
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .building-page {
+
+    padding: 18px;
+  }
+
+  .hero-content h1,
+  .unit-hero-content h1 {
+
+    font-size: 36px;
+  }
+
+  .stats-grid {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .management-header,
+  .fullscreen-topbar {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 18px;
+  }
+
+  .tabs-wrapper {
+
+    flex-wrap: wrap;
+  }
+
+  .unit-hero {
+
+    height: 360px;
+  }
+
+  .topbar-actions {
+
+    flex-wrap: wrap;
+  }
+}

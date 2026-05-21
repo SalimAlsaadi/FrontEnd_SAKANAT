@@ -1,0 +1,90 @@
+<app-unit-details>
+
+  <section
+    class="details-page"
+    *ngIf="room"
+  >
+
+    <div class="details-hero">
+
+      <img
+        [src]="room.pictureUrls[0]"
+      />
+
+      <div class="overlay"></div>
+
+      <div class="hero-content">
+
+        <span class="badge">
+          Room
+        </span>
+
+        <h1>
+          {{ room.location }}
+        </h1>
+
+      </div>
+
+    </div>
+
+    <div class="details-grid">
+
+      <div class="info-card">
+
+        <span>
+          Wifi
+        </span>
+
+        <strong>
+
+          {{
+            room.hasWifi
+              ? 'Available'
+              : 'No'
+          }}
+
+        </strong>
+
+      </div>
+
+      <div class="info-card">
+
+        <span>
+          Private Bathroom
+        </span>
+
+        <strong>
+
+          {{
+            room.hasPrivateBathroom
+              ? 'Yes'
+              : 'Shared'
+          }}
+
+        </strong>
+
+      </div>
+
+      <div class="info-card">
+
+        <span>
+          AC
+        </span>
+
+        <strong>
+
+          {{
+            room.hasAC
+              ? 'Yes'
+              : 'No'
+          }}
+
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</app-unit-details>

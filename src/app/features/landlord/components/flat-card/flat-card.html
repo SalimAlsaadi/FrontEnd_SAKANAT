@@ -1,0 +1,181 @@
+<article
+  class="flat-card"
+  (click)="onOpen()"
+>
+
+  <!-- =========================================
+       IMAGE SECTION
+  ========================================== -->
+
+  <div class="card-image">
+
+    <!-- image -->
+    <img
+      *ngIf="flat.pictureUrls?.length"
+      [src]="flat.pictureUrls[currentImageIndex]"
+      [alt]="flat.buildingName"
+    />
+
+    <!-- placeholder -->
+    <div
+      class="image-placeholder"
+      *ngIf="!flat.pictureUrls?.length"
+    >
+
+      <span class="material-icons">
+        apartment
+      </span>
+
+    </div>
+
+    <!-- overlay -->
+    <div class="image-overlay"></div>
+
+    <!-- navigation -->
+    <button
+      class="nav-btn left"
+      *ngIf="flat.pictureUrls?.length > 1"
+      (click)="previousImage($event)"
+    >
+      ❮
+    </button>
+
+    <button
+      class="nav-btn right"
+      *ngIf="flat.pictureUrls?.length > 1"
+      (click)="nextImage($event)"
+    >
+      ❯
+    </button>
+
+    <!-- dots -->
+    <div
+      class="dots"
+      *ngIf="flat.pictureUrls?.length > 1"
+    >
+
+      <span
+        *ngFor="
+          let image of flat.pictureUrls;
+          let i = index
+        "
+        class="dot"
+        [class.active]="i === currentImageIndex"
+        (click)="setImage(i, $event)"
+      >
+      </span>
+
+    </div>
+
+    <!-- badges -->
+    <div class="top-badges">
+
+      <span class="unit-type">
+        Flat
+      </span>
+
+      <span class="rent-type">
+        {{ flat.rentType }}
+      </span>
+
+    </div>
+
+    <!-- favorite -->
+    <button
+      class="favorite-btn"
+      (click)="$event.stopPropagation()"
+    >
+      ❤
+    </button>
+
+    <!-- price -->
+    <div class="price-box">
+
+      <strong>
+        OMR {{ flat.price }}
+      </strong>
+
+      <span>
+        / month
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================
+       CONTENT
+  ========================================== -->
+
+  <div class="card-content">
+
+    <!-- title -->
+    <div class="title-section">
+
+      <h3>
+        {{ flat.buildingName }}
+      </h3>
+
+      <p class="location">
+
+        <span class="material-icons">
+          location_on
+        </span>
+
+        {{ flat.region }},
+        {{ flat.wilaya }}
+
+      </p>
+
+    </div>
+
+    <!-- description -->
+    <p class="description">
+      {{ flat.description }}
+    </p>
+
+    <!-- features -->
+    <div class="feature-grid">
+
+      <div
+        class="feature-chip"
+        *ngFor="let feature of features"
+      >
+        {{ feature }}
+      </div>
+
+    </div>
+
+    <!-- divider -->
+    <div class="divider"></div>
+
+    <!-- footer -->
+    <div class="card-footer">
+
+      <div class="tenant-type">
+
+        <span class="label">
+          Tenant:
+        </span>
+
+        <span class="value">
+          {{ flat.tenantType }}
+        </span>
+
+      </div>
+
+      <button class="details-btn">
+
+        View Details
+
+        <span class="material-icons">
+          arrow_forward
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</article>

@@ -27,7 +27,7 @@
         <h3>{{ card.title }}</h3>
         <p>{{ card.description }}</p>
 
-        <button type="button" class="card-link" (click)="navigateTo(card.route)">
+        <button type="button" class="card-link" (click)="onCardClick(card)">
           Open
         </button>
       </article>

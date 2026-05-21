@@ -2,47 +2,52 @@
   display: block;
 }
 
+/* =========================================================
+   HEADER
+========================================================= */
+
 .site-header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.92);
+
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(14px);
+
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .header-shell {
-  width: min(1240px, calc(100% - 32px));
+  width: min(1280px, calc(100% - 32px));
   margin: 0 auto;
-  min-height: 78px;
+
+  min-height: 82px;
+
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 24px;
 }
+
+/* =========================================================
+   BRAND
+========================================================= */
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
+  gap: 16px;
+
+  text-decoration: none;
+
   flex-shrink: 0;
 }
 
-.brand-logo {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #0f172a, #2563eb);
-  color: #ffffff;
-  font-size: 20px;
-  font-weight: 800;
-  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.22);
+.brand-image {
+  width: 72px;
+  height: 72px;
+
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .brand-copy {
@@ -52,32 +57,49 @@
 }
 
 .brand-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: #0f172a;
-  line-height: 1.1;
+  margin: 0;
+
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1;
+
+  color: #020c4d;
 }
 
 .brand-subtitle {
-  font-size: 12px;
-  color: #64748b;
+  margin-top: 4px;
+
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1.2;
+
+  color: #64748b;
 }
+
+/* =========================================================
+   DESKTOP NAVIGATION
+========================================================= */
 
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 26px;
+
   margin-left: auto;
 }
 
 .desktop-nav a {
-  text-decoration: none;
-  color: #334155;
-  font-size: 14px;
-  font-weight: 700;
-  transition: color 0.2s ease;
   position: relative;
+
+  text-decoration: none;
+
+  color: #334155;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  transition: color 0.2s ease;
 }
 
 .desktop-nav a:hover,
@@ -87,100 +109,65 @@
 
 .desktop-nav a.active-link::after {
   content: '';
+
   position: absolute;
+
   left: 0;
-  bottom: -10px;
+  bottom: -12px;
+
   width: 100%;
   height: 2px;
+
   border-radius: 999px;
+
   background: #2563eb;
 }
+
+/* =========================================================
+   ACTIONS
+========================================================= */
 
 .desktop-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-.user-area {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.user-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 999px;
-  padding: 6px 12px 6px 6px;
-}
-
-.user-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #1d4ed8, #0f172a);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-
-.user-avatar.large {
-  width: 44px;
-  height: 44px;
-  font-size: 16px;
-}
-
-.user-name {
-  max-width: 160px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #0f172a;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.loading-chip {
-  background: #f8fafc;
-  color: #475569;
-  border-radius: 999px;
-  padding: 10px 14px;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.btn,
-.claims-btn {
+.btn {
   border: none;
-  border-radius: 12px;
-  padding: 10px 16px;
+  border-radius: 14px;
+
+  padding: 11px 18px;
+
   font-size: 14px;
   font-weight: 700;
+
   cursor: pointer;
   text-decoration: none;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
-.btn:hover,
-.claims-btn:hover {
+.btn:hover {
   transform: translateY(-1px);
 }
 
 .btn-primary {
   background: #2563eb;
   color: #ffffff;
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
+
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
 }
 
 .btn-ghost {
@@ -188,111 +175,148 @@
   color: #1d4ed8;
 }
 
-.claims-btn {
-  background: #f8fafc;
-  color: #0f172a;
-  border: 1px solid #e2e8f0;
+.btn-ghost:hover {
+  background: #dbeafe;
 }
+
+/* =========================================================
+   USER AREA
+========================================================= */
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 6px 12px 6px 6px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(135deg, #1d4ed8, #0f172a);
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.user-avatar.large {
+  width: 44px;
+  height: 44px;
+
+  font-size: 16px;
+}
+
+.user-name {
+  max-width: 160px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  color: #0f172a;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.loading-chip {
+  padding: 10px 14px;
+
+  border-radius: 999px;
+
+  background: #f8fafc;
+
+  color: #475569;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   MOBILE TOGGLE
+========================================================= */
 
 .mobile-toggle {
   display: none;
-  width: 44px;
-  height: 44px;
+
+  width: 46px;
+  height: 46px;
+
+  margin-left: auto;
+
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
+
   background: #eff6ff;
   color: #1d4ed8;
+
   font-size: 22px;
-  cursor: pointer;
-  margin-left: auto;
-}
 
-.claims-panel {
-  width: min(1240px, calc(100% - 32px));
-  margin: 0 auto 16px;
-}
-
-.claims-panel-inner {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
-  padding: 18px;
-}
-
-.claims-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.claims-header h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #0f172a;
-}
-
-.close-claims {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: none;
-  background: #f1f5f9;
   cursor: pointer;
 }
 
-.claims-content {
-  display: grid;
-  gap: 10px;
-}
-
-.claim-row {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 12px;
-  padding: 10px 12px;
-  background: #f8fafc;
-  border-radius: 12px;
-}
-
-.claim-key {
-  font-weight: 700;
-  color: #334155;
-}
-
-.claim-value {
-  color: #475569;
-  word-break: break-word;
-}
+/* =========================================================
+   MOBILE MENU
+========================================================= */
 
 .mobile-menu {
   width: min(1240px, calc(100% - 32px));
+
   margin: 0 auto 14px;
-  padding: 14px;
+
+  padding: 16px;
+
   background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+
+  border-radius: 22px;
+
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
 }
 
 .mobile-nav,
 .mobile-actions {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .mobile-nav {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .mobile-nav a {
   text-decoration: none;
+
   color: #334155;
+
   font-weight: 700;
-  padding: 10px 8px;
-  border-radius: 10px;
+
+  padding: 12px 10px;
+
+  border-radius: 12px;
+
+  transition: background 0.2s ease;
 }
 
 .mobile-nav a:hover {
@@ -303,10 +327,14 @@
   display: flex;
   align-items: center;
   gap: 12px;
+
+  padding: 14px;
+
+  margin-bottom: 8px;
+
   background: #f8fafc;
+
   border-radius: 16px;
-  padding: 12px;
-  margin-bottom: 6px;
 }
 
 .mobile-user-text {
@@ -323,6 +351,10 @@
   color: #64748b;
   font-size: 13px;
 }
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media (max-width: 1024px) {
   .desktop-nav,
@@ -346,11 +378,12 @@
     min-height: 72px;
   }
 
-  .brand-title {
-    font-size: 16px;
+  .brand-image {
+    width: 58px;
+    height: 58px;
   }
 
-  .claim-row {
-    grid-template-columns: 1fr;
+  .brand-title {
+    font-size: 22px;
   }
 }

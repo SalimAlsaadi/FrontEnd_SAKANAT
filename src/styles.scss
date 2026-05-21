@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+.add-hostel-dialog-panel .mat-mdc-dialog-container {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.add-hostel-dialog-panel .mdc-dialog__surface {
+  border-radius: 24px !important;
+}

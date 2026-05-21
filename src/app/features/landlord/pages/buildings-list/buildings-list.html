@@ -1,0 +1,148 @@
+<div class="buildings-page">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+
+    <div class="left-actions">
+      <button
+        class="back-btn"
+        routerLink="/landlord"
+      >
+        ← Dashboard
+      </button>
+    </div>
+
+    <div class="right-actions">
+
+      <button class="secondary-btn">
+        Export
+      </button>
+
+      <button class="primary-btn">
+        + Add Building
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- HERO -->
+  <section class="hero-section">
+
+    <div class="hero-left">
+
+      <span class="badge">
+        Buildings Management
+      </span>
+
+      <h1>Manage Buildings</h1>
+
+      <p>
+        View, organize, and manage all your buildings,
+        flats, rooms, and shops from one place.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-grid">
+
+    <div class="stat-card">
+      <strong>{{ buildings.length }}</strong>
+      <span>Total Buildings</span>
+    </div>
+
+    <div class="stat-card">
+      <strong>18</strong>
+      <span>Total Units</span>
+    </div>
+
+    <div class="stat-card">
+      <strong>11</strong>
+      <span>Occupied</span>
+    </div>
+
+    <div class="stat-card">
+      <strong>7</strong>
+      <span>Available</span>
+    </div>
+
+  </section>
+
+  <!-- FILTER BAR -->
+  <section class="toolbar">
+
+    <div class="search-box">
+      <span class="material-icons">search</span>
+
+      <input
+        type="text"
+        placeholder="Search buildings..."
+      />
+    </div>
+
+    <div class="toolbar-actions">
+
+      <button class="toolbar-btn active">
+        All
+      </button>
+
+      <button class="toolbar-btn">
+        Active
+      </button>
+
+      <button class="toolbar-btn">
+        Draft
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- BUILDINGS -->
+  <section *ngIf="buildings.length; else emptyState">
+
+  <div class="grid">
+
+    <app-building-card
+      *ngFor="
+        let building of buildings;
+        trackBy: trackById
+      "
+
+      [building]="building"
+
+      (openDetails)="openBuilding($event)"
+    />
+
+  </div>
+
+</section>
+
+  <!-- EMPTY -->
+  <ng-template #emptyState>
+
+    <div class="empty-state">
+
+      <span class="material-icons">
+        apartment
+      </span>
+
+      <h2>No Buildings Yet</h2>
+
+      <p>
+        Start building your accommodation portfolio
+        by adding your first building.
+      </p>
+
+      <button class="primary-btn">
+        + Add First Building
+      </button>
+
+    </div>
+
+  </ng-template>
+
+</div>

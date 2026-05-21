@@ -1,14 +1,22 @@
 <header class="site-header">
   <div class="header-shell">
-    <button class="brand" type="button" (click)="goHome()">
-      <span class="brand-logo">A</span>
+   <a class="brand" routerLink="/" (click)="closeMobileMenu()">
 
-      <span class="brand-copy">
-        <span class="brand-title">AQARK</span>
-        <span class="brand-subtitle">Smart Real Estate Platform</span>
-      </span>
-    </button>
+<img
+  src="/assets/logos/sakanat-logo.png"
+  alt="Sakanat Logo"
+  class="brand-image"
+/>
 
+  <span class="brand-copy">
+    <span class="brand-title">SAKANAT</span>
+
+    <span class="brand-subtitle">
+      Smart Accommodation Platform
+    </span>
+  </span>
+
+</a>
     <nav class="desktop-nav">
       <a
         *ngFor="let item of navItems(); trackBy: trackByRoute"

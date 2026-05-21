@@ -1,0 +1,48 @@
+<div class="dialog-wrapper">
+  <div class="dialog-header">
+    <div>
+      <span class="badge">New Property</span>
+      <h2>Add New Hostel</h2>
+      <p>Add the basic information first. More fields will be added later.</p>
+    </div>
+
+    <button type="button" class="icon-close" (click)="close()">×</button>
+  </div>
+
+  <form [formGroup]="form" class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Hostel Name</mat-label>
+      <input matInput formControlName="hostelName" placeholder="Al Noor Hostel" />
+      <mat-error *ngIf="form.controls.hostelName.hasError('required')">
+        Hostel name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Hostel Type</mat-label>
+      <mat-select formControlName="hostelType">
+        <mat-option *ngFor="let type of hostelTypes" [value]="type.value">
+          {{ type.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location" placeholder="Muscat, Al Khuwair" />
+      <mat-error *ngIf="form.controls.location.hasError('required')">
+        Location is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="3" formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
+
+  <div class="dialog-actions">
+    <button type="button" class="btn-secondary" (click)="close()">Cancel</button>
+    <button type="button" class="btn-primary" (click)="submit()">Continue</button>
+  </div>
+</div>

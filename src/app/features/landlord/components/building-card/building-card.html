@@ -1,0 +1,160 @@
+<article
+  class="building-card"
+  (click)="onOpen()"
+>
+
+  <!-- IMAGE -->
+  <div class="image-section">
+
+    <img
+      *ngIf="building.pictureUrls?.length"
+      [src]="building.pictureUrls[0]"
+      [alt]="building.name"
+    />
+
+    <div
+      class="image-placeholder"
+      *ngIf="!building.pictureUrls?.length"
+    >
+      <span class="material-icons">
+        apartment
+      </span>
+    </div>
+
+    <span
+      class="status-badge"
+      [class.inactive]="!building.active"
+    >
+      {{ building.active ? 'Active' : 'Inactive' }}
+    </span>
+
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="title-section">
+
+      <h3>
+        {{ building.name }}
+      </h3>
+
+      <p>
+        {{ building.description }}
+      </p>
+
+    </div>
+
+    <!-- LOCATION -->
+    <div class="location">
+
+      <span class="material-icons">
+        location_on
+      </span>
+
+      <span>
+        {{ building.region }},
+        {{ building.wilaya }},
+        {{ building.location }}
+      </span>
+
+    </div>
+
+    <!-- OCCUPANCY -->
+    <div class="occupancy">
+
+      <div class="occupancy-header">
+
+        <span>Occupancy</span>
+
+        <strong>
+          {{ occupancyPercentage }}%
+        </strong>
+
+      </div>
+
+      <div class="progress-bar">
+
+        <div
+          class="progress-fill"
+          [style.width.%]="occupancyPercentage"
+        ></div>
+
+      </div>
+
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+
+      <div class="stat-box">
+
+        <strong>
+          {{ building.totalUnits }}
+        </strong>
+
+        <span>Total</span>
+
+      </div>
+
+      <div class="stat-box">
+
+        <strong>
+          {{ building.flatsCount }}
+        </strong>
+
+        <span>Flats</span>
+
+      </div>
+
+      <div class="stat-box">
+
+        <strong>
+          {{ building.roomsCount }}
+        </strong>
+
+        <span>Rooms</span>
+
+      </div>
+
+      <div class="stat-box">
+
+        <strong>
+          {{ building.shopsCount }}
+        </strong>
+
+        <span>Shops</span>
+
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="card-footer">
+
+      <div class="availability">
+
+        <span class="available">
+          {{ building.availableUnits }}
+          Available
+        </span>
+
+        <span class="occupied">
+          {{ building.occupiedUnits }}
+          Occupied
+        </span>
+
+      </div>
+
+      <button
+        type="button"
+        class="manage-btn"
+      >
+        Manage
+      </button>
+
+    </div>
+
+  </div>
+
+</article>

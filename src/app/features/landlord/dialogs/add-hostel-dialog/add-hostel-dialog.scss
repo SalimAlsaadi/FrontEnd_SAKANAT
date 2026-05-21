@@ -1,0 +1,83 @@
+.dialog-wrapper {
+  padding: 26px;
+  background: #ffffff;
+  border-radius: 24px;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #e0e7ff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dialog-header h2 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.dialog-header p {
+  margin: 0;
+  color: #6b7280;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.icon-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.btn-secondary,
+.btn-primary {
+  border: none;
+  border-radius: 12px;
+  padding: 11px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #ffffff;
+}

@@ -14,12 +14,13 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
   },
 
-  {
-    path: 'landlord',
-    canActivate: [BrowserAuthGuard],
-    loadComponent: () =>  import('./features/landlord/pages/landlord-dashboard/landlord-dashboard.component') .then(m => m.LandlordDashboardComponent)
-  },
-
+{
+  path: 'landlord',
+  canActivate: [BrowserAuthGuard],
+  loadChildren: () =>
+    import('./features/landlord/landlord.routes')
+      .then(m => m.LANDLORD_ROUTES)
+},
   {
     path: 'callback',
     loadComponent: () => import('./features/auth/callback/callback.component').then(m => m.CallbackComponent)

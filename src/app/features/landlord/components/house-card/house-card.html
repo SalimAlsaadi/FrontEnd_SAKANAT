@@ -1,0 +1,61 @@
+<article
+  class="house-card"
+  (click)="onOpen()"
+>
+
+  <div class="image-section">
+
+    <img
+      *ngIf="house.pictureUrls?.length"
+      [src]="house.pictureUrls[0]"
+      [alt]="house.homeType"
+    />
+
+    <div
+      class="placeholder"
+      *ngIf="!house.pictureUrls?.length"
+    >
+      <span class="material-icons">
+        home
+      </span>
+    </div>
+
+  </div>
+
+  <div class="content">
+
+    <h3>
+      {{ house.homeType }}
+    </h3>
+
+    <p>
+      {{ house.description }}
+    </p>
+
+    <div class="features">
+
+      <span>
+        🛏 {{ house.numberOfRooms }}
+      </span>
+
+      <span>
+        🛁 {{ house.numberOfBathrooms }}
+      </span>
+
+      <span *ngIf="house.furnished">
+        Furnished
+      </span>
+
+    </div>
+
+    <div class="price">
+      OMR {{ house.price }}
+    </div>
+
+    <button class="view-btn">
+      View House
+    </button>
+
+  </div>
+
+</article>

@@ -1,0 +1,180 @@
+<article
+  class="shop-card"
+  (click)="onOpen()"
+>
+
+  <!-- =========================================
+       IMAGE SECTION
+  ========================================== -->
+
+  <div class="card-image">
+
+    <!-- image -->
+    <img
+      *ngIf="shop.pictureUrls?.length"
+      [src]="shop.pictureUrls[currentImageIndex]"
+      [alt]="shop.shopNumber"
+    />
+
+    <!-- placeholder -->
+    <div
+      class="image-placeholder"
+      *ngIf="!shop.pictureUrls?.length"
+    >
+
+      <span class="material-icons">
+        storefront
+      </span>
+
+    </div>
+
+    <!-- overlay -->
+    <div class="image-overlay"></div>
+
+    <!-- arrows -->
+    <button
+      class="nav-btn left"
+      *ngIf="shop.pictureUrls?.length > 1"
+      (click)="previousImage($event)"
+    >
+      ❮
+    </button>
+
+    <button
+      class="nav-btn right"
+      *ngIf="shop.pictureUrls?.length > 1"
+      (click)="nextImage($event)"
+    >
+      ❯
+    </button>
+
+    <!-- dots -->
+    <div
+      class="dots"
+      *ngIf="shop.pictureUrls?.length > 1"
+    >
+
+      <span
+        *ngFor="
+          let image of shop.pictureUrls;
+          let i = index
+        "
+        class="dot"
+        [class.active]="i === currentImageIndex"
+        (click)="setImage(i, $event)"
+      >
+      </span>
+
+    </div>
+
+    <!-- badges -->
+    <div class="top-badges">
+
+      <span class="shop-type">
+        Shop
+      </span>
+
+      <span class="commercial-type">
+        {{ shop.commercialType }}
+      </span>
+
+    </div>
+
+    <!-- favorite -->
+    <button
+      class="favorite-btn"
+      (click)="$event.stopPropagation()"
+    >
+      ❤
+    </button>
+
+    <!-- price -->
+    <div class="price-box">
+
+      <strong>
+        OMR {{ shop.price }}
+      </strong>
+
+      <span>
+        / month
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================
+       CONTENT
+  ========================================== -->
+
+  <div class="card-content">
+
+    <!-- title -->
+    <div class="title-section">
+
+      <h3>
+        Shop {{ shop.shopNumber }}
+      </h3>
+
+      <p class="shop-meta">
+
+        <span class="material-icons">
+          business
+        </span>
+
+        Commercial Unit
+
+      </p>
+
+    </div>
+
+    <!-- description -->
+    <p class="description">
+      {{ shop.description }}
+    </p>
+
+    <!-- features -->
+    <div class="feature-grid">
+
+      <div
+        class="feature-chip"
+        *ngFor="let feature of features"
+      >
+        {{ feature }}
+      </div>
+
+    </div>
+
+    <!-- divider -->
+    <div class="divider"></div>
+
+    <!-- footer -->
+    <div class="card-footer">
+
+      <div class="shop-category">
+
+        <span class="label">
+          Category:
+        </span>
+
+        <span class="value">
+          {{ shop.commercialType }}
+        </span>
+
+      </div>
+
+      <button class="details-btn">
+
+        View Shop
+
+        <span class="material-icons">
+          arrow_forward
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</article>

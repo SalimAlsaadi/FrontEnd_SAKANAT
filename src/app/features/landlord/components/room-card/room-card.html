@@ -1,0 +1,187 @@
+<article
+  class="room-card"
+  (click)="onOpen()"
+>
+
+  <!-- =========================================
+       IMAGE SECTION
+  ========================================== -->
+
+  <div class="card-image">
+
+    <!-- image -->
+    <img
+      *ngIf="room.pictureUrls?.length"
+      [src]="room.pictureUrls[currentImageIndex]"
+      [alt]="room.location"
+    />
+
+    <!-- placeholder -->
+    <div
+      class="image-placeholder"
+      *ngIf="!room.pictureUrls?.length"
+    >
+
+      <span class="material-icons">
+        meeting_room
+      </span>
+
+    </div>
+
+    <!-- overlay -->
+    <div class="image-overlay"></div>
+
+    <!-- arrows -->
+    <button
+      class="nav-btn left"
+      *ngIf="room.pictureUrls?.length > 1"
+      (click)="previousImage($event)"
+    >
+      ❮
+    </button>
+
+    <button
+      class="nav-btn right"
+      *ngIf="room.pictureUrls?.length > 1"
+      (click)="nextImage($event)"
+    >
+      ❯
+    </button>
+
+    <!-- dots -->
+    <div
+      class="dots"
+      *ngIf="room.pictureUrls?.length > 1"
+    >
+
+      <span
+        *ngFor="
+          let image of room.pictureUrls;
+          let i = index
+        "
+        class="dot"
+        [class.active]="i === currentImageIndex"
+        (click)="setImage(i, $event)"
+      >
+      </span>
+
+    </div>
+
+    <!-- badges -->
+    <div class="top-badges">
+
+      <span class="room-type">
+        Room
+      </span>
+
+      <span
+        class="status-badge"
+        [class.rented]="room.isRented"
+      >
+        {{
+          room.isRented
+            ? 'Occupied'
+            : 'Available'
+        }}
+      </span>
+
+    </div>
+
+    <!-- favorite -->
+    <button
+      class="favorite-btn"
+      (click)="$event.stopPropagation()"
+    >
+      ❤
+    </button>
+
+    <!-- price -->
+    <div class="price-box">
+
+      <strong>
+        OMR {{ room.price }}
+      </strong>
+
+      <span>
+        / month
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================
+       CONTENT
+  ========================================== -->
+
+  <div class="card-content">
+
+    <!-- title -->
+    <div class="title-section">
+
+      <h3>
+        {{ room.location }}
+      </h3>
+
+      <p class="meta-location">
+
+        <span class="material-icons">
+          home
+        </span>
+
+        {{ room.rentalType }}
+
+      </p>
+
+    </div>
+
+    <!-- description -->
+    <p class="description">
+      {{ room.description }}
+    </p>
+
+    <!-- features -->
+    <div class="feature-grid">
+
+      <div
+        class="feature-chip"
+        *ngFor="let feature of features"
+      >
+        {{ feature }}
+      </div>
+
+    </div>
+
+    <!-- divider -->
+    <div class="divider"></div>
+
+    <!-- footer -->
+    <div class="card-footer">
+
+      <div class="tenant-type">
+
+        <span class="label">
+          Tenant:
+        </span>
+
+        <span class="value">
+          {{ room.tenantType }}
+        </span>
+
+      </div>
+
+      <button class="details-btn">
+
+        View Room
+
+        <span class="material-icons">
+          arrow_forward
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</article>

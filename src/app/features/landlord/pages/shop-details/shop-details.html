@@ -1,0 +1,84 @@
+<app-unit-details>
+
+  <section
+    class="details-page"
+    *ngIf="shop"
+  >
+
+    <div class="details-hero">
+
+      <img
+        [src]="shop.pictureUrls[0]"
+      />
+
+      <div class="overlay"></div>
+
+      <div class="hero-content">
+
+        <span class="badge">
+          Shop
+        </span>
+
+        <h1>
+          {{ shop.shopNumber }}
+        </h1>
+
+      </div>
+
+    </div>
+
+    <div class="details-grid">
+
+      <div class="info-card">
+
+        <span>
+          Commercial Type
+        </span>
+
+        <strong>
+          {{ shop.commercialType }}
+        </strong>
+
+      </div>
+
+      <div class="info-card">
+
+        <span>
+          AC
+        </span>
+
+        <strong>
+
+          {{
+            shop.hasAC
+              ? 'Yes'
+              : 'No'
+          }}
+
+        </strong>
+
+      </div>
+
+      <div class="info-card">
+
+        <span>
+          Parking
+        </span>
+
+        <strong>
+
+          {{
+            shop.hasParking
+              ? 'Available'
+              : 'No'
+          }}
+
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</app-unit-details>

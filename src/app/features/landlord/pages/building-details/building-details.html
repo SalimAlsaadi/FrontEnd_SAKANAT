@@ -1,0 +1,431 @@
+<div
+  class="building-page"
+  *ngIf="building"
+>
+
+  <!-- HERO -->
+
+  <section class="hero-section">
+
+    <img
+      class="hero-image"
+      [src]="building.pictureUrls[0]"
+      [alt]="building.name"
+    />
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+      <div>
+
+        <span class="hero-badge">
+          Enterprise Building
+        </span>
+
+        <h1>
+          {{ building.name }}
+        </h1>
+
+        <p>
+          {{ building.description }}
+        </p>
+
+        <div class="hero-location">
+
+          <span class="material-icons">
+            location_on
+          </span>
+
+          <span>
+            {{ building.region }},
+            {{ building.wilaya }},
+            {{ building.location }}
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- STATS -->
+
+  <section class="stats-grid">
+
+    <div class="stat-card">
+
+      <strong>
+        {{ building.totalUnits }}
+      </strong>
+
+      <span>
+        Total Units
+      </span>
+
+    </div>
+
+    <div class="stat-card">
+
+      <strong>
+        {{ building.availableUnits }}
+      </strong>
+
+      <span>
+        Available
+      </span>
+
+    </div>
+
+    <div class="stat-card">
+
+      <strong>
+        {{ building.occupiedUnits }}
+      </strong>
+
+      <span>
+        Occupied
+      </span>
+
+    </div>
+
+    <div class="stat-card">
+
+      <strong>
+        {{ building.flatsCount }}
+      </strong>
+
+      <span>
+        Flats
+      </span>
+
+    </div>
+
+    <div class="stat-card">
+
+      <strong>
+        {{ building.roomsCount }}
+      </strong>
+
+      <span>
+        Rooms
+      </span>
+
+    </div>
+
+    <div class="stat-card">
+
+      <strong>
+        {{ building.shopsCount }}
+      </strong>
+
+      <span>
+        Shops
+      </span>
+
+    </div>
+
+  </section>
+
+  <!-- MANAGEMENT -->
+
+  <section class="management-section">
+
+    <div class="management-header">
+
+      <div>
+
+        <h2>
+          Units Management
+        </h2>
+
+        <p>
+          Manage all units professionally
+        </p>
+
+      </div>
+
+      <button class="add-btn">
+        + Add Unit
+      </button>
+
+    </div>
+
+    <!-- TABS -->
+
+    <div class="tabs-wrapper">
+
+      <button
+        class="tab-btn"
+        [class.active]="selectedTab === 'FLATS'"
+        (click)="showFlats()"
+      >
+        Flats
+      </button>
+
+      <button
+        class="tab-btn"
+        [class.active]="selectedTab === 'ROOMS'"
+        (click)="showRooms()"
+      >
+        Rooms
+      </button>
+
+      <button
+        class="tab-btn"
+        [class.active]="selectedTab === 'SHOPS'"
+        (click)="showShops()"
+      >
+        Shops
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- FLATS -->
+
+  <section
+    class="table-section"
+    *ngIf="selectedTab === 'FLATS'"
+  >
+
+    <table class="management-table">
+
+<thead>
+
+<tr>
+
+  <th>Building ID</th>
+
+  <th>Flat Number</th>
+
+  <th>Floor Number</th>
+
+  <th>Status</th>
+
+  <th>Action</th>
+
+</tr>
+
+</thead>
+
+     <tbody>
+
+<tr
+  *ngFor="let flat of flats"
+>
+
+  <!-- BUILDING ID -->
+
+  <td>
+
+    #{{ flat.buildingId }}
+
+  </td>
+
+  <!-- FLAT NUMBER -->
+
+  <td>
+
+    {{ flat.location }}
+
+  </td>
+
+  <!-- FLOOR -->
+
+  <td>
+
+    Floor {{ flat.floorNumber || 1 }}
+
+  </td>
+
+  <!-- STATUS -->
+
+  <td>
+
+    <span
+      class="status-badge"
+      [class.available]="!flat.isRented"
+      [class.occupied]="flat.isRented"
+    >
+
+      {{
+        flat.isRented
+          ? 'Occupied'
+          : 'Available'
+      }}
+
+    </span>
+
+  </td>
+
+  <!-- ACTION -->
+
+  <td>
+
+    <button
+      class="view-btn"
+      [routerLink]="[
+        '/landlord/flats',
+        flat.id
+      ]"
+    >
+      Open
+    </button>
+
+  </td>
+
+</tr>
+
+</tbody>
+
+    </table>
+
+  </section>
+
+  <!-- ROOMS -->
+
+  <section
+    class="table-section"
+    *ngIf="selectedTab === 'ROOMS'"
+  >
+
+    <table class="management-table">
+
+      <thead>
+
+      <tr>
+
+        <th>Room</th>
+
+        <th>Tenant Type</th>
+
+        <th>Rental Type</th>
+
+        <th>Price</th>
+
+        <th>Action</th>
+
+      </tr>
+
+      </thead>
+
+      <tbody>
+
+      <tr
+        *ngFor="let room of rooms"
+      >
+
+        <td>
+          {{ room.location }}
+        </td>
+
+        <td>
+          {{ room.tenantType }}
+        </td>
+
+        <td>
+          {{ room.rentalType }}
+        </td>
+
+        <td>
+          OMR {{ room.price }}
+        </td>
+
+        <td>
+
+          <button
+            class="view-btn"
+            [routerLink]="[
+              '/landlord/rooms',
+              room.id
+            ]"
+          >
+            Open
+          </button>
+
+        </td>
+
+      </tr>
+
+      </tbody>
+
+    </table>
+
+  </section>
+
+  <!-- SHOPS -->
+
+  <section
+    class="table-section"
+    *ngIf="selectedTab === 'SHOPS'"
+  >
+
+    <table class="management-table">
+
+      <thead>
+
+      <tr>
+
+        <th>Shop</th>
+
+        <th>Commercial Type</th>
+
+        <th>Location</th>
+
+        <th>Price</th>
+
+        <th>Action</th>
+
+      </tr>
+
+      </thead>
+
+      <tbody>
+
+      <tr
+        *ngFor="let shop of shops"
+      >
+
+        <td>
+          {{ shop.shopNumber }}
+        </td>
+
+        <td>
+          {{ shop.commercialType }}
+        </td>
+
+        <td>
+          {{ shop.location }}
+        </td>
+
+        <td>
+          OMR {{ shop.price }}
+        </td>
+
+        <td>
+
+          <button
+            class="view-btn"
+            [routerLink]="[
+              '/landlord/shops',
+              shop.id
+            ]"
+          >
+            Open
+          </button>
+
+        </td>
+
+      </tr>
+
+      </tbody>
+
+    </table>
+
+  </section>
+
+</div>
