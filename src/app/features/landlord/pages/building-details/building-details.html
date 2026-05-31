@@ -1,24 +1,97 @@
-<div class="building-page" *ngIf="building">
+<div
+  class="building-page"
+  *ngIf="building"
+>
+
+  <!-- =====================================
+       TOPBAR
+  ====================================== -->
 
   <div class="topbar">
-    <button class="back-btn" onclick="history.back()">
-      <span class="material-symbols-rounded">arrow_back</span>
-      Back
-    </button>
+
+    <div class="breadcrumb">
+
+      <button
+        class="back-btn"
+        (click)="goBack()"
+        aria-label="Go back to buildings"
+      >
+        <span
+          class="material-symbols-rounded"
+          aria-hidden="true"
+        >arrow_back</span>
+      </button>
+
+      <nav
+        class="breadcrumb-nav"
+        aria-label="Page breadcrumb"
+      >
+        <span class="bc-item">Buildings</span>
+        <span
+          class="bc-sep material-symbols-rounded"
+          aria-hidden="true"
+        >chevron_right</span>
+        <span class="bc-item active">{{ building.name }}</span>
+      </nav>
+
+    </div>
+
+    <div class="top-actions">
+
+      <button
+        class="action-btn"
+        aria-label="Edit building details"
+      >
+        <span
+          class="material-symbols-rounded"
+          aria-hidden="true"
+        >edit</span>
+        Edit Building
+      </button>
+
+      <button
+        class="action-btn accent"
+        aria-label="Building settings"
+      >
+        <span
+          class="material-symbols-rounded"
+          aria-hidden="true"
+        >settings</span>
+        Settings
+      </button>
+
+    </div>
+
   </div>
 
-  <section class="hero-section">
+  <!-- =====================================
+       HERO
+  ====================================== -->
+
+  <section
+    class="hero-section"
+    role="region"
+    aria-label="Building overview"
+  >
+
     <img
       class="hero-image"
       [src]="building.pictureUrls[0]"
-      [alt]="building.name"
+      [alt]="'Photo of ' + building.name"
     />
 
-    <div class="hero-overlay"></div>
+    <div
+      class="hero-overlay"
+      aria-hidden="true"
+    ></div>
 
     <div class="hero-content">
+
       <span class="hero-badge">
-        <span class="material-symbols-rounded">verified</span>
+        <span
+          class="material-symbols-rounded"
+          aria-hidden="true"
+        >verified</span>
         Enterprise Building
       </span>
 
@@ -26,175 +99,371 @@
 
       <p>{{ building.description }}</p>
 
-      <div class="hero-location">
-        <span class="material-symbols-rounded">location_on</span>
-        <span>
-          {{ building.region }},
-          {{ building.wilaya }},
-          {{ building.location }}
-        </span>
+      <div class="hero-meta">
+
+        <div class="hero-location">
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >location_on</span>
+          <span>{{ building.region }}, {{ building.wilaya }}, {{ building.location }}</span>
+        </div>
+
+        <div
+          class="hero-stats"
+          role="list"
+          aria-label="Building unit counts"
+        >
+
+          <div
+            class="hero-stat"
+            role="listitem"
+          >
+            <strong>{{ flats.length }}</strong>
+            <span>Flats</span>
+          </div>
+
+          <div
+            class="hero-stat"
+            role="listitem"
+          >
+            <strong>{{ rooms.length }}</strong>
+            <span>Rooms</span>
+          </div>
+
+          <div
+            class="hero-stat"
+            role="listitem"
+          >
+            <strong>{{ shops.length }}</strong>
+            <span>Shops</span>
+          </div>
+
+        </div>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- <section class="building-module-menu">
+  <!-- =====================================
+       MODULE NAVIGATION
+  ====================================== -->
 
-  <button
-    class="module-menu-item"
-    *ngFor="let module of buildingModules"
-    [class.active]="selectedModule === module.key"
-    (click)="selectModule(module.key)"
+  <nav
+    class="module-nav"
+    role="tablist"
+    aria-label="Building management modules"
   >
 
+    <button
+      *ngFor="let module of buildingModules"
+      class="module-tab"
+      role="tab"
+      [class.active]="selectedModule === module.key"
+      [attr.aria-selected]="selectedModule === module.key"
+      (click)="selectModule(module.key)"
+    >
+      <div class="module-tab-inner">
 
-    <span class="module-content">
-      <strong>{{ module.title }}</strong>
-      <small>{{ module.subtitle }}</small>
-    </span>
+        <div class="module-tab-top">
+          <span
+            class="module-icon material-symbols-rounded"
+            aria-hidden="true"
+          >{{ module.icon }}</span>
+          <h3>{{ module.title }}</h3>
+        </div>
 
-    <span class="module-badge">
-      {{ module.badge }}
-    </span>
-  </button>
-
-</section> -->
-
-<nav class="building-slider-menu">
-
-  <button
-    class="slider-menu-item"
-    *ngFor="let module of buildingModules"
-    [class.active]="selectedModule === module.key"
-    (click)="selectModule(module.key)"
-  >
-
-    <div class="slider-content">
-
-      <div class="slider-top">
-
-        <span class="material-symbols-rounded slider-icon">
-          {{ module.icon }}
-        </span>
-
-        <h3>
-          {{ module.title }}
-        </h3>
+        <p>{{ module.subtitle }}</p>
 
       </div>
+    </button>
 
-      <p>
-        {{ module.subtitle }}
-      </p>
+  </nav>
 
+  <!-- =====================================
+       MODULE: CONTRACTS
+  ====================================== -->
+
+  <section
+    class="module-placeholder"
+    role="tabpanel"
+    aria-label="Contracts module"
+    *ngIf="selectedModule === 'CONTRACTS'"
+  >
+
+    <div
+      class="placeholder-icon-wrap"
+      aria-hidden="true"
+    >
+      <span class="material-symbols-rounded">contract</span>
     </div>
 
-  </button>
+    <h2>Contracts Management</h2>
+    <p>Manage active leases, renewals, expiry dates, and documents for all units in this building.</p>
 
-</nav>
+    <button
+      class="primary-btn blue"
+      aria-label="Add a new contract"
+    >
+      <span
+        class="material-symbols-rounded"
+        aria-hidden="true"
+      >add</span>
+      Add Contract
+    </button>
 
-<section class="module-placeholder" *ngIf="selectedModule === 'CONTRACTS'">
-  <span class="material-symbols-rounded">contract</span>
-  <h2>Contracts Management</h2>
-  <p>Manage active leases, renewals, expiry dates, and documents.</p>
-</section>
+  </section>
 
-<section class="module-placeholder" *ngIf="selectedModule === 'FINANCE'">
-  <span class="material-symbols-rounded">payments</span>
-  <h2>Finance Overview</h2>
-  <p>Track rent collection, overdue payments, deposits, and invoices.</p>
-</section>
+  <!-- =====================================
+       MODULE: FINANCE
+  ====================================== -->
 
-<section class="module-placeholder" *ngIf="selectedModule === 'REPORTS'">
-  <span class="material-symbols-rounded">bar_chart</span>
-  <h2>Reports</h2>
-  <p>Generate occupancy, rent, maintenance, and tenant reports.</p>
-</section>
+  <section
+    class="module-placeholder"
+    role="tabpanel"
+    aria-label="Finance module"
+    *ngIf="selectedModule === 'FINANCE'"
+  >
 
-<section class="module-placeholder" *ngIf="selectedModule === 'MAINTENANCE'">
-  <span class="material-symbols-rounded">construction</span>
-  <h2>Maintenance</h2>
-  <p>Track open maintenance requests and service status.</p>
-</section>
+    <div
+      class="placeholder-icon-wrap"
+      aria-hidden="true"
+    >
+      <span class="material-symbols-rounded">payments</span>
+    </div>
 
-<section class="module-placeholder" *ngIf="selectedModule === 'ALERTS'">
-  <span class="material-symbols-rounded">notifications_active</span>
-  <h2>Alerts</h2>
-  <p>Review late payments, contract expiry, and urgent actions.</p>
-</section>
+    <h2>Finance Overview</h2>
+    <p>Track rent collection, overdue payments, deposits, and invoices across all units.</p>
 
-  
+    <button
+      class="primary-btn blue"
+      aria-label="View financial reports"
+    >
+      <span
+        class="material-symbols-rounded"
+        aria-hidden="true"
+      >bar_chart</span>
+      View Reports
+    </button>
 
-  <section class="building-control-grid" *ngIf="selectedModule === 'SERVICES'">
+  </section>
 
-    <button class="control-card overview">
-      <div class="control-icon">
+  <!-- =====================================
+       MODULE: REPORTS
+  ====================================== -->
+
+  <section
+    class="module-placeholder"
+    role="tabpanel"
+    aria-label="Reports module"
+    *ngIf="selectedModule === 'REPORTS'"
+  >
+
+    <div
+      class="placeholder-icon-wrap"
+      aria-hidden="true"
+    >
+      <span class="material-symbols-rounded">bar_chart</span>
+    </div>
+
+    <h2>Reports</h2>
+    <p>Generate occupancy, rent collection, maintenance, and tenant performance reports.</p>
+
+    <button
+      class="primary-btn blue"
+      aria-label="Generate a report"
+    >
+      <span
+        class="material-symbols-rounded"
+        aria-hidden="true"
+      >download</span>
+      Generate Report
+    </button>
+
+  </section>
+
+  <!-- =====================================
+       MODULE: MAINTENANCE
+  ====================================== -->
+
+  <section
+    class="module-placeholder"
+    role="tabpanel"
+    aria-label="Maintenance module"
+    *ngIf="selectedModule === 'MAINTENANCE'"
+  >
+
+    <div
+      class="placeholder-icon-wrap"
+      aria-hidden="true"
+    >
+      <span class="material-symbols-rounded">construction</span>
+    </div>
+
+    <h2>Maintenance</h2>
+    <p>Track open maintenance requests and service status across all building units.</p>
+
+    <button
+      class="primary-btn blue"
+      aria-label="Log a maintenance request"
+    >
+      <span
+        class="material-symbols-rounded"
+        aria-hidden="true"
+      >add</span>
+      Log Request
+    </button>
+
+  </section>
+
+  <!-- =====================================
+       MODULE: ALERTS
+  ====================================== -->
+
+  <section
+    class="module-placeholder"
+    role="tabpanel"
+    aria-label="Alerts module"
+    *ngIf="selectedModule === 'ALERTS'"
+  >
+
+    <div
+      class="placeholder-icon-wrap warning"
+      aria-hidden="true"
+    >
+      <span class="material-symbols-rounded">notifications_active</span>
+    </div>
+
+    <h2>Alerts</h2>
+    <p>Review late payments, upcoming contract expiries, and urgent actions requiring attention.</p>
+
+    <button
+      class="primary-btn danger"
+      aria-label="Review all active alerts"
+    >
+      <span
+        class="material-symbols-rounded"
+        aria-hidden="true"
+      >warning</span>
+      Review Alerts
+    </button>
+
+  </section>
+
+  <!-- =====================================
+       MODULE: SERVICES
+  ====================================== -->
+
+  <section
+    class="building-control-grid"
+    role="tabpanel"
+    aria-label="Building services"
+    *ngIf="selectedModule === 'SERVICES'"
+  >
+
+    <button
+      class="control-card overview"
+      aria-label="View building analysis and overview"
+    >
+      <div
+        class="control-icon"
+        aria-hidden="true"
+      >
         <span class="material-symbols-rounded">analytics</span>
       </div>
-
       <div>
-        <span>Building Analysis</span>
+        <span class="control-label">Building Analysis</span>
         <strong>Overview</strong>
         <p>Occupancy, income, and unit performance</p>
       </div>
     </button>
 
-    <button class="control-card reports">
-      <div class="control-icon">
+    <button
+      class="control-card reports"
+      aria-label="View monthly reports"
+    >
+      <div
+        class="control-icon"
+        aria-hidden="true"
+      >
         <span class="material-symbols-rounded">description</span>
       </div>
-
       <div>
-        <span>Reports</span>
+        <span class="control-label">Reports</span>
         <strong>Monthly Reports</strong>
         <p>Export rent, occupancy, and maintenance reports</p>
       </div>
     </button>
 
-    <button class="control-card alerts danger">
-      <div class="control-icon">
+    <button
+      class="control-card alerts danger-card"
+      aria-label="View 3 late payment alerts"
+    >
+      <div
+        class="control-icon"
+        aria-hidden="true"
+      >
         <span class="material-symbols-rounded">warning</span>
       </div>
-
       <div>
-        <span>Payment Alerts</span>
+        <span class="control-label">Payment Alerts</span>
         <strong>3 Tenants Late</strong>
         <p>Tenants with unpaid or overdue rent</p>
       </div>
-
-      <i class="alert-dot"></i>
+      <i
+        class="alert-dot"
+        aria-hidden="true"
+      ></i>
     </button>
 
-    <button class="control-card maintenance">
-      <div class="control-icon">
+    <button
+      class="control-card maintenance"
+      aria-label="View 5 open maintenance requests"
+    >
+      <div
+        class="control-icon"
+        aria-hidden="true"
+      >
         <span class="material-symbols-rounded">construction</span>
       </div>
-
       <div>
-        <span>Maintenance</span>
+        <span class="control-label">Maintenance</span>
         <strong>5 Requests</strong>
         <p>Open issues for flats, rooms, and shops</p>
       </div>
     </button>
 
-    <button class="control-card contracts">
-      <div class="control-icon">
+    <button
+      class="control-card contracts"
+      aria-label="View active leases and contracts"
+    >
+      <div
+        class="control-icon"
+        aria-hidden="true"
+      >
         <span class="material-symbols-rounded">contract</span>
       </div>
-
       <div>
-        <span>Contracts</span>
+        <span class="control-label">Contracts</span>
         <strong>Active Leases</strong>
         <p>Manage renewals, expiries, and documents</p>
       </div>
     </button>
 
-    <button class="control-card finance">
-      <div class="control-icon">
+    <button
+      class="control-card finance"
+      aria-label="View building finance summary"
+    >
+      <div
+        class="control-icon"
+        aria-hidden="true"
+      >
         <span class="material-symbols-rounded">payments</span>
       </div>
-
       <div>
-        <span>Finance</span>
+        <span class="control-label">Finance</span>
         <strong>OMR 2,450</strong>
         <p>Expected monthly building income</p>
       </div>
@@ -202,103 +471,170 @@
 
   </section>
 
+  <!-- =====================================
+       MODULE: UNITS
+  ====================================== -->
+
   <ng-container *ngIf="selectedModule === 'UNITS'">
 
-    <section class="management-section">
+    <section
+      class="management-section"
+      role="tabpanel"
+      aria-label="Units management"
+    >
 
       <div class="management-header">
+
         <div>
           <span class="section-label">Property Management</span>
           <h2>Units Management</h2>
           <p>Manage flats, rooms, and shops from one official dashboard.</p>
         </div>
 
-        <button class="add-btn">
-          <span class="material-symbols-rounded">add_business</span>
+        <button
+          class="primary-btn blue"
+          aria-label="Add a new unit to this building"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >add_business</span>
           Add Unit
         </button>
+
       </div>
 
-      <section class="unit-tabs">
+      <div
+        class="unit-tabs"
+        role="tablist"
+        aria-label="Unit type selector"
+      >
 
         <button
           class="unit-tab flats-tab"
+          role="tab"
           [class.active]="selectedTab === 'FLATS'"
+          [attr.aria-selected]="selectedTab === 'FLATS'"
           (click)="showFlats()"
+          aria-label="View flats list"
         >
-          <span class="tab-icon material-symbols-rounded">apartment</span>
-
-          <div>
+          <div
+            class="tab-icon-wrap"
+            aria-hidden="true"
+          >
+            <span class="material-symbols-rounded">apartment</span>
+          </div>
+          <div class="tab-info">
             <h3>Flats</h3>
             <p>Residential apartments</p>
           </div>
-
-          <strong>{{ flats.length }}</strong>
+          <strong class="tab-count">{{ flats.length }}</strong>
         </button>
 
         <button
           class="unit-tab rooms-tab"
+          role="tab"
           [class.active]="selectedTab === 'ROOMS'"
+          [attr.aria-selected]="selectedTab === 'ROOMS'"
           (click)="showRooms()"
+          aria-label="View rooms list"
         >
-          <span class="tab-icon material-symbols-rounded">bed</span>
-
-          <div>
+          <div
+            class="tab-icon-wrap"
+            aria-hidden="true"
+          >
+            <span class="material-symbols-rounded">bed</span>
+          </div>
+          <div class="tab-info">
             <h3>Rooms</h3>
             <p>Rooms inside flats</p>
           </div>
-
-          <strong>{{ rooms.length }}</strong>
+          <strong class="tab-count">{{ rooms.length }}</strong>
         </button>
 
         <button
           class="unit-tab shops-tab"
+          role="tab"
           [class.active]="selectedTab === 'SHOPS'"
+          [attr.aria-selected]="selectedTab === 'SHOPS'"
           (click)="showShops()"
+          aria-label="View shops list"
         >
-          <span class="tab-icon material-symbols-rounded">storefront</span>
-
-          <div>
+          <div
+            class="tab-icon-wrap"
+            aria-hidden="true"
+          >
+            <span class="material-symbols-rounded">storefront</span>
+          </div>
+          <div class="tab-info">
             <h3>Shops</h3>
             <p>Commercial units</p>
           </div>
-
-          <strong>{{ shops.length }}</strong>
+          <strong class="tab-count">{{ shops.length }}</strong>
         </button>
 
-      </section>
+      </div>
 
     </section>
 
-    <section class="enterprise-table-card" *ngIf="selectedTab === 'FLATS'">
+    <!-- =====================================
+         FLATS TABLE
+    ====================================== -->
+
+    <section
+      class="table-card"
+      role="tabpanel"
+      aria-label="Flats register"
+      *ngIf="selectedTab === 'FLATS'"
+    >
 
       <div class="table-card-header">
-        <div class="table-title">
-          <span class="title-icon blue material-symbols-rounded">apartment</span>
 
+        <div class="table-title">
+          <div
+            class="title-icon blue"
+            aria-hidden="true"
+          >
+            <span class="material-symbols-rounded">apartment</span>
+          </div>
           <div>
             <h3>Flats Register</h3>
-            <p>Official list of residential flats under this building.</p>
+            <p>Residential flats registered under this building</p>
           </div>
         </div>
 
-        <div class="table-actions">
-          <button class="secondary-btn">
-            <span class="material-symbols-rounded">download</span>
+        <div class="table-header-actions">
+          <button
+            class="secondary-btn"
+            aria-label="Export flats data"
+          >
+            <span
+              class="material-symbols-rounded"
+              aria-hidden="true"
+            >download</span>
             Export
           </button>
-
-          <button class="primary-btn blue">
-            <span class="material-symbols-rounded">add</span>
+          <button
+            class="primary-btn blue"
+            aria-label="Add a new flat"
+          >
+            <span
+              class="material-symbols-rounded"
+              aria-hidden="true"
+            >add</span>
             Add Flat
           </button>
         </div>
+
       </div>
 
-      <div class="kpi-grid">
+      <div class="kpi-row">
 
         <div class="kpi-card">
-          <span class="kpi-icon blue material-symbols-rounded">domain</span>
+          <div
+            class="kpi-icon blue"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">domain</span></div>
           <div>
             <small>Total Flats</small>
             <strong>{{ flats.length }}</strong>
@@ -306,23 +642,32 @@
         </div>
 
         <div class="kpi-card">
-          <span class="kpi-icon green material-symbols-rounded">check_circle</span>
+          <div
+            class="kpi-icon green"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">check_circle</span></div>
           <div>
             <small>Available</small>
-            <strong class="success">{{ availableFlatsCount }}</strong>
+            <strong class="value-success">{{ availableFlatsCount }}</strong>
           </div>
         </div>
 
         <div class="kpi-card">
-          <span class="kpi-icon red material-symbols-rounded">lock</span>
+          <div
+            class="kpi-icon red"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">lock</span></div>
           <div>
             <small>Occupied</small>
-            <strong class="danger">{{ occupiedFlatsCount }}</strong>
+            <strong class="value-danger">{{ occupiedFlatsCount }}</strong>
           </div>
         </div>
 
         <div class="kpi-card">
-          <span class="kpi-icon purple material-symbols-rounded">payments</span>
+          <div
+            class="kpi-icon purple"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">payments</span></div>
           <div>
             <small>Avg. Rent</small>
             <strong>OMR {{ averageFlatPrice }}</strong>
@@ -332,33 +677,64 @@
       </div>
 
       <div class="table-toolbar">
-        <div class="search-box">
-          <span class="material-symbols-rounded">search</span>
-          <input placeholder="Search flat number, floor, or status..." />
-        </div>
 
-        <button class="filter-btn">
-          <span class="material-symbols-rounded">filter_list</span>
+        <label
+          class="search-box"
+          for="flat-search"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >search</span>
+          <input
+            id="flat-search"
+            placeholder="Search flat, floor, or status..."
+            aria-label="Search flats"
+          />
+        </label>
+
+        <button
+          class="filter-btn"
+          aria-label="Filter by status"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >filter_list</span>
           Status
         </button>
 
-        <button class="filter-btn">
-          <span class="material-symbols-rounded">sort</span>
+        <button
+          class="filter-btn"
+          aria-label="Sort results"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >sort</span>
           Sort
         </button>
+
       </div>
 
-      <div class="enterprise-table-wrapper">
-        <table class="enterprise-table">
+      <div class="table-wrapper">
+        <table
+          class="data-table"
+          role="grid"
+          aria-label="Flats list"
+        >
 
           <thead>
             <tr>
-              <th>Flat</th>
-              <th>Building</th>
-              <th>Floor</th>
-              <th>Status</th>
-              <th>Monthly Rent</th>
-              <th class="text-right">Actions</th>
+              <th scope="col">Flat</th>
+              <th scope="col">Building</th>
+              <th scope="col">Floor</th>
+              <th scope="col">Status</th>
+              <th scope="col">Monthly Rent</th>
+              <th
+                scope="col"
+                class="col-right"
+              >Actions</th>
             </tr>
           </thead>
 
@@ -366,9 +742,11 @@
             <tr *ngFor="let flat of flats">
 
               <td>
-                <div class="unit-info">
-                  <span class="unit-avatar blue material-symbols-rounded">home_work</span>
-
+                <div class="unit-cell">
+                  <div
+                    class="unit-avatar blue"
+                    aria-hidden="true"
+                  ><span class="material-symbols-rounded">home_work</span></div>
                   <div>
                     <strong>{{ flat.location }}</strong>
                     <small>Residential flat</small>
@@ -377,12 +755,15 @@
               </td>
 
               <td>
-                <span class="table-muted">Building #{{ flat.buildingId }}</span>
+                <span class="text-muted">Building #{{ flat.buildingId }}</span>
               </td>
 
               <td>
                 <span class="data-pill">
-                  <span class="material-symbols-rounded">stairs</span>
+                  <span
+                    class="material-symbols-rounded"
+                    aria-hidden="true"
+                  >stairs</span>
                   Floor {{ flat.floorNumber || 1 }}
                 </span>
               </td>
@@ -393,15 +774,16 @@
                   [class.available]="!flat.rented"
                   [class.occupied]="flat.rented"
                 >
-                  <span class="material-symbols-rounded">
-                    {{ flat.rented ? 'lock' : 'check_circle' }}
-                  </span>
+                  <span
+                    class="material-symbols-rounded"
+                    aria-hidden="true"
+                  >{{ flat.rented ? 'lock' : 'check_circle' }}</span>
                   {{ flat.rented ? 'Occupied' : 'Available' }}
                 </span>
               </td>
 
               <td>
-                <strong>OMR {{ flat.price || 220 }}</strong>
+                <strong class="price-cell">OMR {{ flat.price || 220 }}</strong>
               </td>
 
               <td>
@@ -409,13 +791,22 @@
                   <button
                     class="open-btn"
                     [routerLink]="['/landlord/flats', flat.id]"
+                    aria-label="Open flat details"
                   >
-                    <span class="material-symbols-rounded">open_in_new</span>
+                    <span
+                      class="material-symbols-rounded"
+                      aria-hidden="true"
+                    >open_in_new</span>
                     Open
                   </button>
-
-                  <button class="icon-btn">
-                    <span class="material-symbols-rounded">more_vert</span>
+                  <button
+                    class="icon-btn"
+                    aria-label="More options"
+                  >
+                    <span
+                      class="material-symbols-rounded"
+                      aria-hidden="true"
+                    >more_vert</span>
                   </button>
                 </div>
               </td>
@@ -428,35 +819,64 @@
 
     </section>
 
-    <section class="enterprise-table-card" *ngIf="selectedTab === 'ROOMS'">
+    <!-- =====================================
+         ROOMS TABLE
+    ====================================== -->
+
+    <section
+      class="table-card"
+      role="tabpanel"
+      aria-label="Rooms register"
+      *ngIf="selectedTab === 'ROOMS'"
+    >
 
       <div class="table-card-header">
-        <div class="table-title">
-          <span class="title-icon green material-symbols-rounded">bed</span>
 
+        <div class="table-title">
+          <div
+            class="title-icon green"
+            aria-hidden="true"
+          >
+            <span class="material-symbols-rounded">bed</span>
+          </div>
           <div>
             <h3>Rooms Register</h3>
-            <p>Rooms connected to flats inside this building.</p>
+            <p>Rooms connected to flats inside this building</p>
           </div>
         </div>
 
-        <div class="table-actions">
-          <button class="secondary-btn">
-            <span class="material-symbols-rounded">download</span>
+        <div class="table-header-actions">
+          <button
+            class="secondary-btn"
+            aria-label="Export rooms data"
+          >
+            <span
+              class="material-symbols-rounded"
+              aria-hidden="true"
+            >download</span>
             Export
           </button>
-
-          <button class="primary-btn green">
-            <span class="material-symbols-rounded">add</span>
+          <button
+            class="primary-btn green"
+            aria-label="Add a new room"
+          >
+            <span
+              class="material-symbols-rounded"
+              aria-hidden="true"
+            >add</span>
             Add Room
           </button>
         </div>
+
       </div>
 
-      <div class="kpi-grid">
+      <div class="kpi-row">
 
         <div class="kpi-card">
-          <span class="kpi-icon blue material-symbols-rounded">meeting_room</span>
+          <div
+            class="kpi-icon blue"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">meeting_room</span></div>
           <div>
             <small>Total Rooms</small>
             <strong>{{ rooms.length }}</strong>
@@ -464,23 +884,32 @@
         </div>
 
         <div class="kpi-card">
-          <span class="kpi-icon green material-symbols-rounded">check_circle</span>
+          <div
+            class="kpi-icon green"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">check_circle</span></div>
           <div>
             <small>Available</small>
-            <strong class="success">{{ availableRoomsCount }}</strong>
+            <strong class="value-success">{{ availableRoomsCount }}</strong>
           </div>
         </div>
 
         <div class="kpi-card">
-          <span class="kpi-icon red material-symbols-rounded">lock</span>
+          <div
+            class="kpi-icon red"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">lock</span></div>
           <div>
             <small>Occupied</small>
-            <strong class="danger">{{ occupiedRoomsCount }}</strong>
+            <strong class="value-danger">{{ occupiedRoomsCount }}</strong>
           </div>
         </div>
 
         <div class="kpi-card">
-          <span class="kpi-icon purple material-symbols-rounded">payments</span>
+          <div
+            class="kpi-icon purple"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">payments</span></div>
           <div>
             <small>Avg. Rent</small>
             <strong>OMR {{ averageRoomPrice }}</strong>
@@ -490,33 +919,64 @@
       </div>
 
       <div class="table-toolbar">
-        <div class="search-box">
-          <span class="material-symbols-rounded">search</span>
-          <input placeholder="Search room, tenant type, or rental type..." />
-        </div>
 
-        <button class="filter-btn">
-          <span class="material-symbols-rounded">group</span>
+        <label
+          class="search-box"
+          for="room-search"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >search</span>
+          <input
+            id="room-search"
+            placeholder="Search room, tenant type, or rental type..."
+            aria-label="Search rooms"
+          />
+        </label>
+
+        <button
+          class="filter-btn"
+          aria-label="Filter by tenant type"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >group</span>
           Tenant Type
         </button>
 
-        <button class="filter-btn">
-          <span class="material-symbols-rounded">sort</span>
+        <button
+          class="filter-btn"
+          aria-label="Sort results"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >sort</span>
           Sort
         </button>
+
       </div>
 
-      <div class="enterprise-table-wrapper">
-        <table class="enterprise-table">
+      <div class="table-wrapper">
+        <table
+          class="data-table"
+          role="grid"
+          aria-label="Rooms list"
+        >
 
           <thead>
             <tr>
-              <th>Room</th>
-              <th>Tenant Type</th>
-              <th>Rental Type</th>
-              <th>Status</th>
-              <th>Monthly Rent</th>
-              <th class="text-right">Actions</th>
+              <th scope="col">Room</th>
+              <th scope="col">Tenant Type</th>
+              <th scope="col">Rental Type</th>
+              <th scope="col">Status</th>
+              <th scope="col">Monthly Rent</th>
+              <th
+                scope="col"
+                class="col-right"
+              >Actions</th>
             </tr>
           </thead>
 
@@ -524,9 +984,11 @@
             <tr *ngFor="let room of rooms">
 
               <td>
-                <div class="unit-info">
-                  <span class="unit-avatar green material-symbols-rounded">bed</span>
-
+                <div class="unit-cell">
+                  <div
+                    class="unit-avatar green"
+                    aria-hidden="true"
+                  ><span class="material-symbols-rounded">bed</span></div>
                   <div>
                     <strong>{{ room.location }}</strong>
                     <small>Inside flat</small>
@@ -536,13 +998,16 @@
 
               <td>
                 <span class="data-pill">
-                  <span class="material-symbols-rounded">person</span>
+                  <span
+                    class="material-symbols-rounded"
+                    aria-hidden="true"
+                  >person</span>
                   {{ room.tenantType }}
                 </span>
               </td>
 
               <td>
-                <span class="table-muted">{{ room.rentalType }}</span>
+                <span class="text-muted">{{ room.rentalType }}</span>
               </td>
 
               <td>
@@ -551,15 +1016,16 @@
                   [class.available]="!room.isRented"
                   [class.occupied]="room.isRented"
                 >
-                  <span class="material-symbols-rounded">
-                    {{ room.isRented ? 'lock' : 'check_circle' }}
-                  </span>
+                  <span
+                    class="material-symbols-rounded"
+                    aria-hidden="true"
+                  >{{ room.isRented ? 'lock' : 'check_circle' }}</span>
                   {{ room.isRented ? 'Occupied' : 'Available' }}
                 </span>
               </td>
 
               <td>
-                <strong>OMR {{ room.price }}</strong>
+                <strong class="price-cell">OMR {{ room.price }}</strong>
               </td>
 
               <td>
@@ -567,13 +1033,22 @@
                   <button
                     class="open-btn"
                     [routerLink]="['/landlord/rooms', room.id]"
+                    aria-label="Open room details"
                   >
-                    <span class="material-symbols-rounded">open_in_new</span>
+                    <span
+                      class="material-symbols-rounded"
+                      aria-hidden="true"
+                    >open_in_new</span>
                     Open
                   </button>
-
-                  <button class="icon-btn">
-                    <span class="material-symbols-rounded">more_vert</span>
+                  <button
+                    class="icon-btn"
+                    aria-label="More options"
+                  >
+                    <span
+                      class="material-symbols-rounded"
+                      aria-hidden="true"
+                    >more_vert</span>
                   </button>
                 </div>
               </td>
@@ -586,35 +1061,64 @@
 
     </section>
 
-    <section class="enterprise-table-card" *ngIf="selectedTab === 'SHOPS'">
+    <!-- =====================================
+         SHOPS TABLE
+    ====================================== -->
+
+    <section
+      class="table-card"
+      role="tabpanel"
+      aria-label="Shops register"
+      *ngIf="selectedTab === 'SHOPS'"
+    >
 
       <div class="table-card-header">
-        <div class="table-title">
-          <span class="title-icon orange material-symbols-rounded">storefront</span>
 
+        <div class="table-title">
+          <div
+            class="title-icon orange"
+            aria-hidden="true"
+          >
+            <span class="material-symbols-rounded">storefront</span>
+          </div>
           <div>
             <h3>Shops Register</h3>
-            <p>Commercial shop units registered under this building.</p>
+            <p>Commercial shop units registered under this building</p>
           </div>
         </div>
 
-        <div class="table-actions">
-          <button class="secondary-btn">
-            <span class="material-symbols-rounded">download</span>
+        <div class="table-header-actions">
+          <button
+            class="secondary-btn"
+            aria-label="Export shops data"
+          >
+            <span
+              class="material-symbols-rounded"
+              aria-hidden="true"
+            >download</span>
             Export
           </button>
-
-          <button class="primary-btn orange">
-            <span class="material-symbols-rounded">add</span>
+          <button
+            class="primary-btn orange"
+            aria-label="Add a new shop"
+          >
+            <span
+              class="material-symbols-rounded"
+              aria-hidden="true"
+            >add</span>
             Add Shop
           </button>
         </div>
+
       </div>
 
-      <div class="kpi-grid">
+      <div class="kpi-row">
 
         <div class="kpi-card">
-          <span class="kpi-icon orange material-symbols-rounded">storefront</span>
+          <div
+            class="kpi-icon orange"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">storefront</span></div>
           <div>
             <small>Total Shops</small>
             <strong>{{ shops.length }}</strong>
@@ -622,23 +1126,32 @@
         </div>
 
         <div class="kpi-card">
-          <span class="kpi-icon green material-symbols-rounded">check_circle</span>
+          <div
+            class="kpi-icon green"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">check_circle</span></div>
           <div>
             <small>Available</small>
-            <strong class="success">{{ availableShopsCount }}</strong>
+            <strong class="value-success">{{ availableShopsCount }}</strong>
           </div>
         </div>
 
         <div class="kpi-card">
-          <span class="kpi-icon red material-symbols-rounded">lock</span>
+          <div
+            class="kpi-icon red"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">lock</span></div>
           <div>
             <small>Occupied</small>
-            <strong class="danger">{{ occupiedShopsCount }}</strong>
+            <strong class="value-danger">{{ occupiedShopsCount }}</strong>
           </div>
         </div>
 
         <div class="kpi-card">
-          <span class="kpi-icon purple material-symbols-rounded">payments</span>
+          <div
+            class="kpi-icon purple"
+            aria-hidden="true"
+          ><span class="material-symbols-rounded">payments</span></div>
           <div>
             <small>Avg. Rent</small>
             <strong>OMR {{ averageShopPrice }}</strong>
@@ -648,33 +1161,64 @@
       </div>
 
       <div class="table-toolbar">
-        <div class="search-box">
-          <span class="material-symbols-rounded">search</span>
-          <input placeholder="Search shop number, type, or location..." />
-        </div>
 
-        <button class="filter-btn">
-          <span class="material-symbols-rounded">business_center</span>
+        <label
+          class="search-box"
+          for="shop-search"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >search</span>
+          <input
+            id="shop-search"
+            placeholder="Search shop number, type, or location..."
+            aria-label="Search shops"
+          />
+        </label>
+
+        <button
+          class="filter-btn"
+          aria-label="Filter by commercial type"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >business_center</span>
           Type
         </button>
 
-        <button class="filter-btn">
-          <span class="material-symbols-rounded">sort</span>
+        <button
+          class="filter-btn"
+          aria-label="Sort results"
+        >
+          <span
+            class="material-symbols-rounded"
+            aria-hidden="true"
+          >sort</span>
           Sort
         </button>
+
       </div>
 
-      <div class="enterprise-table-wrapper">
-        <table class="enterprise-table">
+      <div class="table-wrapper">
+        <table
+          class="data-table"
+          role="grid"
+          aria-label="Shops list"
+        >
 
           <thead>
             <tr>
-              <th>Shop</th>
-              <th>Commercial Type</th>
-              <th>Location</th>
-              <th>Status</th>
-              <th>Monthly Rent</th>
-              <th class="text-right">Actions</th>
+              <th scope="col">Shop</th>
+              <th scope="col">Commercial Type</th>
+              <th scope="col">Location</th>
+              <th scope="col">Status</th>
+              <th scope="col">Monthly Rent</th>
+              <th
+                scope="col"
+                class="col-right"
+              >Actions</th>
             </tr>
           </thead>
 
@@ -682,9 +1226,11 @@
             <tr *ngFor="let shop of shops">
 
               <td>
-                <div class="unit-info">
-                  <span class="unit-avatar orange material-symbols-rounded">storefront</span>
-
+                <div class="unit-cell">
+                  <div
+                    class="unit-avatar orange"
+                    aria-hidden="true"
+                  ><span class="material-symbols-rounded">storefront</span></div>
                   <div>
                     <strong>{{ shop.shopNumber }}</strong>
                     <small>Commercial unit</small>
@@ -694,13 +1240,16 @@
 
               <td>
                 <span class="data-pill">
-                  <span class="material-symbols-rounded">business_center</span>
+                  <span
+                    class="material-symbols-rounded"
+                    aria-hidden="true"
+                  >business_center</span>
                   {{ shop.commercialType }}
                 </span>
               </td>
 
               <td>
-                <span class="table-muted">{{ shop.location }}</span>
+                <span class="text-muted">{{ shop.location }}</span>
               </td>
 
               <td>
@@ -709,15 +1258,16 @@
                   [class.available]="!shop.rented"
                   [class.occupied]="shop.rented"
                 >
-                  <span class="material-symbols-rounded">
-                    {{ shop.rented ? 'lock' : 'check_circle' }}
-                  </span>
+                  <span
+                    class="material-symbols-rounded"
+                    aria-hidden="true"
+                  >{{ shop.rented ? 'lock' : 'check_circle' }}</span>
                   {{ shop.rented ? 'Occupied' : 'Available' }}
                 </span>
               </td>
 
               <td>
-                <strong>OMR {{ shop.price }}</strong>
+                <strong class="price-cell">OMR {{ shop.price }}</strong>
               </td>
 
               <td>
@@ -725,13 +1275,22 @@
                   <button
                     class="open-btn"
                     [routerLink]="['/landlord/shops', shop.id]"
+                    aria-label="Open shop details"
                   >
-                    <span class="material-symbols-rounded">open_in_new</span>
+                    <span
+                      class="material-symbols-rounded"
+                      aria-hidden="true"
+                    >open_in_new</span>
                     Open
                   </button>
-
-                  <button class="icon-btn">
-                    <span class="material-symbols-rounded">more_vert</span>
+                  <button
+                    class="icon-btn"
+                    aria-label="More options"
+                  >
+                    <span
+                      class="material-symbols-rounded"
+                      aria-hidden="true"
+                    >more_vert</span>
                   </button>
                 </div>
               </td>

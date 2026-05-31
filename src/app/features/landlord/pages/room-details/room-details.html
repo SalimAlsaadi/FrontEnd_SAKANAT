@@ -1,90 +1,472 @@
-<app-unit-details>
+<app-unit-details-layout
+  *ngIf="room"
+  unitType="Room"
+  unitIcon="meeting_room"
+  [title]="room.location"
+  [description]="room.description"
+  [images]="room.pictureUrls"
+  [price]="room.price"
+  [status]="room.isRented ? 'Occupied' : 'Available'"
+  [tag]="room.tenantType"
+  [locationTitle]="room.region + ', ' + room.wilaya"
+  [locationDetails]="room.location"
+  [features]="roomFeatures"
+></app-unit-details-layout>
 
-  <section
-    class="details-page"
-    *ngIf="room"
-  >
 
-    <div class="details-hero">
+<!-- <div class="flat-page" *ngIf="room">
 
-      <img
-        [src]="room.pictureUrls[0]"
-      />
+  <div class="topbar">
 
-      <div class="overlay"></div>
+    <div class="breadcrumb">
 
-      <div class="hero-content">
+      <button
+        class="back-btn"
+        (click)="goBack()"
+      >
+        <span class="material-icons">arrow_back</span>
+      </button>
 
-        <span class="badge">
-          Room
-        </span>
+      <nav class="breadcrumb-nav">
+        <span class="bc-item">Properties</span>
+        <span class="bc-sep material-icons">chevron_right</span>
+        <span class="bc-item">Rooms</span>
+        <span class="bc-sep material-icons">chevron_right</span>
+        <span class="bc-item active">{{ room.location }}</span>
+      </nav>
 
-        <h1>
+    </div>
+
+    <div class="top-actions">
+
+      <button class="action-btn">
+        <span class="material-icons">edit</span>
+        Edit Room
+      </button>
+
+      <button class="action-btn">
+        <span class="material-icons">description</span>
+        Contracts
+      </button>
+
+      <button class="action-btn accent">
+        <span class="material-icons">build</span>
+        Maintenance
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="main-grid">
+
+    <div class="left-content">
+
+      <div class="gallery-card">
+
+        <img
+          [src]="currentImage()"
+          [alt]="'Photo of ' + room.location"
+        />
+
+        <div class="gallery-overlay"></div>
+
+        <button
+          class="nav-btn prev"
+          (click)="prevImage()"
+        >
+          <span class="material-icons">chevron_left</span>
+        </button>
+
+        <button
+          class="nav-btn next"
+          (click)="nextImage()"
+        >
+          <span class="material-icons">chevron_right</span>
+        </button>
+
+        <div class="gallery-dots" *ngIf="room.pictureUrls?.length">
+          <span
+            *ngFor="let url of room.pictureUrls; let i = index"
+            class="dot"
+            [class.active]="i === currentImageIndex()"
+            (click)="currentImageIndex.set(i)"
+          ></span>
+        </div>
+
+        <div class="gallery-content">
+
+          <span class="unit-badge">
+            <span class="material-icons">meeting_room</span>
+            Room
+          </span>
+
+          <h1>{{ room.location }}</h1>
+
+          <p>{{ room.description }}</p>
+
+        </div>
+
+      </div>
+
+      <div class="kpi-strip">
+
+        <div class="kpi-item">
+          <div class="kpi-icon-wrap">
+            <span class="material-icons">wifi</span>
+          </div>
+          <div>
+            <span class="kpi-label">Wifi</span>
+            <strong class="kpi-value">
+              {{ room.hasWifi ? 'Yes' : 'No' }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="kpi-item">
+          <div class="kpi-icon-wrap">
+            <span class="material-icons">bathtub</span>
+          </div>
+          <div>
+            <span class="kpi-label">Bathroom</span>
+            <strong class="kpi-value">
+              {{ room.hasPrivateBathroom ? 'Private' : 'Shared' }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="kpi-item">
+          <div class="kpi-icon-wrap">
+            <span class="material-icons">ac_unit</span>
+          </div>
+          <div>
+            <span class="kpi-label">AC</span>
+            <strong class="kpi-value">
+              {{ room.hasAC ? 'Yes' : 'No' }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="kpi-item">
+          <div class="kpi-icon-wrap">
+            <span class="material-icons">chair</span>
+          </div>
+          <div>
+            <span class="kpi-label">Furnished</span>
+            <strong class="kpi-value">
+              {{ room.isFurnished ? 'Yes' : 'No' }}
+            </strong>
+          </div>
+        </div>
+
+      </div>
+
+      <nav class="flat-section-menu">
+
+        <button
+          class="flat-section-tab"
+          [class.active]="activeSection() === 'overview'"
+          (click)="setSection('overview')"
+        >
+          <span class="material-icons">home</span>
+          Overview
+        </button>
+
+        <button
+          class="flat-section-tab"
+          [class.active]="activeSection() === 'contracts'"
+          (click)="setSection('contracts')"
+        >
+          <span class="material-icons">description</span>
+          Contracts
+        </button>
+
+        <button
+          class="flat-section-tab"
+          [class.active]="activeSection() === 'payments'"
+          (click)="setSection('payments')"
+        >
+          <span class="material-icons">payments</span>
+          Payments
+        </button>
+
+        <button
+          class="flat-section-tab"
+          [class.active]="activeSection() === 'maintenance'"
+          (click)="setSection('maintenance')"
+        >
+          <span class="material-icons">build</span>
+          Maintenance
+        </button>
+
+        <button
+          class="flat-section-tab"
+          [class.active]="activeSection() === 'analytics'"
+          (click)="setSection('analytics')"
+        >
+          <span class="material-icons">bar_chart</span>
+          Analytics
+        </button>
+
+      </nav>
+
+      <div
+        class="content-card"
+        *ngIf="activeSection() === 'overview'"
+      >
+
+        <div class="card-header">
+          <h2>Room Overview</h2>
+        </div>
+
+        <div class="overview-grid">
+
+          <div class="overview-item">
+            <div class="ov-icon-wrap">
+              <span class="material-icons">wifi</span>
+            </div>
+            <span class="ov-label">Wifi</span>
+            <strong
+              class="ov-value"
+              [class.is-available]="room.hasWifi"
+              [class.is-unavailable]="!room.hasWifi"
+            >
+              {{ room.hasWifi ? 'Available' : 'No' }}
+            </strong>
+          </div>
+
+          <div class="overview-item">
+            <div class="ov-icon-wrap">
+              <span class="material-icons">bathtub</span>
+            </div>
+            <span class="ov-label">Private Bathroom</span>
+            <strong
+              class="ov-value"
+              [class.is-available]="room.hasPrivateBathroom"
+              [class.is-unavailable]="!room.hasPrivateBathroom"
+            >
+              {{ room.hasPrivateBathroom ? 'Yes' : 'Shared' }}
+            </strong>
+          </div>
+
+          <div class="overview-item">
+            <div class="ov-icon-wrap">
+              <span class="material-icons">ac_unit</span>
+            </div>
+            <span class="ov-label">AC</span>
+            <strong
+              class="ov-value"
+              [class.is-available]="room.hasAC"
+              [class.is-unavailable]="!room.hasAC"
+            >
+              {{ room.hasAC ? 'Available' : 'No' }}
+            </strong>
+          </div>
+
+          <div class="overview-item">
+            <div class="ov-icon-wrap">
+              <span class="material-icons">kitchen</span>
+            </div>
+            <span class="ov-label">Kitchen Access</span>
+            <strong
+              class="ov-value"
+              [class.is-available]="room.hasKitchenAccess"
+              [class.is-unavailable]="!room.hasKitchenAccess"
+            >
+              {{ room.hasKitchenAccess ? 'Available' : 'No' }}
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        class="content-card"
+        *ngIf="activeSection() === 'contracts'"
+      >
+        <div class="card-header">
+          <h2>Contracts</h2>
+          <button class="primary-btn">
+            <span class="material-icons">add</span>
+            Add Contract
+          </button>
+        </div>
+
+        <div class="empty-box">
+          <div class="empty-icon-wrap">
+            <span class="material-icons">description</span>
+          </div>
+          <h3>No Contracts Yet</h3>
+          <p>Add the first contract for this room.</p>
+        </div>
+      </div>
+
+      <div
+        class="content-card"
+        *ngIf="activeSection() === 'payments'"
+      >
+        <div class="card-header">
+          <h2>Payment History</h2>
+          <button class="primary-btn">
+            <span class="material-icons">add</span>
+            Add Payment
+          </button>
+        </div>
+
+        <div class="empty-box">
+          <div class="empty-icon-wrap">
+            <span class="material-icons">payments</span>
+          </div>
+          <h3>No Payments Yet</h3>
+          <p>Record the first payment for this room.</p>
+        </div>
+      </div>
+
+      <div
+        class="content-card"
+        *ngIf="activeSection() === 'maintenance'"
+      >
+        <div class="card-header">
+          <h2>Maintenance</h2>
+          <button class="primary-btn">
+            <span class="material-icons">add</span>
+            Add Request
+          </button>
+        </div>
+
+        <div class="empty-box">
+          <div class="empty-icon-wrap">
+            <span class="material-icons">build</span>
+          </div>
+          <h3>No Maintenance Records</h3>
+          <p>Log maintenance requests for this room.</p>
+        </div>
+      </div>
+
+      <div
+        class="content-card"
+        *ngIf="activeSection() === 'analytics'"
+      >
+        <div class="card-header">
+          <h2>Room Analytics</h2>
+        </div>
+
+        <div class="analytics-grid">
+
+          <div class="analytics-card highlight">
+            <div class="analytics-icon-wrap">
+              <span class="material-icons">donut_large</span>
+            </div>
+            <span class="analytics-label">Occupancy Rate</span>
+            <strong class="analytics-value">90%</strong>
+          </div>
+
+          <div class="analytics-card">
+            <div class="analytics-icon-wrap">
+              <span class="material-icons">monetization_on</span>
+            </div>
+            <span class="analytics-label">Monthly Revenue</span>
+            <strong class="analytics-value">OMR {{ room.price }}</strong>
+          </div>
+
+          <div class="analytics-card">
+            <div class="analytics-icon-wrap">
+              <span class="material-icons">build</span>
+            </div>
+            <span class="analytics-label">Maintenance Cost</span>
+            <strong class="analytics-value">OMR 10</strong>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="right-sidebar">
+
+      <div class="sidebar-card pricing-card">
+
+        <span class="sidebar-label">Monthly Rent</span>
+
+        <div class="sidebar-price-block">
+          <span class="price-currency">OMR</span>
+          <span class="price-amount">{{ room.price }}</span>
+        </div>
+
+        <div class="status-row">
+          <span
+            class="status"
+            [class.available]="!room.isRented"
+          >
+            <span class="material-icons">check_circle</span>
+            {{ room.isRented ? 'Occupied' : 'Available' }}
+          </span>
+
+          <span class="tenant-type">
+            {{ room.tenantType }}
+          </span>
+        </div>
+
+        <button class="primary-btn full-width">
+          <span class="material-icons">person_add</span>
+          Add Tenant
+        </button>
+
+      </div>
+
+      <div class="sidebar-card">
+
+        <h3 class="sidebar-card-title">
+          <span class="material-icons">location_on</span>
+          Location
+        </h3>
+
+        <p class="location-region">
+          {{ room.region }}, {{ room.wilaya }}
+        </p>
+
+        <p class="location-address">
           {{ room.location }}
-        </h1>
+        </p>
+
+      </div>
+
+      <div class="sidebar-card">
+
+        <h3 class="sidebar-card-title">
+          <span class="material-icons">flash_on</span>
+          Quick Actions
+        </h3>
+
+        <div class="quick-actions">
+
+          <button class="quick-btn">
+            <span class="material-icons">image</span>
+            Upload Images
+          </button>
+
+          <button class="quick-btn">
+            <span class="material-icons">payments</span>
+            Add Payment
+          </button>
+
+          <button class="quick-btn">
+            <span class="material-icons">description</span>
+            Add Contract
+          </button>
+
+          <button class="quick-btn danger">
+            <span class="material-icons">delete_outline</span>
+            Delete Room
+          </button>
+
+        </div>
 
       </div>
 
     </div>
 
-    <div class="details-grid">
+  </div>
 
-      <div class="info-card">
-
-        <span>
-          Wifi
-        </span>
-
-        <strong>
-
-          {{
-            room.hasWifi
-              ? 'Available'
-              : 'No'
-          }}
-
-        </strong>
-
-      </div>
-
-      <div class="info-card">
-
-        <span>
-          Private Bathroom
-        </span>
-
-        <strong>
-
-          {{
-            room.hasPrivateBathroom
-              ? 'Yes'
-              : 'Shared'
-          }}
-
-        </strong>
-
-      </div>
-
-      <div class="info-card">
-
-        <span>
-          AC
-        </span>
-
-        <strong>
-
-          {{
-            room.hasAC
-              ? 'Yes'
-              : 'No'
-          }}
-
-        </strong>
-
-      </div>
-
-    </div>
-
-  </section>
-
-</app-unit-details>
+</div> -->

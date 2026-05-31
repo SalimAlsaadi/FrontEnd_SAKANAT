@@ -1,0 +1,381 @@
+<div class="unit-page">
+
+  <div class="topbar">
+
+    <div class="breadcrumb">
+
+      <button class="back-btn" (click)="goBack()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+
+      <nav class="breadcrumb-nav">
+        <span class="bc-item">Properties</span>
+        <span class="bc-sep material-icons">chevron_right</span>
+        <span class="bc-item">{{ unitType }}</span>
+        <span class="bc-sep material-icons">chevron_right</span>
+        <span class="bc-item active">{{ title }}</span>
+      </nav>
+
+    </div>
+
+    <div class="top-actions">
+
+      <button class="action-btn">
+        <span class="material-icons">edit</span>
+        Edit {{ unitType }}
+      </button>
+
+      <button class="action-btn">
+        <span class="material-icons">description</span>
+        Contracts
+      </button>
+
+      <button class="action-btn accent">
+        <span class="material-icons">build</span>
+        Maintenance
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="main-grid">
+
+    <div class="left-content">
+
+      <div class="gallery-card">
+
+        <img
+          [src]="currentImage()"
+          [alt]="title"
+        />
+
+        <div class="gallery-overlay"></div>
+
+        <button class="nav-btn prev" (click)="prevImage()">
+          <span class="material-icons">chevron_left</span>
+        </button>
+
+        <button class="nav-btn next" (click)="nextImage()">
+          <span class="material-icons">chevron_right</span>
+        </button>
+
+        <div class="gallery-dots" *ngIf="images.length">
+          <span
+            *ngFor="let image of images; let i = index"
+            class="dot"
+            [class.active]="i === currentImageIndex()"
+            (click)="currentImageIndex.set(i)"
+          ></span>
+        </div>
+
+        <div class="gallery-content">
+
+          <span class="unit-badge">
+            <span class="material-icons">{{ unitIcon }}</span>
+            {{ unitType }}
+          </span>
+
+          <h1>{{ title }}</h1>
+
+          <p>{{ description }}</p>
+
+        </div>
+
+      </div>
+
+      <div class="kpi-strip">
+
+        <div
+          class="kpi-item"
+          *ngFor="let feature of features.slice(0, 4)"
+        >
+          <div class="kpi-icon-wrap">
+            <span class="material-icons">{{ feature.icon }}</span>
+          </div>
+
+          <div>
+            <span class="kpi-label">{{ feature.label }}</span>
+
+            <strong class="kpi-value">
+              {{
+                feature.type === 'boolean'
+                  ? booleanText(feature.value)
+                  : feature.value
+              }}
+            </strong>
+          </div>
+        </div>
+
+      </div>
+
+      <nav class="unit-section-menu">
+
+        <button
+          class="unit-section-tab"
+          [class.active]="activeSection() === 'overview'"
+          (click)="setSection('overview')"
+        >
+          <span class="material-icons">home</span>
+          Overview
+        </button>
+
+        <button
+          class="unit-section-tab"
+          [class.active]="activeSection() === 'contracts'"
+          (click)="setSection('contracts')"
+        >
+          <span class="material-icons">description</span>
+          Contracts
+        </button>
+
+        <button
+          class="unit-section-tab"
+          [class.active]="activeSection() === 'payments'"
+          (click)="setSection('payments')"
+        >
+          <span class="material-icons">payments</span>
+          Payments
+        </button>
+
+        <button
+          class="unit-section-tab"
+          [class.active]="activeSection() === 'maintenance'"
+          (click)="setSection('maintenance')"
+        >
+          <span class="material-icons">build</span>
+          Maintenance
+        </button>
+
+        <button
+          class="unit-section-tab"
+          [class.active]="activeSection() === 'analytics'"
+          (click)="setSection('analytics')"
+        >
+          <span class="material-icons">bar_chart</span>
+          Analytics
+        </button>
+
+      </nav>
+
+      <div class="content-card" *ngIf="activeSection() === 'overview'">
+
+        <div class="card-header">
+          <h2>{{ unitType }} Overview</h2>
+        </div>
+
+        <div class="overview-grid">
+
+          <div
+            class="overview-item"
+            *ngFor="let feature of features"
+          >
+            <div class="ov-icon-wrap">
+              <span class="material-icons">{{ feature.icon }}</span>
+            </div>
+
+            <span class="ov-label">{{ feature.label }}</span>
+
+            <strong
+              class="ov-value"
+              [class.is-available]="feature.type === 'boolean' && feature.value"
+              [class.is-unavailable]="feature.type === 'boolean' && !feature.value"
+            >
+              {{
+                feature.type === 'boolean'
+                  ? booleanText(feature.value)
+                  : feature.value
+              }}
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="content-card" *ngIf="activeSection() === 'contracts'">
+        <div class="card-header">
+          <h2>Contracts</h2>
+          <button class="primary-btn">
+            <span class="material-icons">add</span>
+            Add Contract
+          </button>
+        </div>
+
+        <div class="empty-box">
+          <div class="empty-icon-wrap">
+            <span class="material-icons">description</span>
+          </div>
+          <h3>No Contracts Yet</h3>
+          <p>Add the first contract for this {{ unitType }}.</p>
+        </div>
+      </div>
+
+      <div class="content-card" *ngIf="activeSection() === 'payments'">
+        <div class="card-header">
+          <h2>Payment History</h2>
+          <button class="primary-btn">
+            <span class="material-icons">add</span>
+            Add Payment
+          </button>
+        </div>
+
+        <div class="empty-box">
+          <div class="empty-icon-wrap">
+            <span class="material-icons">payments</span>
+          </div>
+          <h3>No Payments Yet</h3>
+          <p>Record the first payment for this {{ unitType }}.</p>
+        </div>
+      </div>
+
+      <div class="content-card" *ngIf="activeSection() === 'maintenance'">
+        <div class="card-header">
+          <h2>Maintenance</h2>
+          <button class="primary-btn">
+            <span class="material-icons">add</span>
+            Add Request
+          </button>
+        </div>
+
+        <div class="empty-box">
+          <div class="empty-icon-wrap">
+            <span class="material-icons">build</span>
+          </div>
+          <h3>No Maintenance Records</h3>
+          <p>Log maintenance requests for this {{ unitType }}.</p>
+        </div>
+      </div>
+
+      <div class="content-card" *ngIf="activeSection() === 'analytics'">
+
+        <div class="card-header">
+          <h2>{{ unitType }} Analytics</h2>
+        </div>
+
+        <div class="analytics-grid">
+
+          <div class="analytics-card highlight">
+            <div class="analytics-icon-wrap">
+              <span class="material-icons">donut_large</span>
+            </div>
+            <span class="analytics-label">Occupancy Rate</span>
+            <strong class="analytics-value">
+              {{ status === 'Occupied' ? '100%' : '0%' }}
+            </strong>
+          </div>
+
+          <div class="analytics-card">
+            <div class="analytics-icon-wrap">
+              <span class="material-icons">monetization_on</span>
+            </div>
+            <span class="analytics-label">Monthly Revenue</span>
+            <strong class="analytics-value">OMR {{ price }}</strong>
+          </div>
+
+          <div class="analytics-card">
+            <div class="analytics-icon-wrap">
+              <span class="material-icons">build</span>
+            </div>
+            <span class="analytics-label">Maintenance Cost</span>
+            <strong class="analytics-value">OMR 0</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="right-sidebar">
+
+      <div class="sidebar-card pricing-card">
+
+        <span class="sidebar-label">Monthly Rent</span>
+
+        <div class="sidebar-price-block">
+          <span class="price-currency">OMR</span>
+          <span class="price-amount">{{ price }}</span>
+        </div>
+
+        <div class="status-row">
+
+          <span
+            class="status"
+            [class.available]="status === 'Available'"
+            [class.occupied]="status === 'Occupied'"
+          >
+            <span class="material-icons">
+              {{ status === 'Available' ? 'check_circle' : 'block' }}
+            </span>
+            {{ status }}
+          </span>
+
+          <span class="tenant-type">
+            {{ tag }}
+          </span>
+
+        </div>
+
+        <button class="primary-btn full-width">
+          <span class="material-icons">person_add</span>
+          Add Tenant
+        </button>
+
+      </div>
+
+      <div class="sidebar-card">
+
+        <h3 class="sidebar-card-title">
+          <span class="material-icons">location_on</span>
+          Location
+        </h3>
+
+        <p class="location-region">
+          {{ locationTitle }}
+        </p>
+
+        <p class="location-address">
+          {{ locationDetails }}
+        </p>
+
+      </div>
+
+      <div class="sidebar-card">
+
+        <h3 class="sidebar-card-title">
+          <span class="material-icons">flash_on</span>
+          Quick Actions
+        </h3>
+
+        <div class="quick-actions">
+
+          <button class="quick-btn">
+            <span class="material-icons">image</span>
+            Upload Images
+          </button>
+
+          <button class="quick-btn">
+            <span class="material-icons">payments</span>
+            Add Payment
+          </button>
+
+          <button class="quick-btn">
+            <span class="material-icons">description</span>
+            Add Contract
+          </button>
+
+          <button class="quick-btn danger">
+            <span class="material-icons">delete_outline</span>
+            Delete {{ unitType }}
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

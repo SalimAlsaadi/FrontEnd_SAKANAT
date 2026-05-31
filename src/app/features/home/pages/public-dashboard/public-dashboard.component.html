@@ -1,57 +1,345 @@
 <div class="dashboard-page">
+
+  <!-- =====================================
+       HERO
+  ====================================== -->
+
   <section class="hero-section">
-    <div class="hero-content">
-      <span class="hero-badge">Welcome to AQARK</span>
-      <h1>Find your next home with confidence</h1>
-      <p>
-        Browse buildings, apartments, villas, and rooms across Oman.
-        Discover the right property and start your rental journey with AQARK.
-      </p>
+    <div class="page-container">
 
+      <div class="hero-card">
 
-      <div class="hero-actions">
-  <button type="button" class="btn btn-primary" (click)="navigateTo('/properties')">
-    Browse Properties
-  </button>
+        <span class="hero-badge">
+          <span
+            class="material-icons"
+            aria-hidden="true"
+          >location_on</span>
+          Now available across Oman
+        </span>
 
-</div>
+        <h1>Find your next home<br>with confidence</h1>
+
+        <p>
+          Browse buildings, apartments, villas, and rooms across Oman.
+          Discover the right property and start your rental journey with AQARK.
+        </p>
+
+        <div class="hero-actions">
+
+          <button
+            type="button"
+            class="btn-hero-primary"
+            (click)="navigateTo('/properties')"
+            aria-label="Browse all available properties"
+          >
+            <span
+              class="material-icons"
+              aria-hidden="true"
+            >search</span>
+            Browse Properties
+          </button>
+
+          <button
+            type="button"
+            class="btn-hero-ghost"
+            (click)="navigateTo('/landlord')"
+            aria-label="Go to landlord dashboard"
+          >
+            For Landlords
+          </button>
+
+        </div>
+
+        <div
+          class="hero-stats"
+          role="list"
+          aria-label="Platform statistics"
+        >
+
+          <div
+            class="hero-stat"
+            role="listitem"
+          >
+            <strong>330+</strong>
+            <span>Properties</span>
+          </div>
+
+          <div
+            class="hero-stat-divider"
+            aria-hidden="true"
+          ></div>
+
+          <div
+            class="hero-stat"
+            role="listitem"
+          >
+            <strong>5</strong>
+            <span>Cities</span>
+          </div>
+
+          <div
+            class="hero-stat-divider"
+            aria-hidden="true"
+          ></div>
+
+          <div
+            class="hero-stat"
+            role="listitem"
+          >
+            <strong>2K+</strong>
+            <span>Tenants</span>
+          </div>
+
+          <div
+            class="hero-stat-divider"
+            aria-hidden="true"
+          ></div>
+
+          <div
+            class="hero-stat"
+            role="listitem"
+          >
+            <strong>99%</strong>
+            <span>Satisfaction</span>
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
   </section>
 
-  <section class="section">
-    <div class="section-header">
-      <h2>Our Services</h2>
-      <p>Explore the main services available on AQARK.</p>
-    </div>
+  <!-- =====================================
+       CATEGORIES
+  ====================================== -->
 
-    <div class="service-grid">
-      <article
-        class="service-card"
-        *ngFor="let service of serviceCards; trackBy: trackById"
+  <section
+    class="page-section"
+    aria-label="Browse by category"
+  >
+    <div class="page-container">
+
+      <div class="section-header">
+        <h2>Browse by Category</h2>
+        <p>Find exactly what you're looking for.</p>
+      </div>
+
+      <div
+        class="category-strip"
+        role="list"
+        aria-label="Property categories"
       >
-        <div class="service-icon">
-  <span class="material-icons">{{ service.icon }}</span>
-</div>
-        <h3>{{ service.title }}</h3>
-        <p>{{ service.description }}</p>
-        <button type="button" class="card-link" (click)="navigateTo(service.route)">
-          Open Service
+        <button
+          *ngFor="let cat of categories; trackBy: trackById"
+          type="button"
+          class="category-chip"
+          role="listitem"
+          [attr.aria-label]="cat.name + ' — ' + cat.count + ' listings'"
+          (click)="navigateTo('/properties/' + cat.name.toLowerCase())"
+        >
+          <div
+            class="cat-icon-wrap"
+            aria-hidden="true"
+          >
+            <span class="material-icons">{{ cat.icon }}</span>
+          </div>
+          <div>
+            <span class="cat-name">{{ cat.name }}</span>
+            <span class="cat-count">{{ cat.count }} listings</span>
+          </div>
         </button>
-      </article>
+      </div>
+
     </div>
   </section>
 
-  
-  <section class="cta-section">
-    <div class="cta-box">
-      <h2>Are you a landlord?</h2>
-      <p>
-        Add and manage your buildings, units, and rental listings through AQARK.
-      </p>
-      <button type="button" class="btn btn-primary" (click)="navigateTo('/landlord')">
-        For Landlords
-      </button>
+  <!-- =====================================
+       SERVICES
+  ====================================== -->
+
+  <section
+    class="page-section"
+    aria-label="Available services"
+  >
+    <div class="page-container">
+
+      <div class="section-header">
+        <h2>Our Services</h2>
+        <p>Explore the main services available on AQARK.</p>
+      </div>
+
+      <div class="service-grid">
+
+        <article
+          class="service-card"
+          *ngFor="let service of serviceCards; trackBy: trackById"
+        >
+
+          <div
+            class="service-icon-wrap"
+            aria-hidden="true"
+          >
+            <span class="material-icons">{{ service.icon }}</span>
+          </div>
+
+          <h3>{{ service.title }}</h3>
+
+          <p>{{ service.description }}</p>
+
+          <button
+            type="button"
+            class="card-link"
+            (click)="navigateTo(service.route)"
+            [attr.aria-label]="'Open ' + service.title"
+          >
+            Open Service
+            <span
+              class="material-icons"
+              aria-hidden="true"
+            >arrow_forward</span>
+          </button>
+
+        </article>
+
+      </div>
+
     </div>
   </section>
+
+  <!-- =====================================
+       FEATURED PROPERTIES
+  ====================================== -->
+
+  <section
+    class="page-section"
+    aria-label="Featured properties"
+  >
+    <div class="page-container">
+
+      <div class="section-header">
+        <div>
+          <h2>Featured Properties</h2>
+          <p>Hand-picked listings available now.</p>
+        </div>
+        <button
+          type="button"
+          class="see-all-btn"
+          (click)="navigateTo('/properties')"
+          aria-label="View all available properties"
+        >
+          View All
+          <span
+            class="material-icons"
+            aria-hidden="true"
+          >arrow_forward</span>
+        </button>
+      </div>
+
+      <div class="property-grid">
+
+        <article
+          class="property-card"
+          *ngFor="let property of featuredProperties; trackBy: trackById"
+        >
+
+          <div class="property-img-wrap">
+            <img
+              [src]="property.imageUrl"
+              [alt]="property.title"
+              loading="lazy"
+              width="300"
+              height="190"
+            />
+            <span
+              class="property-avail-badge"
+              [class.unavailable]="!property.available"
+              [attr.aria-label]="property.available ? 'Available' : 'Occupied'"
+            >
+              {{ property.available ? 'Available' : 'Occupied' }}
+            </span>
+          </div>
+
+          <div class="property-body">
+
+            <span class="property-type-badge">{{ property.type }}</span>
+
+            <h3>{{ property.title }}</h3>
+
+            <p class="property-location">
+              <span
+                class="material-icons"
+                aria-hidden="true"
+              >location_on</span>
+              {{ property.location }}
+            </p>
+
+            <div class="property-footer">
+              <span class="property-price">
+                OMR {{ property.price }}
+                <small>/mo</small>
+              </span>
+              <button
+                type="button"
+                class="view-btn"
+                (click)="navigateTo('/properties/' + property.id)"
+                [attr.aria-label]="'View details for ' + property.title"
+              >
+                View
+              </button>
+            </div>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================
+       LANDLORD CTA
+  ====================================== -->
+
+  <section
+    class="cta-section"
+    aria-label="Landlord call to action"
+  >
+    <div class="page-container">
+
+      <div class="cta-card">
+
+        <div
+          class="cta-icon-wrap"
+          aria-hidden="true"
+        >
+          <span class="material-icons">business</span>
+        </div>
+
+        <h2>Are you a landlord?</h2>
+
+        <p>
+          Add and manage your buildings, units, and rental listings through AQARK.
+          Get full control of your properties in one dashboard.
+        </p>
+
+        <button
+          type="button"
+          class="btn-cta"
+          (click)="navigateTo('/landlord')"
+          aria-label="Go to landlord management dashboard"
+        >
+          <span
+            class="material-icons"
+            aria-hidden="true"
+          >apartment</span>
+          Go to Landlord Dashboard
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+
 </div>

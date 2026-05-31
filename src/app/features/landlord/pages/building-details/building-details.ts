@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { BuildingModel } from '../../models/building.model';
 import { FlatModel } from '../../models/flat.model';
@@ -33,6 +34,11 @@ type BuildingModule =
 export class BuildingDetails implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
+  private readonly location = inject(Location);
+
+goBack(): void {
+  this.location.back();
+}
 
   building?: BuildingModel;
 
