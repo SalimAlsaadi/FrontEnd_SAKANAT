@@ -34,7 +34,7 @@ export const MOCK_ROOMS: RoomModel[] = [
     description: 'Shared room inside Flat 101.',
     price: 70,
     isRented: true,
-    tenantType: 'Bachelor',
+    tenantType: 'Indivilual',
     rentalType: 'Monthly',
     region: 'Muscat',
     wilaya: 'Bawshar',

@@ -1,12 +1,13 @@
-<div
-  class="building-page"
-  *ngIf="building"
->
+<div class="building-page" *ngIf="building">
 
-  <!-- HERO -->
+  <div class="topbar">
+    <button class="back-btn" onclick="history.back()">
+      <span class="material-symbols-rounded">arrow_back</span>
+      Back
+    </button>
+  </div>
 
   <section class="hero-section">
-
     <img
       class="hero-image"
       [src]="building.pictureUrls[0]"
@@ -16,416 +17,733 @@
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
+      <span class="hero-badge">
+        <span class="material-symbols-rounded">verified</span>
+        Enterprise Building
+      </span>
 
-      <div>
+      <h1>{{ building.name }}</h1>
 
-        <span class="hero-badge">
-          Enterprise Building
+      <p>{{ building.description }}</p>
+
+      <div class="hero-location">
+        <span class="material-symbols-rounded">location_on</span>
+        <span>
+          {{ building.region }},
+          {{ building.wilaya }},
+          {{ building.location }}
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="building-module-menu">
+
+  <button
+    class="module-menu-item"
+    *ngFor="let module of buildingModules"
+    [class.active]="selectedModule === module.key"
+    (click)="selectModule(module.key)"
+  >
+
+
+    <span class="module-content">
+      <strong>{{ module.title }}</strong>
+      <small>{{ module.subtitle }}</small>
+    </span>
+
+    <span class="module-badge">
+      {{ module.badge }}
+    </span>
+  </button>
+
+</section> -->
+
+<nav class="building-slider-menu">
+
+  <button
+    class="slider-menu-item"
+    *ngFor="let module of buildingModules"
+    [class.active]="selectedModule === module.key"
+    (click)="selectModule(module.key)"
+  >
+
+    <div class="slider-content">
+
+      <div class="slider-top">
+
+        <span class="material-symbols-rounded slider-icon">
+          {{ module.icon }}
         </span>
 
-        <h1>
-          {{ building.name }}
-        </h1>
+        <h3>
+          {{ module.title }}
+        </h3>
 
-        <p>
-          {{ building.description }}
-        </p>
+      </div>
 
-        <div class="hero-location">
+      <p>
+        {{ module.subtitle }}
+      </p>
 
-          <span class="material-icons">
-            location_on
-          </span>
+    </div>
 
-          <span>
-            {{ building.region }},
-            {{ building.wilaya }},
-            {{ building.location }}
-          </span>
+  </button>
 
+</nav>
+
+<section class="module-placeholder" *ngIf="selectedModule === 'CONTRACTS'">
+  <span class="material-symbols-rounded">contract</span>
+  <h2>Contracts Management</h2>
+  <p>Manage active leases, renewals, expiry dates, and documents.</p>
+</section>
+
+<section class="module-placeholder" *ngIf="selectedModule === 'FINANCE'">
+  <span class="material-symbols-rounded">payments</span>
+  <h2>Finance Overview</h2>
+  <p>Track rent collection, overdue payments, deposits, and invoices.</p>
+</section>
+
+<section class="module-placeholder" *ngIf="selectedModule === 'REPORTS'">
+  <span class="material-symbols-rounded">bar_chart</span>
+  <h2>Reports</h2>
+  <p>Generate occupancy, rent, maintenance, and tenant reports.</p>
+</section>
+
+<section class="module-placeholder" *ngIf="selectedModule === 'MAINTENANCE'">
+  <span class="material-symbols-rounded">construction</span>
+  <h2>Maintenance</h2>
+  <p>Track open maintenance requests and service status.</p>
+</section>
+
+<section class="module-placeholder" *ngIf="selectedModule === 'ALERTS'">
+  <span class="material-symbols-rounded">notifications_active</span>
+  <h2>Alerts</h2>
+  <p>Review late payments, contract expiry, and urgent actions.</p>
+</section>
+
+  
+
+  <section class="building-control-grid" *ngIf="selectedModule === 'SERVICES'">
+
+    <button class="control-card overview">
+      <div class="control-icon">
+        <span class="material-symbols-rounded">analytics</span>
+      </div>
+
+      <div>
+        <span>Building Analysis</span>
+        <strong>Overview</strong>
+        <p>Occupancy, income, and unit performance</p>
+      </div>
+    </button>
+
+    <button class="control-card reports">
+      <div class="control-icon">
+        <span class="material-symbols-rounded">description</span>
+      </div>
+
+      <div>
+        <span>Reports</span>
+        <strong>Monthly Reports</strong>
+        <p>Export rent, occupancy, and maintenance reports</p>
+      </div>
+    </button>
+
+    <button class="control-card alerts danger">
+      <div class="control-icon">
+        <span class="material-symbols-rounded">warning</span>
+      </div>
+
+      <div>
+        <span>Payment Alerts</span>
+        <strong>3 Tenants Late</strong>
+        <p>Tenants with unpaid or overdue rent</p>
+      </div>
+
+      <i class="alert-dot"></i>
+    </button>
+
+    <button class="control-card maintenance">
+      <div class="control-icon">
+        <span class="material-symbols-rounded">construction</span>
+      </div>
+
+      <div>
+        <span>Maintenance</span>
+        <strong>5 Requests</strong>
+        <p>Open issues for flats, rooms, and shops</p>
+      </div>
+    </button>
+
+    <button class="control-card contracts">
+      <div class="control-icon">
+        <span class="material-symbols-rounded">contract</span>
+      </div>
+
+      <div>
+        <span>Contracts</span>
+        <strong>Active Leases</strong>
+        <p>Manage renewals, expiries, and documents</p>
+      </div>
+    </button>
+
+    <button class="control-card finance">
+      <div class="control-icon">
+        <span class="material-symbols-rounded">payments</span>
+      </div>
+
+      <div>
+        <span>Finance</span>
+        <strong>OMR 2,450</strong>
+        <p>Expected monthly building income</p>
+      </div>
+    </button>
+
+  </section>
+
+  <ng-container *ngIf="selectedModule === 'UNITS'">
+
+    <section class="management-section">
+
+      <div class="management-header">
+        <div>
+          <span class="section-label">Property Management</span>
+          <h2>Units Management</h2>
+          <p>Manage flats, rooms, and shops from one official dashboard.</p>
+        </div>
+
+        <button class="add-btn">
+          <span class="material-symbols-rounded">add_business</span>
+          Add Unit
+        </button>
+      </div>
+
+      <section class="unit-tabs">
+
+        <button
+          class="unit-tab flats-tab"
+          [class.active]="selectedTab === 'FLATS'"
+          (click)="showFlats()"
+        >
+          <span class="tab-icon material-symbols-rounded">apartment</span>
+
+          <div>
+            <h3>Flats</h3>
+            <p>Residential apartments</p>
+          </div>
+
+          <strong>{{ flats.length }}</strong>
+        </button>
+
+        <button
+          class="unit-tab rooms-tab"
+          [class.active]="selectedTab === 'ROOMS'"
+          (click)="showRooms()"
+        >
+          <span class="tab-icon material-symbols-rounded">bed</span>
+
+          <div>
+            <h3>Rooms</h3>
+            <p>Rooms inside flats</p>
+          </div>
+
+          <strong>{{ rooms.length }}</strong>
+        </button>
+
+        <button
+          class="unit-tab shops-tab"
+          [class.active]="selectedTab === 'SHOPS'"
+          (click)="showShops()"
+        >
+          <span class="tab-icon material-symbols-rounded">storefront</span>
+
+          <div>
+            <h3>Shops</h3>
+            <p>Commercial units</p>
+          </div>
+
+          <strong>{{ shops.length }}</strong>
+        </button>
+
+      </section>
+
+    </section>
+
+    <section class="enterprise-table-card" *ngIf="selectedTab === 'FLATS'">
+
+      <div class="table-card-header">
+        <div class="table-title">
+          <span class="title-icon blue material-symbols-rounded">apartment</span>
+
+          <div>
+            <h3>Flats Register</h3>
+            <p>Official list of residential flats under this building.</p>
+          </div>
+        </div>
+
+        <div class="table-actions">
+          <button class="secondary-btn">
+            <span class="material-symbols-rounded">download</span>
+            Export
+          </button>
+
+          <button class="primary-btn blue">
+            <span class="material-symbols-rounded">add</span>
+            Add Flat
+          </button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+
+        <div class="kpi-card">
+          <span class="kpi-icon blue material-symbols-rounded">domain</span>
+          <div>
+            <small>Total Flats</small>
+            <strong>{{ flats.length }}</strong>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-icon green material-symbols-rounded">check_circle</span>
+          <div>
+            <small>Available</small>
+            <strong class="success">{{ availableFlatsCount }}</strong>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-icon red material-symbols-rounded">lock</span>
+          <div>
+            <small>Occupied</small>
+            <strong class="danger">{{ occupiedFlatsCount }}</strong>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <span class="kpi-icon purple material-symbols-rounded">payments</span>
+          <div>
+            <small>Avg. Rent</small>
+            <strong>OMR {{ averageFlatPrice }}</strong>
+          </div>
         </div>
 
       </div>
 
-    </div>
+      <div class="table-toolbar">
+        <div class="search-box">
+          <span class="material-symbols-rounded">search</span>
+          <input placeholder="Search flat number, floor, or status..." />
+        </div>
 
-  </section>
+        <button class="filter-btn">
+          <span class="material-symbols-rounded">filter_list</span>
+          Status
+        </button>
 
-  <!-- STATS -->
+        <button class="filter-btn">
+          <span class="material-symbols-rounded">sort</span>
+          Sort
+        </button>
+      </div>
 
-  <section class="stats-grid">
+      <div class="enterprise-table-wrapper">
+        <table class="enterprise-table">
 
-    <div class="stat-card">
+          <thead>
+            <tr>
+              <th>Flat</th>
+              <th>Building</th>
+              <th>Floor</th>
+              <th>Status</th>
+              <th>Monthly Rent</th>
+              <th class="text-right">Actions</th>
+            </tr>
+          </thead>
 
-      <strong>
-        {{ building.totalUnits }}
-      </strong>
+          <tbody>
+            <tr *ngFor="let flat of flats">
 
-      <span>
-        Total Units
-      </span>
+              <td>
+                <div class="unit-info">
+                  <span class="unit-avatar blue material-symbols-rounded">home_work</span>
 
-    </div>
+                  <div>
+                    <strong>{{ flat.location }}</strong>
+                    <small>Residential flat</small>
+                  </div>
+                </div>
+              </td>
 
-    <div class="stat-card">
+              <td>
+                <span class="table-muted">Building #{{ flat.buildingId }}</span>
+              </td>
 
-      <strong>
-        {{ building.availableUnits }}
-      </strong>
+              <td>
+                <span class="data-pill">
+                  <span class="material-symbols-rounded">stairs</span>
+                  Floor {{ flat.floorNumber || 1 }}
+                </span>
+              </td>
 
-      <span>
-        Available
-      </span>
+              <td>
+                <span
+                  class="status-badge"
+                  [class.available]="!flat.rented"
+                  [class.occupied]="flat.rented"
+                >
+                  <span class="material-symbols-rounded">
+                    {{ flat.rented ? 'lock' : 'check_circle' }}
+                  </span>
+                  {{ flat.rented ? 'Occupied' : 'Available' }}
+                </span>
+              </td>
 
-    </div>
+              <td>
+                <strong>OMR {{ flat.price || 220 }}</strong>
+              </td>
 
-    <div class="stat-card">
+              <td>
+                <div class="row-actions">
+                  <button
+                    class="open-btn"
+                    [routerLink]="['/landlord/flats', flat.id]"
+                  >
+                    <span class="material-symbols-rounded">open_in_new</span>
+                    Open
+                  </button>
 
-      <strong>
-        {{ building.occupiedUnits }}
-      </strong>
+                  <button class="icon-btn">
+                    <span class="material-symbols-rounded">more_vert</span>
+                  </button>
+                </div>
+              </td>
 
-      <span>
-        Occupied
-      </span>
+            </tr>
+          </tbody>
 
-    </div>
+        </table>
+      </div>
 
-    <div class="stat-card">
+    </section>
 
-      <strong>
-        {{ building.flatsCount }}
-      </strong>
+    <section class="enterprise-table-card" *ngIf="selectedTab === 'ROOMS'">
 
-      <span>
-        Flats
-      </span>
+      <div class="table-card-header">
+        <div class="table-title">
+          <span class="title-icon green material-symbols-rounded">bed</span>
 
-    </div>
+          <div>
+            <h3>Rooms Register</h3>
+            <p>Rooms connected to flats inside this building.</p>
+          </div>
+        </div>
 
-    <div class="stat-card">
+        <div class="table-actions">
+          <button class="secondary-btn">
+            <span class="material-symbols-rounded">download</span>
+            Export
+          </button>
 
-      <strong>
-        {{ building.roomsCount }}
-      </strong>
+          <button class="primary-btn green">
+            <span class="material-symbols-rounded">add</span>
+            Add Room
+          </button>
+        </div>
+      </div>
 
-      <span>
-        Rooms
-      </span>
+      <div class="kpi-grid">
 
-    </div>
+        <div class="kpi-card">
+          <span class="kpi-icon blue material-symbols-rounded">meeting_room</span>
+          <div>
+            <small>Total Rooms</small>
+            <strong>{{ rooms.length }}</strong>
+          </div>
+        </div>
 
-    <div class="stat-card">
+        <div class="kpi-card">
+          <span class="kpi-icon green material-symbols-rounded">check_circle</span>
+          <div>
+            <small>Available</small>
+            <strong class="success">{{ availableRoomsCount }}</strong>
+          </div>
+        </div>
 
-      <strong>
-        {{ building.shopsCount }}
-      </strong>
+        <div class="kpi-card">
+          <span class="kpi-icon red material-symbols-rounded">lock</span>
+          <div>
+            <small>Occupied</small>
+            <strong class="danger">{{ occupiedRoomsCount }}</strong>
+          </div>
+        </div>
 
-      <span>
-        Shops
-      </span>
-
-    </div>
-
-  </section>
-
-  <!-- MANAGEMENT -->
-
-  <section class="management-section">
-
-    <div class="management-header">
-
-      <div>
-
-        <h2>
-          Units Management
-        </h2>
-
-        <p>
-          Manage all units professionally
-        </p>
+        <div class="kpi-card">
+          <span class="kpi-icon purple material-symbols-rounded">payments</span>
+          <div>
+            <small>Avg. Rent</small>
+            <strong>OMR {{ averageRoomPrice }}</strong>
+          </div>
+        </div>
 
       </div>
 
-      <button class="add-btn">
-        + Add Unit
-      </button>
-
-    </div>
-
-    <!-- TABS -->
-
-    <div class="tabs-wrapper">
-
-      <button
-        class="tab-btn"
-        [class.active]="selectedTab === 'FLATS'"
-        (click)="showFlats()"
-      >
-        Flats
-      </button>
-
-      <button
-        class="tab-btn"
-        [class.active]="selectedTab === 'ROOMS'"
-        (click)="showRooms()"
-      >
-        Rooms
-      </button>
-
-      <button
-        class="tab-btn"
-        [class.active]="selectedTab === 'SHOPS'"
-        (click)="showShops()"
-      >
-        Shops
-      </button>
-
-    </div>
-
-  </section>
-
-  <!-- FLATS -->
-
-  <section
-    class="table-section"
-    *ngIf="selectedTab === 'FLATS'"
-  >
-
-    <table class="management-table">
-
-<thead>
-
-<tr>
-
-  <th>Building ID</th>
-
-  <th>Flat Number</th>
-
-  <th>Floor Number</th>
-
-  <th>Status</th>
-
-  <th>Action</th>
-
-</tr>
-
-</thead>
-
-     <tbody>
-
-<tr
-  *ngFor="let flat of flats"
->
-
-  <!-- BUILDING ID -->
-
-  <td>
-
-    #{{ flat.buildingId }}
-
-  </td>
-
-  <!-- FLAT NUMBER -->
-
-  <td>
-
-    {{ flat.location }}
-
-  </td>
-
-  <!-- FLOOR -->
-
-  <td>
-
-    Floor {{ flat.floorNumber || 1 }}
-
-  </td>
-
-  <!-- STATUS -->
-
-  <td>
-
-    <span
-      class="status-badge"
-      [class.available]="!flat.isRented"
-      [class.occupied]="flat.isRented"
-    >
-
-      {{
-        flat.isRented
-          ? 'Occupied'
-          : 'Available'
-      }}
-
-    </span>
-
-  </td>
-
-  <!-- ACTION -->
-
-  <td>
-
-    <button
-      class="view-btn"
-      [routerLink]="[
-        '/landlord/flats',
-        flat.id
-      ]"
-    >
-      Open
-    </button>
-
-  </td>
-
-</tr>
-
-</tbody>
-
-    </table>
-
-  </section>
-
-  <!-- ROOMS -->
-
-  <section
-    class="table-section"
-    *ngIf="selectedTab === 'ROOMS'"
-  >
-
-    <table class="management-table">
-
-      <thead>
-
-      <tr>
-
-        <th>Room</th>
-
-        <th>Tenant Type</th>
-
-        <th>Rental Type</th>
-
-        <th>Price</th>
-
-        <th>Action</th>
-
-      </tr>
-
-      </thead>
-
-      <tbody>
-
-      <tr
-        *ngFor="let room of rooms"
-      >
-
-        <td>
-          {{ room.location }}
-        </td>
-
-        <td>
-          {{ room.tenantType }}
-        </td>
-
-        <td>
-          {{ room.rentalType }}
-        </td>
-
-        <td>
-          OMR {{ room.price }}
-        </td>
-
-        <td>
-
-          <button
-            class="view-btn"
-            [routerLink]="[
-              '/landlord/rooms',
-              room.id
-            ]"
-          >
-            Open
+      <div class="table-toolbar">
+        <div class="search-box">
+          <span class="material-symbols-rounded">search</span>
+          <input placeholder="Search room, tenant type, or rental type..." />
+        </div>
+
+        <button class="filter-btn">
+          <span class="material-symbols-rounded">group</span>
+          Tenant Type
+        </button>
+
+        <button class="filter-btn">
+          <span class="material-symbols-rounded">sort</span>
+          Sort
+        </button>
+      </div>
+
+      <div class="enterprise-table-wrapper">
+        <table class="enterprise-table">
+
+          <thead>
+            <tr>
+              <th>Room</th>
+              <th>Tenant Type</th>
+              <th>Rental Type</th>
+              <th>Status</th>
+              <th>Monthly Rent</th>
+              <th class="text-right">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let room of rooms">
+
+              <td>
+                <div class="unit-info">
+                  <span class="unit-avatar green material-symbols-rounded">bed</span>
+
+                  <div>
+                    <strong>{{ room.location }}</strong>
+                    <small>Inside flat</small>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <span class="data-pill">
+                  <span class="material-symbols-rounded">person</span>
+                  {{ room.tenantType }}
+                </span>
+              </td>
+
+              <td>
+                <span class="table-muted">{{ room.rentalType }}</span>
+              </td>
+
+              <td>
+                <span
+                  class="status-badge"
+                  [class.available]="!room.isRented"
+                  [class.occupied]="room.isRented"
+                >
+                  <span class="material-symbols-rounded">
+                    {{ room.isRented ? 'lock' : 'check_circle' }}
+                  </span>
+                  {{ room.isRented ? 'Occupied' : 'Available' }}
+                </span>
+              </td>
+
+              <td>
+                <strong>OMR {{ room.price }}</strong>
+              </td>
+
+              <td>
+                <div class="row-actions">
+                  <button
+                    class="open-btn"
+                    [routerLink]="['/landlord/rooms', room.id]"
+                  >
+                    <span class="material-symbols-rounded">open_in_new</span>
+                    Open
+                  </button>
+
+                  <button class="icon-btn">
+                    <span class="material-symbols-rounded">more_vert</span>
+                  </button>
+                </div>
+              </td>
+
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+    </section>
+
+    <section class="enterprise-table-card" *ngIf="selectedTab === 'SHOPS'">
+
+      <div class="table-card-header">
+        <div class="table-title">
+          <span class="title-icon orange material-symbols-rounded">storefront</span>
+
+          <div>
+            <h3>Shops Register</h3>
+            <p>Commercial shop units registered under this building.</p>
+          </div>
+        </div>
+
+        <div class="table-actions">
+          <button class="secondary-btn">
+            <span class="material-symbols-rounded">download</span>
+            Export
           </button>
 
-        </td>
-
-      </tr>
-
-      </tbody>
-
-    </table>
-
-  </section>
-
-  <!-- SHOPS -->
-
-  <section
-    class="table-section"
-    *ngIf="selectedTab === 'SHOPS'"
-  >
-
-    <table class="management-table">
-
-      <thead>
-
-      <tr>
-
-        <th>Shop</th>
-
-        <th>Commercial Type</th>
-
-        <th>Location</th>
-
-        <th>Price</th>
-
-        <th>Action</th>
-
-      </tr>
-
-      </thead>
-
-      <tbody>
-
-      <tr
-        *ngFor="let shop of shops"
-      >
-
-        <td>
-          {{ shop.shopNumber }}
-        </td>
-
-        <td>
-          {{ shop.commercialType }}
-        </td>
-
-        <td>
-          {{ shop.location }}
-        </td>
-
-        <td>
-          OMR {{ shop.price }}
-        </td>
-
-        <td>
-
-          <button
-            class="view-btn"
-            [routerLink]="[
-              '/landlord/shops',
-              shop.id
-            ]"
-          >
-            Open
+          <button class="primary-btn orange">
+            <span class="material-symbols-rounded">add</span>
+            Add Shop
           </button>
+        </div>
+      </div>
 
-        </td>
+      <div class="kpi-grid">
 
-      </tr>
+        <div class="kpi-card">
+          <span class="kpi-icon orange material-symbols-rounded">storefront</span>
+          <div>
+            <small>Total Shops</small>
+            <strong>{{ shops.length }}</strong>
+          </div>
+        </div>
 
-      </tbody>
+        <div class="kpi-card">
+          <span class="kpi-icon green material-symbols-rounded">check_circle</span>
+          <div>
+            <small>Available</small>
+            <strong class="success">{{ availableShopsCount }}</strong>
+          </div>
+        </div>
 
-    </table>
+        <div class="kpi-card">
+          <span class="kpi-icon red material-symbols-rounded">lock</span>
+          <div>
+            <small>Occupied</small>
+            <strong class="danger">{{ occupiedShopsCount }}</strong>
+          </div>
+        </div>
 
-  </section>
+        <div class="kpi-card">
+          <span class="kpi-icon purple material-symbols-rounded">payments</span>
+          <div>
+            <small>Avg. Rent</small>
+            <strong>OMR {{ averageShopPrice }}</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="table-toolbar">
+        <div class="search-box">
+          <span class="material-symbols-rounded">search</span>
+          <input placeholder="Search shop number, type, or location..." />
+        </div>
+
+        <button class="filter-btn">
+          <span class="material-symbols-rounded">business_center</span>
+          Type
+        </button>
+
+        <button class="filter-btn">
+          <span class="material-symbols-rounded">sort</span>
+          Sort
+        </button>
+      </div>
+
+      <div class="enterprise-table-wrapper">
+        <table class="enterprise-table">
+
+          <thead>
+            <tr>
+              <th>Shop</th>
+              <th>Commercial Type</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Monthly Rent</th>
+              <th class="text-right">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let shop of shops">
+
+              <td>
+                <div class="unit-info">
+                  <span class="unit-avatar orange material-symbols-rounded">storefront</span>
+
+                  <div>
+                    <strong>{{ shop.shopNumber }}</strong>
+                    <small>Commercial unit</small>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <span class="data-pill">
+                  <span class="material-symbols-rounded">business_center</span>
+                  {{ shop.commercialType }}
+                </span>
+              </td>
+
+              <td>
+                <span class="table-muted">{{ shop.location }}</span>
+              </td>
+
+              <td>
+                <span
+                  class="status-badge"
+                  [class.available]="!shop.rented"
+                  [class.occupied]="shop.rented"
+                >
+                  <span class="material-symbols-rounded">
+                    {{ shop.rented ? 'lock' : 'check_circle' }}
+                  </span>
+                  {{ shop.rented ? 'Occupied' : 'Available' }}
+                </span>
+              </td>
+
+              <td>
+                <strong>OMR {{ shop.price }}</strong>
+              </td>
+
+              <td>
+                <div class="row-actions">
+                  <button
+                    class="open-btn"
+                    [routerLink]="['/landlord/shops', shop.id]"
+                  >
+                    <span class="material-symbols-rounded">open_in_new</span>
+                    Open
+                  </button>
+
+                  <button class="icon-btn">
+                    <span class="material-symbols-rounded">more_vert</span>
+                  </button>
+                </div>
+              </td>
+
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+    </section>
+
+  </ng-container>
 
 </div>

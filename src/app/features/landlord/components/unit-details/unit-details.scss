@@ -1,0 +1,125 @@
+.unit-layout {
+
+  min-height: 100vh;
+
+  background: #f4f7fb;
+
+  padding: 28px;
+}
+
+/* =====================================
+   TOPBAR
+===================================== */
+
+.topbar {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 28px;
+}
+
+/* =====================================
+   ACTIONS
+===================================== */
+
+.actions {
+
+  display: flex;
+
+  gap: 14px;
+}
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+.back-btn,
+.edit-btn,
+.contract-btn,
+.maintenance-btn {
+
+  border: none;
+
+  border-radius: 14px;
+
+  padding: 14px 22px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.back-btn {
+
+  background: #ffffff;
+
+  color: #0f172a;
+
+  box-shadow:
+    0 8px 20px rgba(15,23,42,0.06);
+}
+
+.back-btn:hover {
+
+  transform: translateY(-2px);
+}
+
+.edit-btn {
+
+  background: #2563eb;
+
+  color: #ffffff;
+}
+
+.contract-btn {
+
+  background: #0f172a;
+
+  color: #ffffff;
+}
+
+.maintenance-btn {
+
+  background: #f97316;
+
+  color: #ffffff;
+}
+
+.edit-btn:hover,
+.contract-btn:hover,
+.maintenance-btn:hover {
+
+  transform: translateY(-2px);
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 768px) {
+
+  .unit-layout {
+
+    padding: 18px;
+  }
+
+  .topbar {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 18px;
+  }
+
+  .actions {
+
+    flex-wrap: wrap;
+  }
+}

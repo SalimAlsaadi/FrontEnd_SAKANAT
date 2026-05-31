@@ -12,7 +12,8 @@ export const appConfig: ApplicationConfig = {
 
     provideHttpClient(
       withFetch(),
-      withInterceptorsFromDi()
+      withInterceptorsFromDi(),
+      
     ),
 
     {
@@ -20,5 +21,7 @@ export const appConfig: ApplicationConfig = {
       useClass: AppInterceptor,
       multi: true
     }
+
+    
   ]
 };

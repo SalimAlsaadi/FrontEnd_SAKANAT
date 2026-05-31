@@ -1,31 +1,482 @@
-<app-unit-details>
+<div
+  class="flat-page"
+  *ngIf="flat"
+>
 
-  <section
-    class="details-page"
-    *ngIf="flat"
+  <!-- =====================================
+       TOP BAR
+  ====================================== -->
+
+  <div class="topbar">
+
+    <button
+      class="back-btn"
+      (click)="goBack()"
+    >
+      ← Back
+    </button>
+
+    <div class="top-actions">
+
+      <button class="edit-btn">
+        Edit Flat
+      </button>
+
+      <button class="contract-btn">
+        Contracts
+      </button>
+
+      <button class="maintenance-btn">
+        Maintenance
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- =====================================
+       MAIN GRID
+  ====================================== -->
+
+  <div class="main-grid">
+
+    <!-- =====================================
+         LEFT CONTENT
+    ====================================== -->
+
+    <div class="left-content">
+
+      <!-- =====================================
+           GALLERY
+      ====================================== -->
+
+      <div class="gallery-card">
+
+        <img
+          [src]="currentImage()"
+          [alt]="flat.location"
+        />
+
+        <div class="gallery-overlay"></div>
+
+        <button
+          class="nav-btn prev"
+          (click)="prevImage()"
+        >
+          ‹
+        </button>
+
+        <button
+          class="nav-btn next"
+          (click)="nextImage()"
+        >
+          ›
+        </button>
+
+        <div class="gallery-content">
+
+          <span class="unit-type">
+            Flat
+          </span>
+
+          <h1>
+            {{ flat.location }}
+          </h1>
+
+          <p>
+            {{ flat.description }}
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================
+           TABS
+      ====================================== -->
+
+      <!-- <div class="section-tabs">
+
+        <button
+          class="tab-btn"
+          [class.active]="
+            activeSection() === 'overview'
+          "
+          (click)="setSection('overview')"
+        >
+          Overview
+        </button>
+
+        <button
+          class="tab-btn"
+          [class.active]="
+            activeSection() === 'contracts'
+          "
+          (click)="setSection('contracts')"
+        >
+          Contracts
+        </button>
+
+        <button
+          class="tab-btn"
+          [class.active]="
+            activeSection() === 'payments'
+          "
+          (click)="setSection('payments')"
+        >
+          Payments
+        </button>
+
+        <button
+          class="tab-btn"
+          [class.active]="
+            activeSection() === 'maintenance'
+          "
+          (click)="setSection('maintenance')"
+        >
+          Maintenance
+        </button>
+
+        <button
+          class="tab-btn"
+          [class.active]="
+            activeSection() === 'analytics'
+          "
+          (click)="setSection('analytics')"
+        >
+          Analytics
+        </button>
+
+      </div> -->
+
+      <nav class="flat-section-menu">
+
+  <button
+    class="flat-section-tab"
+    [class.active]="activeSection() === 'overview'"
+    (click)="setSection('overview')"
   >
+    Overview
+  </button>
 
-    <div class="details-hero">
+  <button
+    class="flat-section-tab"
+    [class.active]="activeSection() === 'contracts'"
+    (click)="setSection('contracts')"
+  >
+    Contracts
+  </button>
 
-      <img
-        [src]="flat.pictureUrls[0]"
-      />
+  <button
+    class="flat-section-tab"
+    [class.active]="activeSection() === 'payments'"
+    (click)="setSection('payments')"
+  >
+    Payments
+  </button>
 
-      <div class="overlay"></div>
+  <button
+    class="flat-section-tab"
+    [class.active]="activeSection() === 'maintenance'"
+    (click)="setSection('maintenance')"
+  >
+    Maintenance
+  </button>
 
-      <div class="hero-content">
+  <button
+    class="flat-section-tab"
+    [class.active]="activeSection() === 'analytics'"
+    (click)="setSection('analytics')"
+  >
+    Analytics
+  </button>
 
-        <span class="badge">
-          Flat
-        </span>
+</nav>
 
-        <h1>
-          {{ flat.location }}
-        </h1>
+      <!-- =====================================
+           OVERVIEW
+      ====================================== -->
 
-        <div class="price">
+      <div
+        class="content-card"
+        *ngIf="
+          activeSection() === 'overview'
+        "
+      >
 
-          OMR {{ flat.price }}
+        <h2>
+          Flat Overview
+        </h2>
+
+        <div class="overview-grid">
+
+          <div class="overview-item">
+
+            <span>
+              Rooms
+            </span>
+
+            <strong>
+              {{ flat.numberOfRooms }}
+            </strong>
+
+          </div>
+
+          <div class="overview-item">
+
+            <span>
+              Bathrooms
+            </span>
+
+            <strong>
+              {{ flat.numberOfBathrooms }}
+            </strong>
+
+          </div>
+
+          <div class="overview-item">
+
+            <span>
+              Living Room
+            </span>
+
+            <strong>
+
+              {{
+                flat.hasLivingRoom
+                  ? 'Available'
+                  : 'No'
+              }}
+
+            </strong>
+
+          </div>
+
+          <div class="overview-item">
+
+            <span>
+              Parking
+            </span>
+
+            <strong>
+
+              {{
+                flat.hasParking
+                  ? 'Available'
+                  : 'No'
+              }}
+
+            </strong>
+
+          </div>
+
+          <div class="overview-item">
+
+            <span>
+              Swimming Pool
+            </span>
+
+            <strong>
+
+              {{
+                flat.hasSwimmingPool
+                  ? 'Available'
+                  : 'No'
+              }}
+
+            </strong>
+
+          </div>
+
+          <div class="overview-item">
+
+            <span>
+              GYM
+            </span>
+
+            <strong>
+
+              {{
+                flat.hasGYM
+                  ? 'Available'
+                  : 'No'
+              }}
+
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================
+           CONTRACTS
+      ====================================== -->
+
+      <div
+        class="content-card"
+        *ngIf="
+          activeSection() === 'contracts'
+        "
+      >
+
+        <div class="section-header">
+
+          <h2>
+            Contracts
+          </h2>
+
+          <button class="primary-btn">
+            + Add Contract
+          </button>
+
+        </div>
+
+        <div class="empty-box">
+
+          <span class="material-icons">
+            description
+          </span>
+
+          <h3>
+            No Contracts Yet
+          </h3>
+
+          <p>
+            Add first contract for this flat.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================
+           PAYMENTS
+      ====================================== -->
+
+      <div
+        class="content-card"
+        *ngIf="
+          activeSection() === 'payments'
+        "
+      >
+
+        <div class="section-header">
+
+          <h2>
+            Payment History
+          </h2>
+
+          <button class="primary-btn">
+            + Add Payment
+          </button>
+
+        </div>
+
+        <div class="empty-box">
+
+          <span class="material-icons">
+            payments
+          </span>
+
+          <h3>
+            No Payments Yet
+          </h3>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================
+           MAINTENANCE
+      ====================================== -->
+
+      <div
+        class="content-card"
+        *ngIf="
+          activeSection() === 'maintenance'
+        "
+      >
+
+        <div class="section-header">
+
+          <h2>
+            Maintenance
+          </h2>
+
+          <button class="primary-btn">
+            + Add Maintenance
+          </button>
+
+        </div>
+
+        <div class="empty-box">
+
+          <span class="material-icons">
+            build
+          </span>
+
+          <h3>
+            No Maintenance Records
+          </h3>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================
+           ANALYTICS
+      ====================================== -->
+
+      <div
+        class="content-card"
+        *ngIf="
+          activeSection() === 'analytics'
+        "
+      >
+
+        <h2>
+          Flat Analytics
+        </h2>
+
+        <div class="analytics-grid">
+
+          <div class="analytics-card">
+
+            <span>
+              Occupancy
+            </span>
+
+            <strong>
+              90%
+            </strong>
+
+          </div>
+
+          <div class="analytics-card">
+
+            <span>
+              Monthly Revenue
+            </span>
+
+            <strong>
+              OMR {{ flat.price }}
+            </strong>
+
+          </div>
+
+          <div class="analytics-card">
+
+            <span>
+              Maintenance Cost
+            </span>
+
+            <strong>
+              OMR 20
+            </strong>
+
+          </div>
 
         </div>
 
@@ -33,70 +484,91 @@
 
     </div>
 
-    <div class="details-grid">
+    <!-- =====================================
+         RIGHT SIDEBAR
+    ====================================== -->
 
-      <div class="info-card">
+    <div class="right-sidebar">
 
-        <span>
-          Rooms
+      <!-- PROPERTY CARD -->
+
+      <div class="sidebar-card">
+
+        <span class="sidebar-label">
+          Monthly Rent
         </span>
 
-        <strong>
-          {{ flat.numberOfRooms }}
-        </strong>
+        <div class="sidebar-price">
+
+          OMR {{ flat.price }}
+
+        </div>
+
+        <div class="status-row">
+
+          <span class="status available">
+            Available
+          </span>
+
+          <span class="tenant-type">
+            {{ flat.tenantType }}
+          </span>
+
+        </div>
 
       </div>
 
-      <div class="info-card">
+      <!-- LOCATION -->
 
-        <span>
-          Bathrooms
-        </span>
+      <div class="sidebar-card">
 
-        <strong>
-          {{ flat.numberOfBathrooms }}
-        </strong>
+        <h3>
+          Location
+        </h3>
 
-      </div>
+        <p>
+          {{ flat.region }},
+          {{ flat.wilaya }}
+        </p>
 
-      <div class="info-card">
-
-        <span>
-          Living Room
-        </span>
-
-        <strong>
-
-          {{
-            flat.hasLivingRoom
-              ? 'Available'
-              : 'No'
-          }}
-
-        </strong>
+        <p>
+          {{ flat.location }}
+        </p>
 
       </div>
 
-      <div class="info-card">
+      <!-- QUICK ACTIONS -->
 
-        <span>
-          AC
-        </span>
+      <div class="sidebar-card">
 
-        <strong>
+        <h3>
+          Quick Actions
+        </h3>
 
-          {{
-            flat.hasAC
-              ? 'Yes'
-              : 'No'
-          }}
+        <div class="quick-actions">
 
-        </strong>
+          <button>
+            Add Tenant
+          </button>
+
+          <button>
+            Upload Images
+          </button>
+
+          <button>
+            Add Payment
+          </button>
+
+          <button>
+            Add Contract
+          </button>
+
+        </div>
 
       </div>
 
     </div>
 
-  </section>
+  </div>
 
-</app-unit-details>
+</div>

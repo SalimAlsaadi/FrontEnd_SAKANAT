@@ -134,10 +134,17 @@ export class AuthService {
 
       this.user.set(profile);
       this.isLoggedIn.set(true);
-    } catch {
-      this.user.set(null);
-      this.isLoggedIn.set(false);
-    } finally {
+    } catch (error: any) {
+
+  this.user.set(null);
+
+  this.isLoggedIn.set(false);
+
+  console.error(
+    'Failed to load user',
+    error
+  );
+}finally {
       this.loading.set(false);
     }
   }
@@ -182,6 +189,32 @@ export class AuthService {
     return redirectUrl;
   }
 
+
+  /* =====================================
+   SESSION EXPIRED
+===================================== */
+
+handleSessionExpired(): void {
+
+  if (!this.isBrowser) return;
+
+  console.warn(
+    'Session expired. Logging out locally.'
+  );
+
+  /* CLEAR STATE */
+
+  this.user.set(null);
+
+  this.isLoggedIn.set(false);
+
+  /* CLEAR STORAGE */
+
+  sessionStorage.clear();
+
+  localStorage.clear();
+
+ }
 
 
   getUserDisplayName(): string {
