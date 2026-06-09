@@ -1,8 +1,9 @@
 export interface LocationModel {
   region: string;
   wilaya: string;
-  location: string;
+  locationLabel: string;
 
   latitude?: number;
   longitude?: number;
+  active: boolean;
 }

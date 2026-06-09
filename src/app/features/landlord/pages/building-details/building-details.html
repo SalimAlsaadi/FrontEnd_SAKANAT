@@ -31,7 +31,7 @@
           class="bc-sep material-symbols-rounded"
           aria-hidden="true"
         >chevron_right</span>
-        <span class="bc-item active">{{ building.name }}</span>
+        <span class="bc-item active">{{ building.buildingName }}</span>
       </nav>
 
     </div>
@@ -76,8 +76,7 @@
 
     <img
       class="hero-image"
-      [src]="building.pictureUrls[0]"
-      [alt]="'Photo of ' + building.name"
+[src]="building.pictureUrls?.[0] || 'assets/images/no-building-image.png'"      [alt]="'Photo of ' + building.buildingName"
     />
 
     <div
@@ -106,7 +105,7 @@
             class="material-symbols-rounded"
             aria-hidden="true"
           >location_on</span>
-          <span>{{ building.region }}, {{ building.wilaya }}, {{ building.location }}</span>
+          <span>{{ building.region }}, {{ building.wilaya }}, {{building.area}}</span>
         </div>
 
         <div
@@ -717,6 +716,24 @@
 
       </div>
 
+      <div class="state-box" *ngIf="isLoadingFlats">
+  <span class="material-symbols-rounded">hourglass_top</span>
+  Loading flats from database...
+</div>
+
+<div class="state-box error" *ngIf="!isLoadingFlats && flatsErrorMessage">
+  <span class="material-symbols-rounded">error</span>
+  {{ flatsErrorMessage }}
+</div>
+
+<div class="state-box" *ngIf="!isLoadingFlats && !flatsErrorMessage && flats.length === 0">
+  <span class="material-symbols-rounded">apartment</span>
+  No flats registered for this building yet.
+</div>
+
+<div class="table-wrapper" *ngIf="!isLoadingFlats && !flatsErrorMessage && flats.length > 0">
+  
+</div>
       <div class="table-wrapper">
         <table
           class="data-table"
@@ -748,14 +765,14 @@
                     aria-hidden="true"
                   ><span class="material-symbols-rounded">home_work</span></div>
                   <div>
-                    <strong>{{ flat.location }}</strong>
-                    <small>Residential flat</small>
+                   <strong>Flat {{ flat.flatNumber }}</strong>
+                   <small>{{ flat.numberOfRooms }} rooms • {{ flat.numberOfBathrooms }} bathrooms</small>
                   </div>
                 </div>
               </td>
 
               <td>
-                <span class="text-muted">Building #{{ flat.buildingId }}</span>
+               <span class="text-muted">{{ flat.buildingName }}</span>
               </td>
 
               <td>
@@ -764,7 +781,7 @@
                     class="material-symbols-rounded"
                     aria-hidden="true"
                   >stairs</span>
-                  Floor {{ flat.floorNumber || 1 }}
+                  Floor {{ flat.floorNumber || '-' }}
                 </span>
               </td>
 
@@ -783,7 +800,7 @@
               </td>
 
               <td>
-                <strong class="price-cell">OMR {{ flat.price || 220 }}</strong>
+                <strong class="price-cell">OMR {{ flat.price || 0 }}</strong>
               </td>
 
               <td>

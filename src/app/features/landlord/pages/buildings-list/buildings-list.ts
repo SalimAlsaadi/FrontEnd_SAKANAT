@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit} from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 import { BuildingCardComponent }from '../../components/building-card/building-card';
 import { BuildingModel }from '../../models/building.model';
 import { LandlordPropertyService }from '../../services/landlord.service';
@@ -12,8 +12,7 @@ import { LandlordPropertyService }from '../../services/landlord.service';
 
   imports: [
     CommonModule,
-    BuildingCardComponent,
-    RouterLink
+    BuildingCardComponent
   ],
 
   templateUrl: './buildings-list.html',
@@ -22,11 +21,9 @@ import { LandlordPropertyService }from '../../services/landlord.service';
 })
 export class BuildingsList implements OnInit {
 
-  private readonly propertyService =
-    inject(LandlordPropertyService);
+  private readonly propertyService = inject(LandlordPropertyService);
 
-  private readonly router =
-    inject(Router);
+  private readonly router = inject(Router);
 
   buildings: BuildingModel[] = [];
 
@@ -41,32 +38,21 @@ export class BuildingsList implements OnInit {
      LOAD BUILDINGS
   ========================================================= */
 
-  private loadBuildings(): void {
+ private loadBuildings(): void {
+  this.loading = true;
 
-    this.loading = true;
+  this.propertyService.getBuildings().subscribe({
+    next: buildings => {
+      this.buildings = buildings;
+      this.loading = false;
+    },
 
-    this.propertyService
-      .getBuildings()
-      .subscribe({
-
-        next: buildings => {
-
-          this.buildings = buildings;
-
-          this.loading = false;
-        },
-
-        error: error => {
-
-          console.error(
-            'Failed to load buildings',
-            error
-          );
-
-          this.loading = false;
-        }
-      });
-  }
+    error: error => {
+      console.error('Failed to load buildings', error);
+      this.loading = false;
+    }
+  });
+}
 
   /* =========================================================
      OPEN DETAILS
@@ -93,4 +79,19 @@ export class BuildingsList implements OnInit {
 
     return item.id;
   }
+
+  /* =========================================================
+     ADD PROPERTY
+  ========================================================= */
+    addBuilding(): void {
+    this.router.navigate(['/landlord/addProperty']);
+  }
+
+  /* =========================================================
+     BACK BUTTON
+  ========================================================= */
+    goToDashboard(): void {
+    this.router.navigate(['/landlord']);
+  }
+
 }

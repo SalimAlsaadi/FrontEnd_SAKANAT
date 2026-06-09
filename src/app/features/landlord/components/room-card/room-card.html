@@ -76,10 +76,10 @@
 
       <span
         class="status-badge"
-        [class.rented]="room.isRented"
+        [class.rented]="room.rented"
       >
         {{
-          room.isRented
+          room.rented
             ? 'Occupied'
             : 'Available'
         }}
@@ -120,7 +120,7 @@
     <div class="title-section">
 
       <h3>
-        {{ room.location }}
+        {{ room.locationLabel }}
       </h3>
 
       <p class="meta-location">
@@ -129,7 +129,7 @@
           home
         </span>
 
-        {{ room.rentalType }}
+        {{ room.locationLabel }}
 
       </p>
 

@@ -1,4 +1,5 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import "leaflet/dist/leaflet.css";
 
 
 .add-hostel-dialog-panel .mat-mdc-dialog-container {
@@ -8,4 +9,255 @@
 
 .add-hostel-dialog-panel .mdc-dialog__surface {
   border-radius: 24px !important;
+}
+
+
+.leaflet-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.leaflet-container img.leaflet-tile,
+.leaflet-container img.leaflet-marker-icon {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.leaflet-top {
+  top: 0;
+}
+
+.leaflet-bottom {
+  bottom: 0;
+}
+
+.leaflet-left {
+  left: 0;
+}
+
+.leaflet-right {
+  right: 0;
+}
+
+.leaflet-control {
+  position: relative;
+  z-index: 1000;
+  pointer-events: auto;
+  float: left;
+  clear: both;
+}
+
+.leaflet-right .leaflet-control {
+  float: right;
+}
+
+.leaflet-top .leaflet-control {
+  margin-top: 10px;
+}
+
+.leaflet-bottom .leaflet-control {
+  margin-bottom: 10px;
+}
+
+.leaflet-left .leaflet-control {
+  margin-left: 10px;
+}
+
+.leaflet-right .leaflet-control {
+  margin-right: 10px;
+}
+
+
+
+
+
+/* =========================================================
+   GLOBAL ENTERPRISE MAT-SELECT DROPDOWN
+   Use with: panelClass="enterprise-select-panel"
+========================================================= */
+
+.cdk-overlay-container {
+  z-index: 99999 !important;
+}
+
+.enterprise-select-panel {
+  margin-top: 8px !important;
+  padding: 8px !important;
+
+  border-radius: 22px !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(248, 250, 252, 0.96)
+    ) !important;
+
+  box-shadow:
+    0 24px 70px rgba(15, 23, 42, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+
+  max-height: 320px !important;
+  overflow: auto !important;
+}
+
+/* Option item */
+.enterprise-select-panel .mat-mdc-option {
+  min-height: 60px !important;
+  margin-bottom: 6px !important;
+  padding: 0 14px !important;
+
+  border-radius: 16px !important;
+
+  color: #0f172a !important;
+  background: transparent !important;
+
+  font-size: 15px !important;
+  font-weight: 800 !important;
+
+  transition:
+    background 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+
+.enterprise-select-panel .mat-mdc-option:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Hover */
+.enterprise-select-panel .mat-mdc-option:hover {
+  background: #eff6ff !important;
+}
+
+/* Selected */
+.enterprise-select-panel .mat-mdc-option.mdc-list-item--selected {
+  color: #1d4ed8 !important;
+
+  background:
+    linear-gradient(135deg, #eff6ff, #dbeafe) !important;
+
+  box-shadow:
+    inset 4px 0 0 #2563eb;
+}
+
+/* Remove default checkbox */
+.enterprise-select-panel .mat-pseudo-checkbox,
+.enterprise-select-panel .mat-mdc-option-pseudo-checkbox {
+  display: none !important;
+}
+
+/* Option text */
+.enterprise-select-panel .mdc-list-item__primary-text {
+  width: 100% !important;
+  color: inherit !important;
+}
+
+/* Scrollbar */
+.enterprise-select-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.enterprise-select-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.enterprise-select-panel::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+.enterprise-select-panel::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* =========================================================
+   GLOBAL OPTION LAYOUT
+========================================================= */
+
+.enterprise-option {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.enterprise-option-icon {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+
+  border-radius: 14px;
+
+  display: grid;
+  place-items: center;
+
+  color: #2563eb;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.enterprise-option-icon .material-icons {
+  font-size: 21px;
+}
+
+.enterprise-option-content {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.enterprise-option-title {
+  color: #0f172a;
+
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.enterprise-option-subtitle {
+  color: #64748b;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.enterprise-select-panel .mat-mdc-option.mdc-list-item--selected .enterprise-option-title {
+  color: #1d4ed8;
 }

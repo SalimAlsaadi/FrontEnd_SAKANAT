@@ -1,20 +1,34 @@
-import { PropertyBase } from './property-base.model';
 
-export interface BuildingModel extends PropertyBase {
+export interface BuildingModel {
+  id: number;
+  buildingName: string;
 
-  name: string;
+  region: string;
+  wilaya: string;
+  area: string;
 
-  totalUnits: number;
+  flatsRented: number;
+  flatsNotRented: number;
 
-  availableUnits: number;
+  roomsRented: number;
+  roomsNotRented: number;
 
-  occupiedUnits: number;
+  shopsRented: number;
+  shopsNotRented: number;
 
-  flatsCount: number;
+  numberOfFloors: number;
 
-  roomsCount: number;
+  hasParking: boolean;
+  hasGym: boolean;
+  hasSwimmingPool: boolean;
 
-  shopsCount: number;
+  description?: string;
 
-  active: boolean;
+  latitude?: number;
+  longitude?: number;
+
+  landlordName?: string;
+  landLordMobileNumber?: string;
+
+  pictureUrls: string[];
 }

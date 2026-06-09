@@ -16,7 +16,8 @@ export interface HouseModel extends PropertyBase {
 
   floorNumber?: number;
 
-  landlordName?: string;
-
-  landlordMobileNumber?: string;
+    landlord?: {
+    name?: string;
+    mobileNumber?: string;
+  };
 }

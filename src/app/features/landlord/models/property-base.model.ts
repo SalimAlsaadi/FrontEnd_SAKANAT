@@ -8,7 +8,7 @@ export interface PropertyBase extends LocationModel {
 
   tenantType?: string;
 
-  rentType?: string;
+  rentTimeType?: string;
 
   price?: number;
 

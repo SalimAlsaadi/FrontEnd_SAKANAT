@@ -1,0 +1,131 @@
+<div class="enterprise-map-card">
+
+  <div class="map-header">
+
+    <div class="map-title-group">
+
+      <div class="map-icon">
+        <span class="material-icons">location_on</span>
+      </div>
+
+      <div>
+        <span class="map-label">Building Coordinates</span>
+
+        <h3>Select exact location</h3>
+
+        <p>
+          Click on the map or drag the marker to select the exact building location.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="map-header-actions">
+
+      <button
+        type="button"
+        class="map-tool-btn"
+        (click)="resetToDefaultLocation()"
+      >
+        <span class="material-icons">public</span>
+        Reset Map
+      </button>
+
+      <button
+        type="button"
+        class="map-tool-btn primary"
+        (click)="useCurrentLocation()"
+        [disabled]="isLocating"
+      >
+        <span class="material-icons">
+          {{ isLocating ? 'hourglass_top' : 'my_location' }}
+        </span>
+
+        {{ isLocating ? 'Locating...' : 'My Location' }}
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="map-body">
+
+    <div
+      #mapContainer
+      class="map-container"
+    ></div>
+
+    <div
+      class="professional-map-loader"
+      *ngIf="isTilesLoading"
+    >
+
+      <div class="loader-card">
+
+        <div class="loader-map-icon">
+          <span class="material-icons">map</span>
+        </div>
+
+        <div class="loader-content">
+          <span>Location Map</span>
+          <strong>Preparing map...</strong>
+          <p>
+            Please wait while the location picker is being prepared.
+          </p>
+        </div>
+
+        <div class="loader-progress">
+          <span></span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="map-hint"
+      *ngIf="!isTilesLoading"
+    >
+      <span class="material-icons">touch_app</span>
+      Click anywhere on the map
+    </div>
+
+  </div>
+
+  <div class="coordinate-panel">
+
+    <div class="coordinate-box">
+      <span>Latitude</span>
+      <strong>{{ selectedLatitude ?? '-' }}</strong>
+    </div>
+
+    <div class="coordinate-box">
+      <span>Longitude</span>
+      <strong>{{ selectedLongitude ?? '-' }}</strong>
+    </div>
+
+    <div class="coordinate-actions">
+
+      <button
+        type="button"
+        class="btn-map-secondary"
+        (click)="cancel()"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        class="btn-map-primary"
+        (click)="confirmLocation()"
+        [disabled]="selectedLatitude === null || selectedLongitude === null"
+      >
+        <span class="material-icons">task_alt</span>
+        Select Location
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

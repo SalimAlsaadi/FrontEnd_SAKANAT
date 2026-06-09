@@ -4,8 +4,14 @@ import { BuildingsList } from './pages/buildings-list/buildings-list';
 import { BuildingDetails } from './pages/building-details/building-details';
 import { HousesList } from './pages/houses-list/houses-list';
 import { HouseDetails } from './pages/house-details/house-details';
+import { AddProperty } from './pages/add-property/add-property';
 
 export const LANDLORD_ROUTES: Routes = [
+
+  {
+    path: 'addProperty',
+    component: AddProperty
+  },
   {
     path: '',
     component: LandlordDashboardComponent

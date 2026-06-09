@@ -1,74 +1,92 @@
-import { Injectable } from '@angular/core';
-
-import { Observable, of } from 'rxjs';
-
-import { MOCK_BUILDINGS } from '../data/mock-buildings';
-import { MOCK_FLATS } from '../data/mock-flats';
+import { map, Observable, of } from 'rxjs';
+// import { MOCK_FLATS } from '../data/mock-flats';
 import { MOCK_ROOMS } from '../data/mock-rooms';
 import { MOCK_HOUSES } from '../data/mock-houses';
 import { MOCK_SHOPS } from '../data/mock-shops';
 
 import { BuildingModel } from '../models/building.model';
-import { FlatModel } from '../models/flat.model';
 import { RoomModel } from '../models/room.model';
 import { HouseModel } from '../models/house.model';
 import { ShopModel } from '../models/shop.model';
+import { PropertyType } from '../models/property.model'
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '.../../environments/environment';
+import { FlatListModel } from '../models/flatList.model'
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class LandlordPropertyService {
 
+  private readonly http = inject(HttpClient);
+  private readonly apiBaseUrl = environment.apiBaseUrl;
+
   /* =========================================================
-     BUILDINGS
+   ADD NEW PROPERTY
+   ========================================================= */
+
+  createProperty(propertyType: PropertyType, data: any, pictures: File[]) {
+    const formData = new FormData();
+
+    formData.append('propertyType', propertyType);
+    formData.append(
+      'data',
+      new Blob([JSON.stringify(data)], {
+        type: 'application/json'
+      })
+    );
+
+    pictures.forEach(file => {
+      formData.append('pictures', file);
+    });
+
+    return this.http.post(`${environment.apiBaseUrl}/api/buildings/createProperties`,
+      formData, {
+      withCredentials: true
+    });
+  }
+
+
+  /* =========================================================
+     BUILDING
   ========================================================= */
 
-  getBuildings(): Observable<BuildingModel[]> {
 
-    return of(MOCK_BUILDINGS);
-  }
+ getBuildings(): Observable<BuildingModel[]> {
+  return this.http.post<BuildingModel[]>(
+    `${environment.apiBaseUrl}/api/buildings/getAllBuildingByLandlordId`,
+    {}
+  );
+}
 
-  getBuildingById(
-    id: number
-  ): Observable<BuildingModel | undefined> {
+getBuildingById(buildingId: number): Observable<BuildingModel> {
+  return this.http.post<BuildingModel>(
+    `${environment.apiBaseUrl}/api/buildings/getBuildingById`,
+    { buildingId }
+  );
+}
 
-    return of(
-      MOCK_BUILDINGS.find(
-        building => building.id === id
-      )
-    );
-  }
 
   /* =========================================================
      FLATS
   ========================================================= */
 
-  getFlats(): Observable<FlatModel[]> {
 
-    return of(MOCK_FLATS);
-  }
+getFlatListByBuildingId(buildingId: number): Observable<FlatListModel[]> {
+  return this.http.post<FlatListModel[]>(
+    `${environment.apiBaseUrl}/api/flats/getFlatsByBuildingId`,
+    { buildingId }
+  );
+}
 
-  getFlatsByBuildingId(
-    buildingId: number
-  ): Observable<FlatModel[]> {
-
-    return of(
-      MOCK_FLATS.filter(
-        flat => flat.buildingId === buildingId
-      )
-    );
-  }
-
-  getFlatById(
-    id: number
-  ): Observable<FlatModel | undefined> {
-
-    return of(
-      MOCK_FLATS.find(
-        flat => flat.id === id
-      )
-    );
-  }
+getFlatDetailsById(flatId: number): Observable<FlatListModel> {
+  return this.http.post<FlatListModel>(
+    `${environment.apiBaseUrl}/api/flats/getFlatById`,
+    { flatId }
+  );
+}
 
   /* =========================================================
      ROOMS
@@ -150,7 +168,7 @@ export class LandlordPropertyService {
     return of(
       MOCK_HOUSES.filter(
         house =>
-          house.rentType === 'ROOMS'
+          house.rentTimeType === 'ROOMS'
       )
     );
   }
@@ -163,7 +181,7 @@ export class LandlordPropertyService {
     return of(
       MOCK_HOUSES.filter(
         house =>
-          house.rentType === 'WHOLE_HOUSE'
+          house.rentTimeType === 'WHOLE_HOUSE'
       )
     );
   }
@@ -203,10 +221,10 @@ export class LandlordPropertyService {
      DASHBOARD STATS
   ========================================================= */
 
-  getTotalBuildingsCount(): Observable<number> {
+  // getTotalBuildingsCount(): Observable<number> {
 
-    return of(MOCK_BUILDINGS.length);
-  }
+  //   return of(MOCK_BUILDINGS.length);
+  // }
 
   getTotalHousesCount(): Observable<number> {
 
@@ -218,10 +236,10 @@ export class LandlordPropertyService {
     return of(MOCK_ROOMS.length);
   }
 
-  getTotalFlatsCount(): Observable<number> {
+  // getTotalFlatsCount(): Observable<number> {
 
-    return of(MOCK_FLATS.length);
-  }
+  //   return of(MOCK_FLATS.length);
+  // }
 
   getTotalShopsCount(): Observable<number> {
 

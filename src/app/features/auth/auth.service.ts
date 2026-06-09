@@ -260,6 +260,25 @@ isAdmin(): boolean {
   return this.hasRole('ROLE_AQARK_ADMIN');
 }
 
+// getToken(): string | null {
+//     return localStorage.getItem('SAS_TOKEN');
+//   }
+
+//   getLandlordId(): number | null {
+
+//     const token = this.getToken();
+
+//     if (!token) {
+//       return null;
+//     }
+
+//     const payload = JSON.parse(
+//       atob(token.split('.')[1])
+//     );
+
+//     return payload.refId;
+//   }
+
 }
 
 

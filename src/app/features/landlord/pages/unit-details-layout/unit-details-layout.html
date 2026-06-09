@@ -8,34 +8,30 @@
         <span class="material-icons">arrow_back</span>
       </button>
 
-      <nav class="breadcrumb-nav">
-        <span class="bc-item">Properties</span>
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+
+        <button type="button" class="bc-item bc-link" (click)="goToRoot()">
+          {{ rootLabel }}
+        </button>
+
         <span class="bc-sep material-icons">chevron_right</span>
-        <span class="bc-item">{{ unitType }}</span>
+
+        <button type="button" class="bc-item bc-link" [class.disabled]="!parentRoute" [disabled]="!parentRoute"
+          (click)="goToParent()">
+          {{ parentLabel || unitType }}
+        </button>
+
         <span class="bc-sep material-icons">chevron_right</span>
-        <span class="bc-item active">{{ title }}</span>
+
+        <span class="bc-item active">
+          {{ title }}
+        </span>
+
       </nav>
 
     </div>
 
-    <div class="top-actions">
 
-      <button class="action-btn">
-        <span class="material-icons">edit</span>
-        Edit {{ unitType }}
-      </button>
-
-      <button class="action-btn">
-        <span class="material-icons">description</span>
-        Contracts
-      </button>
-
-      <button class="action-btn accent">
-        <span class="material-icons">build</span>
-        Maintenance
-      </button>
-
-    </div>
 
   </div>
 
@@ -45,10 +41,7 @@
 
       <div class="gallery-card">
 
-        <img
-          [src]="currentImage()"
-          [alt]="title"
-        />
+        <img [src]="currentImage()" [alt]="title" />
 
         <div class="gallery-overlay"></div>
 
@@ -61,12 +54,8 @@
         </button>
 
         <div class="gallery-dots" *ngIf="images.length">
-          <span
-            *ngFor="let image of images; let i = index"
-            class="dot"
-            [class.active]="i === currentImageIndex()"
-            (click)="currentImageIndex.set(i)"
-          ></span>
+          <span *ngFor="let image of images; let i = index" class="dot" [class.active]="i === currentImageIndex()"
+            (click)="currentImageIndex.set(i)"></span>
         </div>
 
         <div class="gallery-content">
@@ -84,74 +73,35 @@
 
       </div>
 
-      <div class="kpi-strip">
-
-        <div
-          class="kpi-item"
-          *ngFor="let feature of features.slice(0, 4)"
-        >
-          <div class="kpi-icon-wrap">
-            <span class="material-icons">{{ feature.icon }}</span>
-          </div>
-
-          <div>
-            <span class="kpi-label">{{ feature.label }}</span>
-
-            <strong class="kpi-value">
-              {{
-                feature.type === 'boolean'
-                  ? booleanText(feature.value)
-                  : feature.value
-              }}
-            </strong>
-          </div>
-        </div>
-
-      </div>
-
+      
       <nav class="unit-section-menu">
 
-        <button
-          class="unit-section-tab"
-          [class.active]="activeSection() === 'overview'"
-          (click)="setSection('overview')"
-        >
+        <button class="unit-section-tab" [class.active]="activeSection() === 'overview'"
+          (click)="setSection('overview')">
           <span class="material-icons">home</span>
           Overview
         </button>
 
-        <button
-          class="unit-section-tab"
-          [class.active]="activeSection() === 'contracts'"
-          (click)="setSection('contracts')"
-        >
+        <button class="unit-section-tab" [class.active]="activeSection() === 'contracts'"
+          (click)="setSection('contracts')">
           <span class="material-icons">description</span>
           Contracts
         </button>
 
-        <button
-          class="unit-section-tab"
-          [class.active]="activeSection() === 'payments'"
-          (click)="setSection('payments')"
-        >
+        <button class="unit-section-tab" [class.active]="activeSection() === 'payments'"
+          (click)="setSection('payments')">
           <span class="material-icons">payments</span>
           Payments
         </button>
 
-        <button
-          class="unit-section-tab"
-          [class.active]="activeSection() === 'maintenance'"
-          (click)="setSection('maintenance')"
-        >
+        <button class="unit-section-tab" [class.active]="activeSection() === 'maintenance'"
+          (click)="setSection('maintenance')">
           <span class="material-icons">build</span>
           Maintenance
         </button>
 
-        <button
-          class="unit-section-tab"
-          [class.active]="activeSection() === 'analytics'"
-          (click)="setSection('analytics')"
-        >
+        <button class="unit-section-tab" [class.active]="activeSection() === 'analytics'"
+          (click)="setSection('analytics')">
           <span class="material-icons">bar_chart</span>
           Analytics
         </button>
@@ -166,25 +116,19 @@
 
         <div class="overview-grid">
 
-          <div
-            class="overview-item"
-            *ngFor="let feature of features"
-          >
+          <div class="overview-item" *ngFor="let feature of features">
             <div class="ov-icon-wrap">
               <span class="material-icons">{{ feature.icon }}</span>
             </div>
 
             <span class="ov-label">{{ feature.label }}</span>
 
-            <strong
-              class="ov-value"
-              [class.is-available]="feature.type === 'boolean' && feature.value"
-              [class.is-unavailable]="feature.type === 'boolean' && !feature.value"
-            >
+            <strong class="ov-value" [class.is-available]="feature.type === 'boolean' && feature.value"
+              [class.is-unavailable]="feature.type === 'boolean' && !feature.value">
               {{
-                feature.type === 'boolean'
-                  ? booleanText(feature.value)
-                  : feature.value
+              feature.type === 'boolean'
+              ? booleanText(feature.value)
+              : feature.value
               }}
             </strong>
           </div>
@@ -289,40 +233,51 @@
 
     <div class="right-sidebar">
 
-      <div class="sidebar-card pricing-card">
+   <div class="sidebar-card quick-actions-card">
 
-        <span class="sidebar-label">Monthly Rent</span>
+  <div class="quick-actions-header">
 
-        <div class="sidebar-price-block">
-          <span class="price-currency">OMR</span>
-          <span class="price-amount">{{ price }}</span>
-        </div>
-
-        <div class="status-row">
-
-          <span
-            class="status"
-            [class.available]="status === 'Available'"
-            [class.occupied]="status === 'Occupied'"
-          >
-            <span class="material-icons">
-              {{ status === 'Available' ? 'check_circle' : 'block' }}
-            </span>
-            {{ status }}
-          </span>
-
-          <span class="tenant-type">
-            {{ tag }}
-          </span>
-
-        </div>
-
-        <button class="primary-btn full-width">
-          <span class="material-icons">person_add</span>
-          Add Tenant
-        </button>
-
+    <div class="quick-title-wrap">
+      <div class="quick-title-icon">
+        <span class="material-icons">bolt</span>
       </div>
+
+      <div>
+        <h3>Quick Actions</h3>
+        <p>Manage this {{ unitType }} from one control panel</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="quick-actions-grid">
+
+    <button
+      *ngFor="let action of visibleQuickActions()"
+      type="button"
+      class="quick-action"
+      [ngClass]="actionClass(action)"
+      (click)="handleQuickAction(action)"
+    >
+      <span class="quick-action-icon">
+        <span class="material-icons">
+          {{ action.icon }}
+        </span>
+      </span>
+
+      <span class="quick-action-content">
+        <strong>{{ action.label }}</strong>
+        <small>{{ action.description }}</small>
+      </span>
+
+      <span class="material-icons quick-action-arrow">
+        arrow_forward
+      </span>
+    </button>
+
+  </div>
+
+</div>
 
       <div class="sidebar-card">
 
@@ -341,38 +296,7 @@
 
       </div>
 
-      <div class="sidebar-card">
-
-        <h3 class="sidebar-card-title">
-          <span class="material-icons">flash_on</span>
-          Quick Actions
-        </h3>
-
-        <div class="quick-actions">
-
-          <button class="quick-btn">
-            <span class="material-icons">image</span>
-            Upload Images
-          </button>
-
-          <button class="quick-btn">
-            <span class="material-icons">payments</span>
-            Add Payment
-          </button>
-
-          <button class="quick-btn">
-            <span class="material-icons">description</span>
-            Add Contract
-          </button>
-
-          <button class="quick-btn danger">
-            <span class="material-icons">delete_outline</span>
-            Delete {{ unitType }}
-          </button>
-
-        </div>
-
-      </div>
+  
 
     </div>
 

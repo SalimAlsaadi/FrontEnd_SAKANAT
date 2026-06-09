@@ -4,31 +4,30 @@
 >
 
   <!-- IMAGE -->
-  <div class="image-section">
+<div class="image-section">
 
-    <img
-      *ngIf="building.pictureUrls?.length"
-      [src]="building.pictureUrls[0]"
-      [alt]="building.name"
-    />
+  <img
+    *ngIf="mainImageUrl; else noImage"
+    class="building-img"
+    [src]="mainImageUrl"
+    [alt]="building.buildingName"
+    (error)="handleImageError()"
+  />
 
-    <div
-      class="image-placeholder"
-      *ngIf="!building.pictureUrls?.length"
-    >
-      <span class="material-icons">
-        apartment
-      </span>
+  <ng-template #noImage>
+    <div class="image-placeholder">
+      <span class="material-icons">apartment</span>
     </div>
+  </ng-template>
 
-    <span
-      class="status-badge"
-      [class.inactive]="!building.active"
-    >
-      {{ building.active ? 'Active' : 'Inactive' }}
-    </span>
+  <!-- <span
+    class="status-badge"
+    [class.inactive]="!building.active"
+  >
+    {{ building.active ? 'Active' : 'Inactive' }}
+  </span> -->
 
-  </div>
+</div>
 
   <!-- CONTENT -->
   <div class="content">
@@ -36,7 +35,7 @@
     <div class="title-section">
 
       <h3>
-        {{ building.name }}
+        {{ building.buildingName }}
       </h3>
 
       <p>
@@ -55,7 +54,7 @@
       <span>
         {{ building.region }},
         {{ building.wilaya }},
-        {{ building.location }}
+        {{building.area}}
       </span>
 
     </div>
@@ -87,63 +86,43 @@
     <!-- STATS -->
     <div class="stats-grid">
 
-      <div class="stat-box">
+  <div class="stat-box">
+    <strong>{{ totalUnits }}</strong>
+    <span>Total</span>
+  </div>
 
-        <strong>
-          {{ building.totalUnits }}
-        </strong>
+  <div class="stat-box">
+    <strong>{{ building.flatsRented + building.flatsNotRented }}</strong>
+    <span>Flats</span>
+  </div>
 
-        <span>Total</span>
+  <div class="stat-box">
+    <strong>{{ building.roomsRented + building.roomsNotRented }}</strong>
+    <span>Rooms</span>
+  </div>
 
-      </div>
+  <div class="stat-box">
+    <strong>{{ building.shopsRented + building.shopsNotRented }}</strong>
+    <span>Shops</span>
+  </div>
 
-      <div class="stat-box">
-
-        <strong>
-          {{ building.flatsCount }}
-        </strong>
-
-        <span>Flats</span>
-
-      </div>
-
-      <div class="stat-box">
-
-        <strong>
-          {{ building.roomsCount }}
-        </strong>
-
-        <span>Rooms</span>
-
-      </div>
-
-      <div class="stat-box">
-
-        <strong>
-          {{ building.shopsCount }}
-        </strong>
-
-        <span>Shops</span>
-
-      </div>
-
-    </div>
-
+</div>
     <!-- FOOTER -->
     <div class="card-footer">
 
       <div class="availability">
 
-        <span class="available">
-          {{ building.availableUnits }}
-          Available
-        </span>
+  <span class="available">
+    {{ availableUnits }}
+    Available
+  </span>
 
-        <span class="occupied">
-          {{ building.occupiedUnits }}
-          Occupied
-        </span>
+  <span class="occupied">
+    {{ occupiedUnits }}
+    Occupied
+  </span>
 
+</div>
       </div>
 
       <button
@@ -154,7 +133,5 @@
       </button>
 
     </div>
-
-  </div>
-
+    
 </article>

@@ -1,19 +1,19 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Location } from '@angular/common';
 
 import { BuildingModel } from '../../models/building.model';
-import { FlatModel } from '../../models/flat.model';
+import { FlatListModel } from '../../models/flatList.model';
 import { RoomModel } from '../../models/room.model';
 import { ShopModel } from '../../models/shop.model';
 
-import { MOCK_BUILDINGS } from '../../data/mock-buildings';
-import { MOCK_FLATS } from '../../data/mock-flats';
 import { MOCK_ROOMS } from '../../data/mock-rooms';
 import { MOCK_SHOPS } from '../../data/mock-shops';
 
+import { LandlordPropertyService } from '../../services/landlord.service';
+
 type UnitTab = 'FLATS' | 'ROOMS' | 'SHOPS';
+
 type BuildingModule =
   | 'UNITS'
   | 'SERVICES'
@@ -22,7 +22,6 @@ type BuildingModule =
   | 'REPORTS'
   | 'MAINTENANCE'
   | 'ALERTS';
-
 
 @Component({
   selector: 'app-building-details',
@@ -35,80 +34,129 @@ export class BuildingDetails implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
   private readonly location = inject(Location);
-
-goBack(): void {
-  this.location.back();
-}
+  private readonly landlordService = inject(LandlordPropertyService);
 
   building?: BuildingModel;
 
-  flats: FlatModel[] = [];
+  flats: FlatListModel[] = [];
   rooms: RoomModel[] = [];
   shops: ShopModel[] = [];
 
   selectedTab: UnitTab = 'FLATS';
-
-
   selectedModule: BuildingModule = 'UNITS';
 
-buildingModules = [
-  {
-    key: 'UNITS' as BuildingModule,
-    title: 'Units Management',
-    subtitle: 'Flats, rooms, shops',
-    icon: 'domain',
-    badge: 'Default'
-  },
-  {
-    key: 'CONTRACTS' as BuildingModule,
-    title: 'Contracts',
-    subtitle: 'Leases and renewals',
-    icon: 'contract',
-    badge: 'Active'
-  },
-  {
-    key: 'FINANCE' as BuildingModule,
-    title: 'Finance',
-    subtitle: 'Rent and payments',
-    icon: 'payments',
-    badge: 'OMR'
-  },
-  {
-    key: 'REPORTS' as BuildingModule,
-    title: 'Reports',
-    subtitle: 'Monthly reports',
-    icon: 'bar_chart',
-    badge: 'PDF'
-  },
-  {
-    key: 'MAINTENANCE' as BuildingModule,
-    title: 'Maintenance',
-    subtitle: 'Issues and requests',
-    icon: 'construction',
-    badge: '5'
-  },
-  {
-    key: 'ALERTS' as BuildingModule,
-    title: 'Alerts',
-    subtitle: 'Late payments',
-    icon: 'notifications_active',
-    badge: '3'
-  }
+  isLoadingFlats = false;
+  flatsErrorMessage = '';
 
-];
-
-selectModule(module: BuildingModule): void {
-  this.selectedModule = module;
-}
-
+  buildingModules = [
+    {
+      key: 'UNITS' as BuildingModule,
+      title: 'Units Management',
+      subtitle: 'Flats, rooms, shops',
+      icon: 'domain',
+      badge: 'Default'
+    },
+    {
+      key: 'CONTRACTS' as BuildingModule,
+      title: 'Contracts',
+      subtitle: 'Leases and renewals',
+      icon: 'contract',
+      badge: 'Active'
+    },
+    {
+      key: 'FINANCE' as BuildingModule,
+      title: 'Finance',
+      subtitle: 'Rent and payments',
+      icon: 'payments',
+      badge: 'OMR'
+    },
+    {
+      key: 'REPORTS' as BuildingModule,
+      title: 'Reports',
+      subtitle: 'Monthly reports',
+      icon: 'bar_chart',
+      badge: 'PDF'
+    },
+    {
+      key: 'MAINTENANCE' as BuildingModule,
+      title: 'Maintenance',
+      subtitle: 'Issues and requests',
+      icon: 'construction',
+      badge: '5'
+    },
+    {
+      key: 'ALERTS' as BuildingModule,
+      title: 'Alerts',
+      subtitle: 'Late payments',
+      icon: 'notifications_active',
+      badge: '3'
+    }
+  ];
 
   ngOnInit(): void {
     const buildingId = Number(this.route.snapshot.paramMap.get('id'));
 
+    if (!buildingId || Number.isNaN(buildingId)) {
+      console.error('Invalid building id');
+      return;
+    }
+
     this.loadBuilding(buildingId);
     this.loadFlats(buildingId);
-    this.loadRoomsFromBuildingFlats(buildingId);
     this.loadShops(buildingId);
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  selectModule(module: BuildingModule): void {
+    this.selectedModule = module;
+  }
+
+  showFlats(): void {
+    this.selectedTab = 'FLATS';
+  }
+
+  showRooms(): void {
+    this.selectedTab = 'ROOMS';
+  }
+
+  showShops(): void {
+    this.selectedTab = 'SHOPS';
+  }
+
+  private loadBuilding(buildingId: number): void {
+    this.landlordService.getBuildingById(buildingId).subscribe({
+      next: (building) => {
+        this.building = building;
+      },
+      error: (err) => {
+        console.error('Failed to load building details', err);
+      }
+    });
+  }
+
+  private loadFlats(buildingId: number): void {
+    this.isLoadingFlats = true;
+    this.flatsErrorMessage = '';
+
+    this.landlordService.getFlatListByBuildingId(buildingId).subscribe({
+      next: (flats) => {
+        this.flats = flats ?? [];
+        this.isLoadingFlats = false;
+      },
+      error: (err) => {
+        console.error('Failed to load flats by building id', err);
+        this.flats = [];
+        this.isLoadingFlats = false;
+        this.flatsErrorMessage = 'Failed to load flats for this building.';
+      }
+    });
+  }
+
+  private loadShops(buildingId: number): void {
+    this.shops = MOCK_SHOPS.filter(shop => shop.buildingId === buildingId);
   }
 
   get availableFlatsCount(): number {
@@ -120,11 +168,11 @@ selectModule(module: BuildingModule): void {
   }
 
   get availableRoomsCount(): number {
-    return this.rooms.filter(room => !room.isRented).length;
+    return this.rooms.filter(room => !room.rented).length;
   }
 
   get occupiedRoomsCount(): number {
-    return this.rooms.filter(room => room.isRented).length;
+    return this.rooms.filter(room => room.rented).length;
   }
 
   get availableShopsCount(): number {
@@ -147,26 +195,6 @@ selectModule(module: BuildingModule): void {
     return this.calculateAverage(this.shops.map(shop => shop.price || 0));
   }
 
-  private loadBuilding(buildingId: number): void {
-    this.building = MOCK_BUILDINGS.find(building => building.id === buildingId);
-  }
-
-  private loadFlats(buildingId: number): void {
-    this.flats = MOCK_FLATS.filter(flat => flat.buildingId === buildingId);
-  }
-
-  private loadRoomsFromBuildingFlats(buildingId: number): void {
-    const flatIds = MOCK_FLATS
-      .filter(flat => flat.buildingId === buildingId)
-      .map(flat => flat.id);
-
-    this.rooms = MOCK_ROOMS.filter(room => flatIds.includes(room.sourceId));
-  }
-
-  private loadShops(buildingId: number): void {
-    this.shops = MOCK_SHOPS.filter(shop => shop.buildingId === buildingId);
-  }
-
   private calculateAverage(values: number[]): number {
     const validValues = values.filter(value => value > 0);
 
@@ -175,19 +203,7 @@ selectModule(module: BuildingModule): void {
     }
 
     const total = validValues.reduce((sum, value) => sum + value, 0);
+
     return Math.round(total / validValues.length);
   }
-
-  showFlats(): void {
-    this.selectedTab = 'FLATS';
-  }
-
-  showRooms(): void {
-    this.selectedTab = 'ROOMS';
-  }
-
-  showShops(): void {
-    this.selectedTab = 'SHOPS';
-  }
-
 }

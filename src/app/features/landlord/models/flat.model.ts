@@ -4,19 +4,18 @@ import { PropertyBase } from './property-base.model';
 export interface FlatModel extends PropertyBase {
 
   buildingId: number;
-
+  flat_number: string;
   buildingName: string;
 
   numberOfRooms: number;
-
   numberOfBathrooms: number;
 
   hasLivingRoom: boolean;
 
-  hasGYM: boolean;
-
-  hasSwimmingPool: boolean;
-
-  hasParking: boolean;
+  amenities: {
+    parking: boolean;
+    gym: boolean;
+    swimmingPool: boolean;
+  };
 }
 

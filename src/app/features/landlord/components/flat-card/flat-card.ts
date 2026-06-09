@@ -116,15 +116,15 @@ export class FlatCardComponent {
       `🛁 ${this.flat.numberOfBathrooms} Baths`
     );
 
-    if (this.flat.hasParking) {
+    if (this.flat.amenities.parking) {
       features.push('🚗 Parking');
     }
 
-    if (this.flat.hasSwimmingPool) {
+    if (this.flat.amenities.swimmingPool) {
       features.push('🏊 Pool');
     }
 
-    if (this.flat.hasGYM) {
+    if (this.flat.amenities.gym) {
       features.push('💪 Gym');
     }
 

@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { AddHostelDialogComponent } from '../../dialogs/add-hostel-dialog/add-hostel-dialog';
 
 interface LandlordDashboardCard {
   id: number;
@@ -31,10 +30,8 @@ export class LandlordDashboardComponent {
     title: 'Add Property',
     description: 'Add a new building or house and define its rental structure.',
     icon: 'add_home',
-    route: '',
-    action: 'ADD_PROPERTY'
+    route: '/landlord/addProperty'  
   },
-
   {
     id: 2,
     title: 'Manage Buildings',
@@ -73,37 +70,13 @@ export class LandlordDashboardComponent {
 ];
 
     onCardClick(card: LandlordDashboardCard): void {
-      if (card.action === 'ADD_PROPERTY') {
-        this.openAddHostelDialog();
-        return;
-      }
-
+    
       if (card.route) {
         this.router.navigate([card.route]);
       }
     }
 
-  openAddHostelDialog(): void {
-    const dialogRef = this.dialog.open(AddHostelDialogComponent, {
-      width: '520px',
-      maxWidth: '94vw',
-      maxHeight: '90vh',
-      autoFocus: false,
-      restoreFocus: true,
-      panelClass: 'add-hostel-dialog-panel'
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) {
-        return;
-      }
-
-      console.log('Add hostel form result:', result);
-
-      // Later:
-      // this.hostelService.createHostel(result).subscribe(...)
-    });
-  }
 
   trackById(_: number, item: LandlordDashboardCard): number {
     return item.id;

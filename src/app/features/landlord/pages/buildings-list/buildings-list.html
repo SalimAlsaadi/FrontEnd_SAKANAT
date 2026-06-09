@@ -1,46 +1,99 @@
 <div class="buildings-page">
 
-  <!-- TOP BAR -->
-  <div class="top-bar">
+  <!-- PAGE NAVIGATION -->
+  <section class="page-navigation">
 
-    <div class="left-actions">
+    <button
+      type="button"
+      class="nav-back-btn"
+      (click)="goToDashboard()"
+      aria-label="Back to dashboard"
+    >
+      <span class="material-icons">
+        keyboard_backspace
+      </span>
+    </button>
+
+    <nav
+      class="breadcrumb-pill"
+      aria-label="Breadcrumb"
+    >
       <button
-        class="back-btn"
-        routerLink="/landlord"
+        type="button"
+        class="breadcrumb-link"
+        (click)="goToDashboard()"
       >
-        ← Dashboard
-      </button>
-    </div>
-
-    <div class="right-actions">
-
-      <button class="secondary-btn">
-        Export
+        Dashboard
       </button>
 
-      <button class="primary-btn">
-        + Add Building
-      </button>
+      <span class="material-icons breadcrumb-separator">
+        chevron_right
+      </span>
 
-    </div>
+      <span class="breadcrumb-current">
+        Buildings
+      </span>
+    </nav>
 
-  </div>
+  </section>
 
   <!-- HERO -->
   <section class="hero-section">
 
-    <div class="hero-left">
+    <div class="hero-pattern"></div>
 
-      <span class="badge">
-        Buildings Management
-      </span>
+    <div class="hero-main">
 
-      <h1>Manage Buildings</h1>
+      <div class="hero-copy">
 
-      <p>
-        View, organize, and manage all your buildings,
-        flats, rooms, and shops from one place.
-      </p>
+        <span class="badge">
+          <span class="material-icons">business</span>
+          Buildings Management
+        </span>
+
+        <h1>Manage Buildings</h1>
+
+        <p>
+          View, organize, and manage all your buildings, flats, rooms,
+          and shops from one modern enterprise workspace.
+        </p>
+
+        <div class="hero-meta">
+
+          <div class="hero-meta-item">
+            <span class="material-icons">verified_user</span>
+            Secure Portfolio
+          </div>
+
+          <div class="hero-meta-item">
+            <span class="material-icons">analytics</span>
+            Smart Overview
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="hero-actions">
+
+        <button
+          type="button"
+          class="hero-secondary-btn"
+        >
+          <span class="material-icons">ios_share</span>
+          Export
+        </button>
+
+        <button
+          type="button"
+          class="hero-primary-btn"
+          (click)="addBuilding()"
+        >
+          <span class="material-icons">add</span>
+          Add Building
+        </button>
+
+      </div>
 
     </div>
 
@@ -50,23 +103,55 @@
   <section class="stats-grid">
 
     <div class="stat-card">
-      <strong>{{ buildings.length }}</strong>
-      <span>Total Buildings</span>
+
+      <div class="stat-icon">
+        <span class="material-icons">apartment</span>
+      </div>
+
+      <div class="stat-content">
+        <strong>{{ buildings.length }}</strong>
+        <span>Total Buildings</span>
+      </div>
+
     </div>
 
     <div class="stat-card">
-      <strong>18</strong>
-      <span>Total Units</span>
+
+      <div class="stat-icon blue">
+        <span class="material-icons">domain</span>
+      </div>
+
+      <div class="stat-content">
+        <strong>18</strong>
+        <span>Total Units</span>
+      </div>
+
     </div>
 
     <div class="stat-card">
-      <strong>11</strong>
-      <span>Occupied</span>
+
+      <div class="stat-icon success">
+        <span class="material-icons">verified</span>
+      </div>
+
+      <div class="stat-content">
+        <strong>11</strong>
+        <span>Occupied</span>
+      </div>
+
     </div>
 
     <div class="stat-card">
-      <strong>7</strong>
-      <span>Available</span>
+
+      <div class="stat-icon warning">
+        <span class="material-icons">home_work</span>
+      </div>
+
+      <div class="stat-content">
+        <strong>7</strong>
+        <span>Available</span>
+      </div>
+
     </div>
 
   </section>
@@ -75,25 +160,38 @@
   <section class="toolbar">
 
     <div class="search-box">
-      <span class="material-icons">search</span>
+
+      <span class="material-icons">
+        search
+      </span>
 
       <input
         type="text"
-        placeholder="Search buildings..."
+        placeholder="Search buildings by name, region, or wilaya..."
       />
+
     </div>
 
     <div class="toolbar-actions">
 
-      <button class="toolbar-btn active">
+      <button
+        type="button"
+        class="toolbar-btn active"
+      >
         All
       </button>
 
-      <button class="toolbar-btn">
+      <button
+        type="button"
+        class="toolbar-btn"
+      >
         Active
       </button>
 
-      <button class="toolbar-btn">
+      <button
+        type="button"
+        class="toolbar-btn"
+      >
         Draft
       </button>
 
@@ -101,44 +199,70 @@
 
   </section>
 
+  <!-- LOADING -->
+  <section
+    class="loading-state"
+    *ngIf="loading"
+  >
+    <div class="loading-icon">
+      <span class="material-icons">sync</span>
+    </div>
+
+    <strong>Loading buildings...</strong>
+
+    <p>
+      Preparing your property workspace.
+    </p>
+  </section>
+
   <!-- BUILDINGS -->
-  <section *ngIf="buildings.length; else emptyState">
+  <section
+    *ngIf="!loading && buildings.length; else emptyState"
+  >
 
-  <div class="grid">
+    <div class="grid">
 
-    <app-building-card
-      *ngFor="
-        let building of buildings;
-        trackBy: trackById
-      "
+      <app-building-card
+        *ngFor="
+          let building of buildings;
+          trackBy: trackById
+        "
+        [building]="building"
+        (openDetails)="openBuilding($event)"
+      />
 
-      [building]="building"
+    </div>
 
-      (openDetails)="openBuilding($event)"
-    />
-
-  </div>
-
-</section>
+  </section>
 
   <!-- EMPTY -->
   <ng-template #emptyState>
 
-    <div class="empty-state">
+    <div
+      class="empty-state"
+      *ngIf="!loading"
+    >
 
-      <span class="material-icons">
-        apartment
-      </span>
+      <div class="empty-icon">
+        <span class="material-icons">
+          apartment
+        </span>
+      </div>
 
       <h2>No Buildings Yet</h2>
 
       <p>
-        Start building your accommodation portfolio
-        by adding your first building.
+        Start building your accommodation portfolio by adding
+        your first building.
       </p>
 
-      <button class="primary-btn">
-        + Add First Building
+      <button
+        type="button"
+        class="primary-btn"
+        (click)="addBuilding()"
+      >
+        <span class="material-icons">add</span>
+        Add First Building
       </button>
 
     </div>

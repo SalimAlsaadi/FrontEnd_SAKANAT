@@ -2,9 +2,7 @@ import { PropertyBase } from './property-base.model';
 
 export interface RoomModel extends PropertyBase {
 
-  isRented: boolean;
 
-  rentalType: string;
 
   fromFlat: boolean;
 

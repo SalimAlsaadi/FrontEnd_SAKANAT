@@ -1,6 +1,11 @@
 
 
-export type PropertyType = 'BUILDING' | 'HOUSE';
+export type PropertyType =
+  | 'BUILDING'
+  | 'FLAT'
+  | 'ROOM'
+  | 'HOME'
+  | 'SHOP';
 
 export type RentalMode = 'WHOLE_PROPERTY' | 'BY_UNITS';
 

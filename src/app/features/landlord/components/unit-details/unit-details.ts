@@ -4,19 +4,14 @@ import {
   Component
 } from '@angular/core';
 
-import {
-  RouterLink
-} from '@angular/router';
-
 @Component({
   selector: 'app-unit-details',
 
   standalone: true,
 
   imports: [
-    CommonModule,
-    RouterLink
-  ],
+    CommonModule
+],
 
   templateUrl: './unit-details.html',
 

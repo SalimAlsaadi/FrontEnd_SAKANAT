@@ -1,0 +1,674 @@
+<div class="add-property-page">
+
+  <section class="page-hero">
+
+    <button type="button" class="back-btn" (click)="cancel()" aria-label="Back">
+      <span class="material-icons">arrow_back</span>
+    </button>
+
+    <div>
+      <span class="hero-badge">
+        Enterprise Property Setup
+      </span>
+
+      <h1>Add New Property</h1>
+
+      <p>
+        Create buildings, flats, homes, rooms, and shops from one professional workflow.
+      </p>
+    </div>
+
+  </section>
+
+  <section class="page-layout">
+
+    <aside class="type-panel">
+
+      <h2>Property Type</h2>
+
+      <p>
+        Select the property category you want to register.
+      </p>
+
+      <button type="button" class="type-card" *ngFor="let type of propertyTypes"
+        [class.active]="selectedType === type.value" (click)="selectType(type.value)">
+
+        <span class="material-icons">
+          {{ type.icon }}
+        </span>
+
+        <div>
+          <strong>{{ type.label }}</strong>
+          <small>{{ type.description }}</small>
+        </div>
+
+      </button>
+
+    </aside>
+
+    <main class="form-panel">
+
+      <div class="empty-state" *ngIf="!selectedType">
+        <span class="material-icons">touch_app</span>
+
+        <h2>Select property type</h2>
+
+        <p>
+          Choose one property type from the left side to start.
+        </p>
+      </div>
+
+      <form *ngIf="selectedType" [formGroup]="form" class="property-form">
+
+        <div class="form-header">
+
+          <div class="form-icon">
+            <span class="material-icons">
+              {{ getSelectedTypeIcon() }}
+            </span>
+          </div>
+
+          <div>
+            <h2>{{ selectedType }} Information</h2>
+            <p>Complete the required information for this property.</p>
+          </div>
+
+        </div>
+
+
+        <!-- BUILDING LOCATION ONLY -->
+        <section class="form-section location-section" *ngIf="selectedType === 'BUILDING'">
+
+          <div class="section-title">
+            <span class="material-icons">location_on</span>
+
+            <div>
+              <h3>Building Location</h3>
+              <p>
+                Enter the building address and select the exact location from the map.
+              </p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label>Region</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="region" placeholder="Example: Muscat" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Wilaya</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="wilaya" placeholder="Example: Seeb" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Area</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="area" placeholder="Example: Al Khoud" />
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="location-map-card">
+
+            <div class="location-map-info">
+
+              <div class="location-icon">
+                <span class="material-icons">map</span>
+              </div>
+
+              <div>
+                <h4>Exact map coordinates</h4>
+
+                <p>
+                  Select the building point on the map. Coordinates will be saved automatically.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div class="coordinates-grid">
+
+              <div class="coordinate-card">
+                <span>Latitude</span>
+
+                <strong>
+                  {{ form.get('latitude')?.value || '-' }}
+                </strong>
+              </div>
+
+              <div class="coordinate-card">
+                <span>Longitude</span>
+
+                <strong>
+                  {{ form.get('longitude')?.value || '-' }}
+                </strong>
+              </div>
+
+              <button type="button" class="map-open-btn" (click)="openMapModal()">
+                <span class="material-icons">add_location_alt</span>
+                Select on Map
+              </button>
+
+            </div>
+
+          </div>
+
+
+        </section>
+
+
+        <!-- PROPERTY DETAILS -->
+        <section class="form-section">
+
+          <div class="section-title">
+
+            <span class="material-icons">
+              {{ getSelectedTypeIcon() }}
+            </span>
+
+            <div>
+              <h3>{{ selectedType }} Details</h3>
+              <p>Main information for this property type.</p>
+            </div>
+
+          </div>
+
+          <!-- BUILDING -->
+          <div class="form-grid" *ngIf="selectedType === 'BUILDING'">
+
+            <div class="field">
+              <label>Building Name</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="buildingName" placeholder="Example: Al Noor Building" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Number of Floors</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="numberOfFloors" placeholder="0" />
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <!-- FLAT -->
+          <div class="form-grid" *ngIf="selectedType === 'FLAT'">
+
+            <div class="field">
+              <label> Building</label>
+
+              <mat-form-field appearance="outline" class="modern-select-field">
+
+                <mat-select formControlName="buildingId" placeholder="Select building"
+                  panelClass="enterprise-select-panel">
+
+                  <mat-option *ngIf="loadingBuildings" disabled>
+                    Loading buildings...
+                  </mat-option>
+
+                  <mat-option *ngIf="!loadingBuildings && buildings.length === 0" disabled>
+                    No buildings found
+                  </mat-option>
+
+                  <mat-option *ngFor="let building of buildings" [value]="building.id">
+                    <div class="enterprise-option">
+
+                      <div class="enterprise-option-icon">
+                        <span class="material-icons">apartment</span>
+                      </div>
+
+                      <div class="enterprise-option-content">
+                        <span class="enterprise-option-title">
+                          {{ building.buildingName }}
+                        </span>
+
+                        <span class="enterprise-option-subtitle">
+                          {{ building.region }} - {{ building.wilaya }}
+                        </span>
+                      </div>
+
+                    </div>
+                  </mat-option>
+
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Flat Number</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="flat_number" placeholder="0" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Number of Rooms</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="numberOfRooms" placeholder="0" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Number of Bathrooms</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="numberOfBathrooms" placeholder="0" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Floor Number</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="floorNumber" placeholder="0" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Mobile Number</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="mobileNumber" placeholder="Enter mobile number" />
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <!-- HOME -->
+          <div class="form-grid" *ngIf="selectedType === 'HOME'">
+
+            <div class="field">
+              <label>Home Type</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="homeType" placeholder="Villa / House" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Number of Rooms</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="numberOfRooms" placeholder="0" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Number of Bathrooms</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="numberOfBathrooms" placeholder="0" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Floor Number</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="floorNumber" placeholder="0" />
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <!-- ROOM -->
+          <div class="form-grid" *ngIf="selectedType === 'ROOM'">
+
+            <div class="field">
+              <label>Room Name</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="roomName" placeholder="Room A" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Size</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="size" placeholder="Example: 20 sqm" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Flat ID</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="flatId" placeholder="Optional" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Home ID</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="homeId" placeholder="Optional" />
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <!-- SHOP -->
+          <div class="form-grid" *ngIf="selectedType === 'SHOP'">
+
+            <div class="field">
+              <label>Shop Name</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="shopName" placeholder="Shop name" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Shop Number</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="shopNumber" placeholder="Shop number" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Commercial Type</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="commercialType" placeholder="Restaurant / Office / Store" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Floor Number</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="floorNumber" placeholder="Ground floor" />
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Building ID</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="buildingId" placeholder="Enter building ID" />
+              </mat-form-field>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- RENTAL INFORMATION -->
+        <section class="form-section" *ngIf="selectedType !== 'BUILDING'">
+
+          <div class="section-title">
+
+            <span class="material-icons">
+              payments
+            </span>
+
+            <div>
+              <h3>Rental Information</h3>
+              <p>Pricing, tenant type, and rent time type.</p>
+            </div>
+
+          </div>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label>Tenant Type</label>
+
+              <mat-form-field appearance="outline" class="modern-select-field">
+                <mat-select formControlName="tenantType" placeholder="Select tenant type"
+                  panelClass="enterprise-select-panel">
+
+                  <mat-option *ngFor="let type of tenantTypes" [value]="type.value">
+                    <div class="enterprise-option">
+
+                      <div class="enterprise-option-icon">
+                        <span class="material-icons">group</span>
+                      </div>
+
+                      <div class="enterprise-option-content">
+                        <span class="enterprise-option-title">
+                          {{ type.label }}
+                        </span>
+                      </div>
+
+                    </div>
+                  </mat-option>
+
+                </mat-select>
+
+                <mat-error *ngIf="form.get('tenantType')?.hasError('required')">
+                  Tenant type is required
+                </mat-error>
+
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Rent Time Type</label>
+
+              <mat-form-field appearance="outline" class="modern-select-field">
+                <mat-select formControlName="rentTimeType" placeholder="Select rent time type"
+                  panelClass="enterprise-select-panel">
+
+                  <mat-option *ngFor="let type of rentTimeTypes" [value]="type.value">
+                    <div class="enterprise-option">
+
+                      <div class="enterprise-option-icon">
+                        <span class="material-icons">calendar_month</span>
+                      </div>
+
+                      <div class="enterprise-option-content">
+                        <span class="enterprise-option-title">
+                          {{ type.label }}
+                        </span>
+                      </div>
+
+                    </div>
+                  </mat-option>
+
+                </mat-select>
+
+                <mat-error *ngIf="form.get('rentTimeType')?.hasError('required')">
+                  Rent time type is required
+                </mat-error>
+
+              </mat-form-field>
+            </div>
+
+            <div class="field">
+              <label>Price</label>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" formControlName="price" placeholder="0.000 OMR" />
+              </mat-form-field>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- FACILITIES -->
+        <section class="form-section">
+
+          <div class="section-title">
+
+            <span class="material-icons">
+              tune
+            </span>
+
+            <div>
+              <h3>Facilities & Status</h3>
+              <p>Property features and current availability.</p>
+            </div>
+
+          </div>
+
+          <div class="facility-grid" *ngIf="selectedType === 'BUILDING'">
+            <mat-checkbox formControlName="hasParking">Parking</mat-checkbox>
+            <mat-checkbox formControlName="hasGym">Gym</mat-checkbox>
+            <mat-checkbox formControlName="hasSwimmingPool">Swimming Pool</mat-checkbox>
+          </div>
+
+          <div class="facility-grid" *ngIf="selectedType === 'FLAT'">
+            <mat-checkbox formControlName="hasLivingRoom">Living Room</mat-checkbox>
+            <mat-checkbox formControlName="rented">Rented</mat-checkbox>
+          </div>
+
+          <div class="facility-grid" *ngIf="selectedType === 'HOME'">
+            <mat-checkbox formControlName="hasLivingRoom">Living Room</mat-checkbox>
+            <mat-checkbox formControlName="furnished">Furnished</mat-checkbox>
+            <mat-checkbox formControlName="rented">Rented</mat-checkbox>
+          </div>
+
+          <div class="facility-grid" *ngIf="selectedType === 'ROOM'">
+            <mat-checkbox formControlName="rented">Rented</mat-checkbox>
+            <mat-checkbox formControlName="hasAC">AC</mat-checkbox>
+            <mat-checkbox formControlName="hasPrivateBathroom">Private Bathroom</mat-checkbox>
+          </div>
+
+          <div class="facility-grid" *ngIf="selectedType === 'SHOP'">
+            <mat-checkbox formControlName="rented">Rented</mat-checkbox>
+            <mat-checkbox formControlName="hasStorage">Storage</mat-checkbox>
+            <mat-checkbox formControlName="hasParking">Parking</mat-checkbox>
+            <mat-checkbox formControlName="hasBathroom">Bathroom</mat-checkbox>
+            <mat-checkbox formControlName="hasInternet">Internet</mat-checkbox>
+            <mat-checkbox formControlName="hasAC">AC</mat-checkbox>
+          </div>
+
+        </section>
+
+        <!-- DESCRIPTION -->
+        <section class="form-section">
+
+          <div class="section-title">
+
+            <span class="material-icons">
+              description
+            </span>
+
+            <div>
+              <h3>Description</h3>
+              <p>Additional details about this property.</p>
+            </div>
+
+          </div>
+
+          <div class="field full-field">
+            <label>Description</label>
+
+            <mat-form-field appearance="outline">
+              <textarea matInput rows="4" formControlName="description"
+                placeholder="Write a clear property description">
+              </textarea>
+            </mat-form-field>
+          </div>
+
+        </section>
+
+        <!-- IMAGES -->
+        <section class="form-section">
+
+          <div class="section-title">
+
+            <span class="material-icons">
+              photo_library
+            </span>
+
+            <div>
+              <h3>Property Images</h3>
+              <p>Upload clear images for better listing quality.</p>
+            </div>
+
+          </div>
+
+          <label class="upload-card">
+
+            <span class="material-icons">
+              cloud_upload
+            </span>
+
+            <strong>Click to upload images</strong>
+
+            <small>PNG, JPG, or JPEG supported</small>
+
+            <input type="file" multiple accept="image/*" (change)="onFilesSelected($event)" />
+
+          </label>
+
+          <div class="file-list" *ngIf="pictures.length">
+
+            <div class="file-chip" *ngFor="let file of pictures; let i = index">
+
+              <span class="material-icons">
+                image
+              </span>
+
+              <span>{{ file.name }}</span>
+
+              <button type="button" (click)="removeImage(i)">
+                <span class="material-icons">
+                  close
+                </span>
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ACTIONS -->
+        <div class="action-bar">
+
+          <button type="button" class="btn-secondary" (click)="cancel()">
+            Cancel
+          </button>
+
+          <button type="button" class="btn-primary" (click)="submit()">
+            <span class="material-icons">
+              task_alt
+            </span>
+
+            Save Property
+          </button>
+
+        </div>
+
+      </form>
+
+
+
+
+    </main>
+
+    <div class="map-modal-backdrop" *ngIf="showMapModal" (click)="closeMapModal()">
+      <div class="map-modal" (click)="$event.stopPropagation()">
+
+        <app-map-picker [initialLatitude]="form.get('latitude')?.value ?? null"
+          [initialLongitude]="form.get('longitude')?.value ?? null" (locationSelected)="onLocationSelected($event)"
+          (cancelled)="closeMapModal()"></app-map-picker>
+
+      </div>
+    </div>
+
+  </section>
+
+</div>

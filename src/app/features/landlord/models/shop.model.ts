@@ -2,17 +2,15 @@ import { PropertyBase } from './property-base.model';
 
 export interface ShopModel extends PropertyBase {
 
-  buildingId: number;
+buildingId: number;
 
-  shopNumber?: string;
+shopNumber?: string;
 
-  commercialType?: string;
+commercialType?: string;
 
-  rented: boolean;
+hasStorage: boolean;
 
-  hasStorage: boolean;
-
-  hasParking: boolean;
+hasParking: boolean;
 
 hasBathroom: boolean;
 

@@ -1,18 +1,18 @@
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { FlatCardComponent } from './flat-card';
+// import { AddProperty } from './add-property';
 
-// describe('UnitCard', () => {
-//   let component: FlatCardComponent;
-//   let fixture: ComponentFixture<FlatCardComponent>;
+// describe('AddProperty', () => {
+//   let component: AddProperty;
+//   let fixture: ComponentFixture<AddProperty>;
 
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
-//       imports: [FlatCardComponent]
+//       imports: [AddProperty]
 //     })
 //     .compileComponents();
 
-//     fixture = TestBed.createComponent(FlatCardComponent);
+//     fixture = TestBed.createComponent(AddProperty);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });
